@@ -36,7 +36,7 @@ namespace WebApp.Repositories
         //public async Task<Question> GetByIdAsync(int? id) => await _context.Questions.FindAsync(id);
         public async Task<Question> GetByIdAsync(int? id)
         {
-            TestLoading();
+           
             return await _context.Questions.FindAsync(id);
 
         }
@@ -44,15 +44,10 @@ namespace WebApp.Repositories
 
         public async Task<IEnumerable<Question>> GetAllAsync()
         {
-            TestLoading();
             return await _context.Questions.ToListAsync();
         }
 
-        public async void TestLoading()
-        {
-            var topicQuestions = _context.TopicQuestions.ToList();
-            topicQuestions.ForEach(tq => _context.Entry(tq).Reference(t => t.Topic).Load());
-        }
+        
 
 
     }
