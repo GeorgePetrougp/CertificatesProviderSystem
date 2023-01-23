@@ -56,76 +56,9 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task<Question> CreateFromDTO(QuestionView question)
+        public async Task<Question> CreateFromDTO(MainQuestionVM question)
         {
-            var newQuestion = new Question
-            {
-                QuestionId = question.QuestionId,
-                Display = question.Display,
-                QuestionDifficulty = await QuestionDifficultyService.GetDifficultyByIdAsync(question.DifficultiesList.SelectedId)
-
-
-            };
-
-            var topic = _topicService.GetTopicByIdAsync(question.SelectedTopicsId);
-
-
-            var questionTopic = new TopicQuestion
-            {
-                Question = newQuestion,
-                Topic = await topic
-            };
-            await _topicQuestionService.AddTopicQuestionAsync(questionTopic);
-
-            var certificateTopicQuestion = new CertificateTopicQuestion
-            {
-                Certificate = await _certificateService.GetCertificateByIdAsync(question.SelectedCertificateId),
-                TopicQuestion = questionTopic
-            };
-            await _certificateTopicQuestionService.AddCertificateTopicQuestionAsync(certificateTopicQuestion);
-
-            var possibleAnswersA = new QuestionPossibleAnswer
-            {
-                Question = newQuestion,
-                PossibleAnswer = question.AnswerA.PossibleAnswer,
-                IsCorrect = question.AnswerA.IsCorrect
-            };
-            await _answerService.AddAnswerAsync(possibleAnswersA);
-
-            var possibleAnswersB = new QuestionPossibleAnswer
-            {
-                Question = newQuestion,
-                PossibleAnswer = question.AnswerB.PossibleAnswer,
-                IsCorrect = question.AnswerB.IsCorrect
-            };
-            await _answerService.AddAnswerAsync(possibleAnswersB);
-
-            var possibleAnswersC = new QuestionPossibleAnswer
-            {
-                Question = newQuestion,
-                PossibleAnswer = question.AnswerC.PossibleAnswer,
-                IsCorrect = question.AnswerC.IsCorrect
-            };
-            await _answerService.AddAnswerAsync(possibleAnswersC);
-
-            var possibleAnswersD = new QuestionPossibleAnswer
-            {
-                Question = newQuestion,
-                PossibleAnswer = question.AnswerD.PossibleAnswer,
-                IsCorrect = question.AnswerD.IsCorrect
-            };
-            await _answerService.AddAnswerAsync(possibleAnswersD);
-
-
-            return newQuestion;
+            throw new NotImplementedException();
         }
-
-        //public async Task CreateQuestioWithTopicAsync(Question question, List<Topic> topics)
-        //{
-        //    var selectedTopic = _topicService.GetTopicByIdAsync(TopicId);
-        //    await _topicQuestionService.AddTopicQuestionAsync(question, await selectedTopic);
-        //    await _questionService.AddQuestionAsync(question);
-        //}
-
     }
 }

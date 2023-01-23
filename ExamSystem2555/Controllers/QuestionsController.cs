@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
 using MyDatabase.Models;
-using WebApp.MainServices;
 using WebApp.DTO_Models;
-using WebApp.Services;
+using WebApp.MainServices;
 
 namespace WebApp.Controllers
 {
     public class QuestionsController : Controller
     {
         private readonly IQuestionManagerService _service;
+        private readonly IMapper _mapper;
 
-        public QuestionsController(IQuestionManagerService service)
+
+        public QuestionsController(IQuestionManagerService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         // GET: Questions
@@ -47,15 +44,16 @@ namespace WebApp.Controllers
         }
 
         // GET: Questions/Create
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
             var difficultiesList = await _service.QuestionDifficultyService.GetAllDifficultiesAsync();
             var topicsList = await _service.TopicService.GetAllTopicsAsync();
             var certificateList = await _service.CertificateService.GetAllCertificatesAsync();
-            var newQV = _service.QuestionViewService.CreateQuestion(difficultiesList, topicsList,certificateList);
+            //var newQV = _service.QuestionViewService.CreateQuestion(difficultiesList, topicsList,certificateList);
+            var newQuestion = new MainQuestionVM();
 
- 
-            return View(newQV);
+
+            return View(newQuestion);
         }
 
 
@@ -64,12 +62,14 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(QuestionView question)
+        public async Task<IActionResult> Create([FromForm]MainQuestionVM question)
         {
             if (ModelState.IsValid)
             {
-                var newQuestion = await _service.CreateFromDTO(question);
-                await _service.QuestionService.AddQuestionAsync(newQuestion);
+                Question myQuestion = new Question();
+                myQuestion =_mapper.Map<Question>(question.QuestionsView);
+                //var newQuestion = await _service.CreateFromDTO(question);
+                await _service.QuestionService.AddQuestionAsync(myQuestion);
                 await _service.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }

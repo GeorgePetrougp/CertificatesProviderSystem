@@ -36,7 +36,7 @@ namespace WebApp.Repositories
         //public async Task<Question> GetByIdAsync(int? id) => await _context.Questions.FindAsync(id);
         public async Task<Question> GetByIdAsync(int? id)
         {
-           
+
             return await _context.Questions.FindAsync(id);
 
         }
@@ -47,7 +47,6 @@ namespace WebApp.Repositories
             return await _context.Questions.ToListAsync();
         }
 
-        
 
 
     }
