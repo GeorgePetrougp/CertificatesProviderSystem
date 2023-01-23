@@ -1,4 +1,4 @@
-﻿@model WebApp.DTO_Models.QuestionView
+﻿@model WebApp.DTO_Models.MainQuestionVM
 
 @{
     ViewData["Title"] = "Create";
@@ -11,57 +11,13 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Display" class="control-label"></label>
-                <input asp-for="Display" class="form-control" />
-                <span asp-validation-for="Display" class="text-danger"></span>
+                <label asp-for="QuestionsView.QDisplay" class="control-label"></label>
+                <input asp-for="QuestionsView.QDisplay" class="form-control"/>
+                <span asp-validation-for="QuestionsView.QDisplay" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.DifficultiesList.SelectedId"></label>
-                <select asp-for="@Model.DifficultiesList.SelectedId" asp-items="Model.DifficultiesList.Difficulties"></select>
-                <span asp-validation-for="@Model.DifficultiesList.SelectedId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SelectedTopicsId"></label>
-                <select asp-for="SelectedTopicsId" asp-items="Model.Topics" multiple class="form-control"></select>
-                <span asp-validation-for="SelectedTopicsId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SelectedCertificateId"></label>
-                <select asp-for="SelectedCertificateId" asp-items="Model.Certificates" multiple class="form-control"></select>
-                <span asp-validation-for="SelectedCertificateId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                    <label asp-for="@Model.AnswerA.PossibleAnswer" class="control-label">Answer A</label>
-                    <input asp-for="@Model.AnswerA.PossibleAnswer" class="form-control" />
-                    <label asp-for="@Model.AnswerA.IsCorrect" class="control-label">Is correct</label>
-                    <input asp-for="@Model.AnswerA.IsCorrect" class="form-check-input" type="checkbox"  /><br/>
-                <span asp-validation-for="@Model.AnswerA" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.AnswerB.PossibleAnswer" class="control-label">Answer B</label>
-                <input asp-for="@Model.AnswerB.PossibleAnswer" class="form-control" />
-                <label asp-for="@Model.AnswerB.IsCorrect" class="control-label">Is correct</label>
-                <input asp-for="@Model.AnswerB.IsCorrect" class="form-check-input" type="checkbox" /><br />
-                <span asp-validation-for="@Model.AnswerB" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.AnswerC.PossibleAnswer" class="control-label">Answer C</label>
-                <input asp-for="@Model.AnswerC.PossibleAnswer" class="form-control" />
-                <label asp-for="@Model.AnswerC.IsCorrect" class="control-label">Is correct</label>
-                <input asp-for="@Model.AnswerC.IsCorrect" class="form-check-input" type="checkbox" /><br />
-                <span asp-validation-for="@Model.AnswerC" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.AnswerD.PossibleAnswer" class="control-label">Answer D</label>
-                <input asp-for="@Model.AnswerD.PossibleAnswer" class="form-control" />
-                <label asp-for="@Model.AnswerD.IsCorrect" class="control-label">Is correct</label>
-                <input asp-for="@Model.AnswerD.IsCorrect" class="form-check-input" type="checkbox" /><br />
-                <span asp-validation-for="@Model.AnswerD" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
             </div>
         </form>
     </div>

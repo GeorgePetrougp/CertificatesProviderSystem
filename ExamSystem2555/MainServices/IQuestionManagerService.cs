@@ -14,7 +14,7 @@ namespace WebApp.MainServices
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get; }
         public ICertificateService CertificateService { get; }
         public IQuestionViewService QuestionViewService { get; }
-        public Task<Question> CreateFromDTO(QuestionView questionView);
+        public Task<Question> CreateFromDTO(MainQuestionVM questionView);
         public Task SaveChanges();
     }
 }
