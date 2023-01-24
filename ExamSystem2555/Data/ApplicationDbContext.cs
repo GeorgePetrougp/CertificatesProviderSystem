@@ -45,9 +45,9 @@ namespace WebApp.Data
             modelBuilder.Entity<CertificateTopicQuestion>()
                 .HasKey(e => e.CertificateTopicQuestionId);
 
-            modelBuilder.Entity<Certificate>()
+            modelBuilder.Entity<CertificateTopic>()
                 .HasMany(ct => ct.CertificateTopicQuestions)
-                .WithOne(ctq => ctq.Certificate)
+                .WithOne(ctq => ctq.CertificateTopic)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<TopicQuestion>()

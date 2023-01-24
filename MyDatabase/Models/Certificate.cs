@@ -11,8 +11,7 @@ namespace MyDatabase.Models
         public string Status { get; set; }
         public int PassMark { get { return 65; } private set { } }
         public virtual Level Level { get; set; }
-        //public virtual ICollection<CertificateTopic> CertificateTopics { get; set;}
-        public virtual ICollection<CertificateTopicQuestion> CertificateTopicQuestions { get; set; }
+        public virtual ICollection<CertificateTopic> CertificateTopics { get; set;}
         public virtual ICollection<Examination> Examinations { get; set;}
 
         

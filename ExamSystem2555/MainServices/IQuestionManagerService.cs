@@ -2,6 +2,7 @@
 using WebApp.DTO_Models;
 using WebApp.Services;
 using MyDatabase.Models;
+using AutoMapper;
 
 namespace WebApp.MainServices
 {
@@ -15,7 +16,8 @@ namespace WebApp.MainServices
         public ICertificateService CertificateService { get; }
         public IQuestionViewService QuestionViewService { get; }
         public IQuestionPossibleAnswerService AnswerService { get; }
-        public Task<Question> CreateFromDTO(QuestionView questionView);
+        public IMapper Mapper { get; }
+        public Task<Question> CreateNewQuestion(QuestionView question);
         public Task SaveChanges();
     }
 }
