@@ -45,9 +45,9 @@ namespace MyDatabase.Data
             modelBuilder.Entity<CertificateTopicQuestion>()
                 .HasKey(e => e.CertificateTopicQuestionId);
 
-            modelBuilder.Entity<Certificate>()
+            modelBuilder.Entity<CertificateTopic>()
                 .HasMany(ct=>ct.CertificateTopicQuestions)
-                .WithOne(ctq=> ctq.Certificate)
+                .WithOne(ctq=> ctq.CertificateTopic)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<TopicQuestion>()
@@ -68,14 +68,11 @@ namespace MyDatabase.Data
                 .WithOne(ctq => ctq.Question)
                 .OnDelete(DeleteBehavior.NoAction);
 
-
         }
-
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=pceplanner.anystream.eu,2555; Database=WebAppDB_V2; User Id=sa;Password=SuperSecretPass2555;");
+            optionsBuilder.UseSqlServer(@"Server=pceplanner.anystream.eu,2555; Database=WebAppDB_V3; User Id=sa;Password=SuperSecretPass2555;");
         }
 
     }

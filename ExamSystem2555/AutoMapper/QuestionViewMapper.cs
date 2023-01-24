@@ -8,7 +8,6 @@ namespace WebApp.Mappers
 {
     public class QuestionViewMapper : Profile
     {
-        AppDBContext dbContext = new AppDBContext();
         public QuestionViewMapper()
         {
 
@@ -40,10 +39,10 @@ namespace WebApp.Mappers
                 .ForMember(dest => dest.TopicsList, opt => opt.Ignore())
                 .ReverseMap();
 
-            CreateMap<ICollection<CertificateTopicQuestion>, CertificatesView>()
-                .ForMember(dest => dest.SelectedCertificateIds, opt => opt.MapFrom(src => src.Select(x => x.Certificate.CertificateId)))
-                .ForMember(dest => dest.CertificateList, opt => opt.Ignore())
-                .ReverseMap();
+            //CreateMap<ICollection<CertificateTopicQuestion>, CertificatesView>()
+            //    .ForMember(dest => dest.SelectedCertificateIds, opt => opt.MapFrom(src => src.Select(x => x.Certificate.CertificateId)))
+            //    .ForMember(dest => dest.CertificateList, opt => opt.Ignore())
+            //    .ReverseMap();
         }
 
 

@@ -410,17 +410,17 @@ namespace WebApp.Migrations
                 {
                     CertificateTopicQuestionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CertificateId = table.Column<int>(type: "int", nullable: true),
+                    CertificateTopicId = table.Column<int>(type: "int", nullable: true),
                     TopicQuestionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CertificateTopicQuestions", x => x.CertificateTopicQuestionId);
                     table.ForeignKey(
-                        name: "FK_CertificateTopicQuestions_Certificates_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificates",
-                        principalColumn: "CertificateId");
+                        name: "FK_CertificateTopicQuestions_CertificateTopics_CertificateTopicId",
+                        column: x => x.CertificateTopicId,
+                        principalTable: "CertificateTopics",
+                        principalColumn: "CertificateTopicId");
                     table.ForeignKey(
                         name: "FK_CertificateTopicQuestions_TopicQuestions_TopicQuestionId",
                         column: x => x.TopicQuestionId,
@@ -541,9 +541,9 @@ namespace WebApp.Migrations
                 column: "LevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CertificateTopicQuestions_CertificateId",
+                name: "IX_CertificateTopicQuestions_CertificateTopicId",
                 table: "CertificateTopicQuestions",
-                column: "CertificateId");
+                column: "CertificateTopicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CertificateTopicQuestions_TopicQuestionId",
@@ -627,9 +627,6 @@ namespace WebApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CertificateTopics");
-
-            migrationBuilder.DropTable(
                 name: "ExamCandidateAnswers");
 
             migrationBuilder.DropTable(
@@ -655,6 +652,9 @@ namespace WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Examinations");
+
+            migrationBuilder.DropTable(
+                name: "CertificateTopics");
 
             migrationBuilder.DropTable(
                 name: "TopicQuestions");

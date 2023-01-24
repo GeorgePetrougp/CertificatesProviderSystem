@@ -8,6 +8,6 @@ namespace MyDatabase.Models
         public int CertificateTopicId { get; set; }
         public virtual Certificate Certificate { get; set; }
         public virtual Topic? Topic { get; set; }
-        //public virtual ICollection<CertificateTopicQuestion> CertificateTopicQuestions { get; set; }
+        public virtual ICollection<CertificateTopicQuestion> CertificateTopicQuestions { get; set; }
     }
 }

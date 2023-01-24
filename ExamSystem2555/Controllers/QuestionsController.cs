@@ -113,13 +113,14 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var newQuestion = await _service.CreateNewQuestion(question);
                 //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set to OFF.
-                var myQuestion = _mapper.Map<Question>(question);
+                //var myQuestion = _mapper.Map<Question>(question);
 
                 //Adding Question and QuestionDifficulty
-                myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
-                myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
-                await _service.QuestionService.AddQuestionAsync(myQuestion);
+                //myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
+                //myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
+                //await _service.QuestionService.AddQuestionAsync(myQuestion);
 
                 //Adding Topics,Certificates
                 myQuestion.TopicQuestions = new List<TopicQuestion>();
@@ -180,6 +181,7 @@ namespace WebApp.Controllers
 
 
                 }
+
 
                 await _service.SaveChanges();
 
