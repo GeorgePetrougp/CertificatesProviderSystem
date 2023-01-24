@@ -10,6 +10,7 @@ namespace WebApp.Repositories
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(int? id);
+        Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
       
     }
 }

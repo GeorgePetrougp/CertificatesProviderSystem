@@ -46,9 +46,10 @@ namespace WebApp.Repositories
             return await _context.Levels.ToListAsync();
         }
 
-        
-
-
+        public Task<IEnumerable<Level>> AddRangeAsync(IEnumerable<Level> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

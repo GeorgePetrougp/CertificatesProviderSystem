@@ -1,4 +1,4 @@
-﻿@model WebApp.DTO_Models.MainQuestionVM
+﻿@model WebApp.DTO_Models.QuestionView
 
 @{
     ViewData["Title"] = "Create";
@@ -9,12 +9,39 @@
 <h4>Question</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div>
         <form asp-action="Create">
             <div class="form-group">
-                <label asp-for="QuestionsView.QDisplay" class="control-label"></label>
-                <input asp-for="QuestionsView.QDisplay" class="form-control"/>
-                <span asp-validation-for="QuestionsView.QDisplay" class="text-danger"></span>
+                <label asp-for="QDisplay" class="control-label"></label>
+                <input asp-for="QDisplay" class="form-control" />
+                <span asp-validation-for="QDisplay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Difficulty.SelectedId"></label>
+                <select asp-for="Difficulty.SelectedId" asp-items="@Model.Difficulty.Difficulties"></select>
+                <span asp-validation-for="Difficulty.SelectedId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @for (int i = 0; i < 4; i++)
+                {
+                <div class="form-group">
+                    <label asp-for="AnswerViews[i].IsCorrect" class="control-label"></label>
+                    <input asp-for="AnswerViews[i].IsCorrect" class="form-check-input" type="checkbox" />
+                    <label asp-for="AnswerViews[i].Answer" class="control-label">Is correct</label>
+                    <input asp-for="AnswerViews[i].Answer" class="form-control"/><br />
+                    <span asp-validation-for="AnswerViews[i].Answer" class="text-danger"></span>
+                </div>
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="CertificatesView.SelectedCertificateIds"></label>
+                <select asp-for="CertificatesView.SelectedCertificateIds" asp-items="Model.CertificatesView.CertificateList"></select>
+                <span asp-validation-for="CertificatesView.SelectedCertificateIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopicView.SelectedTopicIds"></label>
+                <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
+                <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />

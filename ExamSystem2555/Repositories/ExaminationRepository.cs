@@ -33,6 +33,9 @@ namespace WebApp.Repositories
         public async Task<Examination> GetByIdAsync(int? id) => await _context.Examinations.FindAsync(id);
         public async Task<IEnumerable<Examination>> GetAllAsync() => await _context.Examinations.ToListAsync();
 
-        
+        public Task<IEnumerable<Examination>> AddRangeAsync(IEnumerable<Examination> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

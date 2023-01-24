@@ -33,6 +33,9 @@ namespace WebApp.Repositories
         public async Task<Certificate> GetByIdAsync(int? id) => await _context.Certificates.FindAsync(id);
         public async Task<IEnumerable<Certificate>> GetAllAsync() => await _context.Certificates.ToListAsync();
 
-        
+        public Task<IEnumerable<Certificate>> AddRangeAsync(IEnumerable<Certificate> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

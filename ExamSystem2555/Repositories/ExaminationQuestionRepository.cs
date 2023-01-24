@@ -45,5 +45,10 @@ namespace WebApp.Repositories
         {
             return await _context.ExamQuestions.ToListAsync();
         }
+
+        public Task<IEnumerable<ExaminationQuestion>> AddRangeAsync(IEnumerable<ExaminationQuestion> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

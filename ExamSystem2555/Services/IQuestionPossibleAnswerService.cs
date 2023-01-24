@@ -10,5 +10,6 @@ namespace WebApp.Services
         Task<QuestionPossibleAnswer> UpdateAnswerAsync(QuestionPossibleAnswer answer);
         Task DeleteAnswerAsync(int? id);
         Task<QuestionPossibleAnswer> AddAnswerAsync(Question question, QuestionPossibleAnswer answer);
+        Task AddAnswersRange(IEnumerable<QuestionPossibleAnswer> answers);
     }
 }

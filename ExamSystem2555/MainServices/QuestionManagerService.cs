@@ -4,6 +4,7 @@ using WebApp.Repositories;
 using WebApp.Services;
 using MyDatabase.Models;
 using NuGet.Packaging;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.MainServices
 {
@@ -41,6 +42,7 @@ namespace WebApp.MainServices
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService; } }
         public ICertificateService CertificateService { get { return _certificateService; } }
         public IQuestionViewService QuestionViewService { get { return _questionViewService; } }
+        public IQuestionPossibleAnswerService AnswerService { get { return _answerService; } }
 
         public async Task SaveChanges()
         {
@@ -56,9 +58,24 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task<Question> CreateFromDTO(MainQuestionVM question)
+        public async Task<Question> CreateFromDTO(QuestionView question)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task TestAsync()
+        {
+            var newQuestionDTO = new QuestionView();
+            var difficultiesList = await QuestionDifficultyService.GetAllDifficultiesAsync();
+            var topicsList = await TopicService.GetAllTopicsAsync();
+            var certificateList = await CertificateService.GetAllCertificatesAsync();
+            var newQV = QuestionViewService.CreateQuestion(difficultiesList, topicsList,certificateList);
+            //var newQuestion = new QuestionView
+            //{
+            //    DifficultyOptions = new SelectList(difficultiesList, "QuestionDifficultyId", "Difficulty")
+            //};
+            //CertificatesView.CertificateList = new MultiSelectList(certificateList, "CertificateId", "Title");
+            //newQuestion.TopicView.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
         }
     }
 }

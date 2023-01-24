@@ -5,6 +5,8 @@ using WebApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApp.MainServices;
+using AutoMapper;
+using WebApp.DTO_Models;
 
 namespace WebApp
 {
@@ -47,6 +49,7 @@ namespace WebApp
           
 
             builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
+
 
 
 

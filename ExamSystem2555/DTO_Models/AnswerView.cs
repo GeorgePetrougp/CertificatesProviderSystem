@@ -4,9 +4,9 @@ namespace WebApp.DTO_Models
 {
     public class AnswerView
     {
-        public List<int> SelectedPossibleAnswerIds { get; set; }
-        public List<QuestionPossibleAnswer> QuestionPossibleAnswers { get; set; }
-
+        public int QAnswerId { get; set; }
+        public string Answer { get; set; }
+        public bool IsCorrect { get; set; }
 
     }
 }

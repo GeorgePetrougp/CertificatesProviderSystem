@@ -45,5 +45,10 @@ namespace WebApp.Repositories
 
             return await _context.CandidateExams.ToListAsync();
         }
+
+        public Task<IEnumerable<CandidateExam>> AddRangeAsync(IEnumerable<CandidateExam> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

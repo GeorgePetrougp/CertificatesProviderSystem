@@ -18,6 +18,12 @@ namespace WebApp.Repositories
             return answer;
         }
 
+        public async Task<IEnumerable<QuestionPossibleAnswer>> AddRangeAsync(IEnumerable<QuestionPossibleAnswer> answer)
+        {
+            await _context.QuestionPossibleAnswers.AddRangeAsync(answer);
+            return answer;
+        }
+
         public async Task<QuestionPossibleAnswer> UpdateAsync(QuestionPossibleAnswer answer)
         {
             _context.QuestionPossibleAnswers.Attach(answer);

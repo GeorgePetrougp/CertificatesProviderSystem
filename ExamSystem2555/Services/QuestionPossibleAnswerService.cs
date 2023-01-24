@@ -48,5 +48,10 @@ namespace WebApp.Services
             return await _possibleAnswerRepository.AddAsync(answer);
         }
 
-    }
+        public async Task AddAnswersRange(IEnumerable<QuestionPossibleAnswer> answers)
+        {
+            await _possibleAnswerRepository.AddRangeAsync(answers);
+        }
+
+    }   
 }

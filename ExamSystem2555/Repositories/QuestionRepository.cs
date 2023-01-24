@@ -47,7 +47,9 @@ namespace WebApp.Repositories
             return await _context.Questions.ToListAsync();
         }
 
-
-
+        public Task<IEnumerable<Question>> AddRangeAsync(IEnumerable<Question> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

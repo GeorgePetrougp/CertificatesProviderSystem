@@ -5,7 +5,7 @@ namespace WebApp.Services
 {
     public interface IQuestionViewService
     {
-        public MainQuestionVM CreateQuestion(IEnumerable<QuestionDifficulty> difficulties, IEnumerable<Topic> topics,IEnumerable<Certificate> certificates);
+        public QuestionView CreateQuestion(IEnumerable<QuestionDifficulty> difficulties, IEnumerable<Topic> topics,IEnumerable<Certificate> certificates);
      
     }
 }

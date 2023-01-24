@@ -1,7 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MyDatabase.Models;
+using Newtonsoft.Json.Linq;
+using System.Security.Cryptography;
+using System.Security.Principal;
 using WebApp.DTO_Models;
 using WebApp.MainServices;
 
@@ -46,14 +51,18 @@ namespace WebApp.Controllers
         // GET: Questions/Create
         public async Task<IActionResult> Create()
         {
-            var difficultiesList = await _service.QuestionDifficultyService.GetAllDifficultiesAsync();
             var topicsList = await _service.TopicService.GetAllTopicsAsync();
             var certificateList = await _service.CertificateService.GetAllCertificatesAsync();
-            //var newQV = _service.QuestionViewService.CreateQuestion(difficultiesList, topicsList,certificateList);
-            var newQuestion = new MainQuestionVM();
+            var difficultiesList = await _service.QuestionDifficultyService.GetAllDifficultiesAsync();
+            var newQuestion = new QuestionView();
+            newQuestion.Difficulty.Difficulties = new SelectList(difficultiesList, "QuestionDifficultyId", "Difficulty");
+
+            newQuestion.CertificatesView.CertificateList = new MultiSelectList(certificateList, "CertificateId", "Title");
+            newQuestion.TopicView.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
 
 
             return View(newQuestion);
+
         }
 
 
@@ -62,15 +71,61 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm]MainQuestionVM question)
+        public async Task<IActionResult> Create([FromForm] QuestionView question)
         {
             if (ModelState.IsValid)
             {
-                Question myQuestion = new Question();
-                myQuestion =_mapper.Map<Question>(question.QuestionsView);
-                //var newQuestion = await _service.CreateFromDTO(question);
+                //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set to OFF.
+                var myQuestion = _mapper.Map<Question>(question);
+
+                //Adding Question and QuestionDifficulty
+                myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
+                myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
                 await _service.QuestionService.AddQuestionAsync(myQuestion);
+
+                //Adding Topics,Certificates
+                myQuestion.TopicQuestions = new List<TopicQuestion>();
+                if(question.TopicView.SelectedTopicIds == null)
+                {
+                    var myTopicQuestion = new TopicQuestion
+                    {
+                        Question = myQuestion,
+                        Topic = null
+                    };
+                    await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+
+                    var certificateIds = question.CertificatesView.SelectedCertificateIds.ToList();
+                    foreach (var certId in certificateIds)
+                    {
+                        var myCertTopicQuestion = new CertificateTopicQuestion
+                        {
+                            Certificate = await _service.CertificateService.GetCertificateByIdAsync(certId),
+                            TopicQuestion = myTopicQuestion
+
+                        };
+                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(myCertTopicQuestion);
+                    }
+
+                }
+                else
+                {
+
+                var topicIds = question.TopicView.SelectedTopicIds.ToList();
+                foreach (var topicId in topicIds)
+                {
+                    var myTopicQuestion = new TopicQuestion
+                    {
+                        Question = myQuestion,
+                        Topic = await _service.TopicService.GetTopicByIdAsync(topicId)
+                    };
+                    await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+                }
+                }
+                
+
                 await _service.SaveChanges();
+
+
                 return RedirectToAction(nameof(Index));
             }
 

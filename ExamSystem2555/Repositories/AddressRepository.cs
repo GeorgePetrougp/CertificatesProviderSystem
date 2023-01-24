@@ -34,7 +34,10 @@ namespace WebApp.Repositories
         public async Task<Address> GetByIdAsync(int? id) => await _context.Addresses.FindAsync(id);
         public async Task<IEnumerable<Address>> GetAllAsync() => await _context.Addresses.ToListAsync();
 
-
+        public Task<IEnumerable<Address>> AddRangeAsync(IEnumerable<Address> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
