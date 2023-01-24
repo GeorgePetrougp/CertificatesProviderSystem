@@ -31,6 +31,8 @@ namespace WebApp.DTO_Models
             CertificatesView = new CertificatesView();
             TopicView = new TopicView();
         }
+        public bool HasTopic { get; set; }
+
 
     }
 }
