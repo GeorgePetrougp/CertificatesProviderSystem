@@ -285,32 +285,32 @@ namespace MyDatabase
             context.Topics.AddRange(dummyTopics);
             context.SaveChanges();
 
-            //IList<CertificateTopic> certificateTopics = new List<CertificateTopic>()
-            //{
-            //    new CertificateTopic
-            //    {
-            //        Certificate=context.Certificates.Find(1),
-            //        Topic=context.Topics.Find(1)
-            //    },
-            //    new CertificateTopic
-            //    {
-            //        Certificate=context.Certificates.Find(1),
-            //        Topic=context.Topics.Find(2)
-            //    },
-            //    new CertificateTopic
-            //    {
-            //        Certificate=context.Certificates.Find(1),
-            //        Topic=context.Topics.Find(3)
-            //    },
-            //    new CertificateTopic
-            //    {
-            //        Certificate=context.Certificates.Find(1),
-            //        Topic=null
-            //    }
-            //};
+            IList<CertificateTopic> certificateTopics = new List<CertificateTopic>()
+            {
+                new CertificateTopic
+                {
+                    Certificate=context.Certificates.Find(1),
+                    Topic=context.Topics.Find(1)
+                },
+                new CertificateTopic
+                {
+                    Certificate=context.Certificates.Find(1),
+                    Topic=context.Topics.Find(2)
+                },
+                new CertificateTopic
+                {
+                    Certificate=context.Certificates.Find(1),
+                    Topic=context.Topics.Find(3)
+                },
+                new CertificateTopic
+                {
+                    Certificate=context.Certificates.Find(1),
+                    Topic=null
+                }
+            };
 
-            //context.CertificateTopics.AddRange(certificateTopics);
-            //context.SaveChanges();
+            context.CertificateTopics.AddRange(certificateTopics);
+            context.SaveChanges();
 
             IList<TopicQuestion> topicQuestions = new List<TopicQuestion>()
             {
@@ -358,37 +358,37 @@ namespace MyDatabase
             {
                 new CertificateTopicQuestion
                 {
-                    Certificate = context.Certificates.Find(1),
+                    CertificateTopic = context.CertificateTopics.Find(1),
                     TopicQuestion= context.TopicQuestions.Find(1)
                 },
                 new CertificateTopicQuestion
                 {
-                    Certificate= context.Certificates.Find(1),
+                    CertificateTopic= context.CertificateTopics.Find(1),
                     TopicQuestion= context.TopicQuestions.Find(2)
                 },
                 new CertificateTopicQuestion
                 {
-                    Certificate= context.Certificates.Find(1),
+                    CertificateTopic = context.CertificateTopics.Find(1),
                     TopicQuestion= context.TopicQuestions.Find(3)
                 },
                 new CertificateTopicQuestion
                 {
-                    Certificate= context.Certificates.Find(1),
+                    CertificateTopic = context.CertificateTopics.Find(1),
                     TopicQuestion= context.TopicQuestions.Find(7)
                 },
                 new CertificateTopicQuestion
                 {
-                    Certificate= context.Certificates.Find(2),
+                    CertificateTopic= context.CertificateTopics.Find(2),
                     TopicQuestion= context.TopicQuestions.Find(1)
                 },
                 new CertificateTopicQuestion
                 {
-                    Certificate= context.Certificates.Find(2),
+                    CertificateTopic = context.CertificateTopics.Find(2),
                     TopicQuestion= context.TopicQuestions.Find(4)
                 },
                 new CertificateTopicQuestion
                 {
-                    Certificate= context.Certificates.Find(2),
+                    CertificateTopic = context.CertificateTopics.Find(2),
                     TopicQuestion= context.TopicQuestions.Find(7)
                 }
             };
@@ -400,8 +400,6 @@ namespace MyDatabase
             {
                 new Examination {Certificate=context.Certificates.Find(1)},
                 new Examination {Certificate=context.Certificates.Find(1)},
-
-
             };
 
             context.Examinations.AddRange(examinations);

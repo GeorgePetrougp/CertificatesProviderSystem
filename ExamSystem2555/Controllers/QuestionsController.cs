@@ -75,53 +75,54 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var newQuestion = await _service.CreateNewQuestion(question);
                 //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set to OFF.
-                var myQuestion = _mapper.Map<Question>(question);
+                //var myQuestion = _mapper.Map<Question>(question);
 
                 //Adding Question and QuestionDifficulty
-                myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
-                myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
-                await _service.QuestionService.AddQuestionAsync(myQuestion);
+                //myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
+                //myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
+                //await _service.QuestionService.AddQuestionAsync(myQuestion);
 
                 //Adding Topics,Certificates
-                myQuestion.TopicQuestions = new List<TopicQuestion>();
-                if(question.TopicView.SelectedTopicIds == null)
-                {
-                    var myTopicQuestion = new TopicQuestion
-                    {
-                        Question = myQuestion,
-                        Topic = null
-                    };
-                    await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+                //myQuestion.TopicQuestions = new List<TopicQuestion>();
+                //if(question.TopicView.SelectedTopicIds == null)
+                //{
+                //    var myTopicQuestion = new TopicQuestion
+                //    {
+                //        Question = myQuestion,
+                //        Topic = null
+                //    };
+                //    await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
 
-                    var certificateIds = question.CertificatesView.SelectedCertificateIds.ToList();
-                    foreach (var certId in certificateIds)
-                    {
-                        var myCertTopicQuestion = new CertificateTopicQuestion
-                        {
-                            Certificate = await _service.CertificateService.GetCertificateByIdAsync(certId),
-                            TopicQuestion = myTopicQuestion
+                //    var certificateIds = question.CertificatesView.SelectedCertificateIds.ToList();
+                //    foreach (var certId in certificateIds)
+                //    {
+                //        var myCertTopicQuestion = new CertificateTopicQuestion
+                //        {
+                //            Certificate = await _service.CertificateService.GetCertificateByIdAsync(certId),
+                //            TopicQuestion = myTopicQuestion
 
-                        };
-                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(myCertTopicQuestion);
-                    }
+                //        };
+                //        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(myCertTopicQuestion);
+                //    }
 
-                }
-                else
-                {
+                //}
+                //else
+                //{
 
-                var topicIds = question.TopicView.SelectedTopicIds.ToList();
-                foreach (var topicId in topicIds)
-                {
-                    var myTopicQuestion = new TopicQuestion
-                    {
-                        Question = myQuestion,
-                        Topic = await _service.TopicService.GetTopicByIdAsync(topicId)
-                    };
-                    await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
-                }
-                }
-                
+                //var topicIds = question.TopicView.SelectedTopicIds.ToList();
+                //foreach (var topicId in topicIds)
+                //{
+                //    var myTopicQuestion = new TopicQuestion
+                //    {
+                //        Question = myQuestion,
+                //        Topic = await _service.TopicService.GetTopicByIdAsync(topicId)
+                //    };
+                //    await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+                //}
+                //}
+
 
                 await _service.SaveChanges();
 

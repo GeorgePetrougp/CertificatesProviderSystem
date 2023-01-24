@@ -5,6 +5,8 @@ using WebApp.Services;
 using MyDatabase.Models;
 using NuGet.Packaging;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.AccessControl;
+using AutoMapper;
 
 namespace WebApp.MainServices
 {
@@ -18,10 +20,11 @@ namespace WebApp.MainServices
         private ICertificateTopicQuestionService _certificateTopicQuestionService;
         private ICertificateService _certificateService;
         private IQuestionViewService _questionViewService;
+        private IMapper _mapper;
 
         private readonly ApplicationDbContext _context;
 
-        public QuestionManagerService(IQuestionService questionService, IQuestionDifficultyService questionDifficultyService, ITopicService topicService, ITopicQuestionService topicQuestionService, ICertificateTopicQuestionService certificateTopicQuestionService, ICertificateService certificateService, ApplicationDbContext context, IQuestionPossibleAnswerService answerService, IQuestionViewService questionViewService)
+        public QuestionManagerService(IQuestionService questionService, IQuestionDifficultyService questionDifficultyService, ITopicService topicService, ITopicQuestionService topicQuestionService, ICertificateTopicQuestionService certificateTopicQuestionService, ICertificateService certificateService, ApplicationDbContext context, IQuestionPossibleAnswerService answerService, IQuestionViewService questionViewService, IMapper mapper)
         {
             _questionService = questionService;
             _difficultyService = questionDifficultyService;
@@ -31,6 +34,7 @@ namespace WebApp.MainServices
             _certificateTopicQuestionService = certificateTopicQuestionService;
             _certificateService = certificateService;
             _questionViewService = questionViewService;
+            _mapper = mapper;
             _context = context;
 
         }
@@ -43,6 +47,8 @@ namespace WebApp.MainServices
         public ICertificateService CertificateService { get { return _certificateService; } }
         public IQuestionViewService QuestionViewService { get { return _questionViewService; } }
         public IQuestionPossibleAnswerService AnswerService { get { return _answerService; } }
+        public IMapper Mapper { get { return _mapper; } }
+
 
         public async Task SaveChanges()
         {
@@ -50,32 +56,114 @@ namespace WebApp.MainServices
         }
 
 
-        public async Task AddAnswers(Question question, List<QuestionPossibleAnswer> answers)
+        public async Task<Question> CreateNewQuestion(QuestionView question)
         {
-            if (answers.Any(c => c.IsCorrect == true))
+            var newQuestion = _mapper.Map<Question>(question);
+
+            //Adding Question and QuestionDifficulty
+            await CreateQuestionWithDifficultyAndAnswers(question, newQuestion);
+
+            //Adding Topics,Certificates
+            newQuestion.TopicQuestions = new List<TopicQuestion>();
+
+            if (question.TopicView.SelectedTopicIds == null)
             {
-                answers.ForEach(a => _answerService.AddAnswerAsync(question, a));
+                TopicQuestion myTopicQuestion = await AddQuestionWithNoTopic(newQuestion);
+                await AddToCertificateTopicQuestion(question, myTopicQuestion);
+            }
+            else
+            {
+                await AddQuestionWithTopic(question, newQuestion);
+            }
+
+            await this.SaveChanges();
+            return newQuestion;
+
+        }
+
+        
+
+        private async Task AddToCertificateTopicQuestion(QuestionView question, TopicQuestion myTopicQuestion)
+        {
+            var certificateIds = question.CertificatesView.SelectedCertificateIds.ToList();
+
+            //await Task.WhenAll(certificateIds.Select(async certId => await CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopicQuestion
+            //{
+            //    Certificate = await CertificateService.GetCertificateByIdAsync(certId),
+            //    TopicQuestion = myTopicQuestion
+            //})));
+            foreach (var certId in certificateIds)
+            {
+                var myCertTopicQuestion = new CertificateTopicQuestion
+                {
+                    CertificateTopic = null,
+                    TopicQuestion = myTopicQuestion
+
+                };
+                await CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(myCertTopicQuestion);
             }
         }
 
-        public async Task<Question> CreateFromDTO(QuestionView question)
+        private async Task AddQuestionWithTopic(QuestionView question, Question newQuestion)
         {
-            throw new NotImplementedException();
+            var topicIds = question.TopicView.SelectedTopicIds.ToList();
+            
+            foreach (var topicId in topicIds)
+            {
+                var myTopicQuestion = new TopicQuestion
+                {
+                    Question = newQuestion,
+                    Topic = await TopicService.GetTopicByIdAsync(topicId)
+                };
+                await TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+            }
         }
 
-        public async Task TestAsync()
+        private async Task<TopicQuestion> AddQuestionWithNoTopic(Question newQuestion)
         {
-            var newQuestionDTO = new QuestionView();
-            var difficultiesList = await QuestionDifficultyService.GetAllDifficultiesAsync();
-            var topicsList = await TopicService.GetAllTopicsAsync();
-            var certificateList = await CertificateService.GetAllCertificatesAsync();
-            var newQV = QuestionViewService.CreateQuestion(difficultiesList, topicsList,certificateList);
-            //var newQuestion = new QuestionView
-            //{
-            //    DifficultyOptions = new SelectList(difficultiesList, "QuestionDifficultyId", "Difficulty")
-            //};
-            //CertificatesView.CertificateList = new MultiSelectList(certificateList, "CertificateId", "Title");
-            //newQuestion.TopicView.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
+            var myTopicQuestion = new TopicQuestion
+            {
+                Question = newQuestion,
+                Topic = null
+            };
+            await TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+            return myTopicQuestion;
         }
+
+        private async Task CreateQuestionWithDifficultyAndAnswers(QuestionView question, Question newQuestion)
+        {
+            newQuestion.QuestionDifficulty = await QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
+            newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
+            await QuestionService.AddQuestionAsync(newQuestion);
+        }
+
+        private async Task<TopicQuestion> Test(Question newQuestion)
+        {
+            var myTopicQuestion = new TopicQuestion
+            {
+                Question = newQuestion,
+                Topic = null
+            };
+            await TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+            return myTopicQuestion;
+
+        }
+
+        private async Task Test(Question newQuestion, IEnumerable<int> topicIds)
+        {
+
+            //var topicIds = question.TopicView.SelectedTopicIds.ToList();
+
+            foreach (var topicId in topicIds)
+            {
+                var myTopicQuestion = new TopicQuestion
+                {
+                    Question = newQuestion,
+                    Topic = await TopicService.GetTopicByIdAsync(topicId)
+                };
+                await TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+            }
+        }
+
     }
 }
