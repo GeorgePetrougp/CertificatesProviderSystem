@@ -146,31 +146,31 @@ namespace WebApp.Controllers
                         await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
                     }
 
-                    IEnumerable<CertificateTopic> allCertTopics = await _service.CertificateTopicService.GetAllCertificateTopicsAsync();
-                    List<CertificateTopic> filteredList = new List<CertificateTopic>();
+                    //IEnumerable<CertificateTopic> allCertTopics = await _service.CertificateTopicService.GetAllCertificateTopicsAsync();
+                    //List<CertificateTopic> filteredList = new List<CertificateTopic>();
 
-                    foreach (var topicId in topicIds)
-                    {
-                        foreach (var item in allCertTopics)
-                        {
-                            if (topicId == item.Topic.TopicId)
-                            {
-                                filteredList.Add(item);
-                            }
-                        }
+                    //foreach (var topicId in topicIds)
+                    //{
+                    //    foreach (var item in allCertTopics)
+                    //    {
+                    //        if (topicId == item.Topic.TopicId)
+                    //        {
+                    //            filteredList.Add(item);
+                    //        }
+                    //    }
 
-                    }
+                    //}
 
-                    foreach (var item in filteredList)
-                    {
-                        var newFanantziofDeath = new CertificateTopicQuestion
-                        {
+                    //foreach (var item in filteredList)
+                    //{
+                    //    var newFanantziofDeath = new CertificateTopicQuestion
+                    //    {
 
-                        };
+                    //    };
 
 
 
-                    }
+                    //}
 
 
                     //var finalList = filteredList.Distinct();
