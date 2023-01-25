@@ -20,11 +20,12 @@ namespace WebApp.MainServices
         private ICertificateTopicQuestionService _certificateTopicQuestionService;
         private ICertificateService _certificateService;
         private IQuestionViewService _questionViewService;
+        private ICertificateTopicService _certficiateTopicService;
         private IMapper _mapper;
 
         private readonly ApplicationDbContext _context;
 
-        public QuestionManagerService(IQuestionService questionService, IQuestionDifficultyService questionDifficultyService, ITopicService topicService, ITopicQuestionService topicQuestionService, ICertificateTopicQuestionService certificateTopicQuestionService, ICertificateService certificateService, ApplicationDbContext context, IQuestionPossibleAnswerService answerService, IQuestionViewService questionViewService, IMapper mapper)
+        public QuestionManagerService(IQuestionService questionService, IQuestionDifficultyService questionDifficultyService, ITopicService topicService, ITopicQuestionService topicQuestionService, ICertificateTopicQuestionService certificateTopicQuestionService, ICertificateService certificateService, ApplicationDbContext context, IQuestionPossibleAnswerService answerService, IQuestionViewService questionViewService, IMapper mapper, ICertificateTopicService certficiateTopicService)
         {
             _questionService = questionService;
             _difficultyService = questionDifficultyService;
@@ -34,14 +35,15 @@ namespace WebApp.MainServices
             _certificateTopicQuestionService = certificateTopicQuestionService;
             _certificateService = certificateService;
             _questionViewService = questionViewService;
+            _certficiateTopicService = certficiateTopicService;
             _mapper = mapper;
             _context = context;
-
         }
 
         public IQuestionService QuestionService { get { return _questionService; } }
         public IQuestionDifficultyService QuestionDifficultyService { get { return _difficultyService; } }
         public ITopicService TopicService { get { return _topicService; } }
+        public ICertificateTopicService CertificateTopicService { get { return _certficiateTopicService; } }
         public ITopicQuestionService TopicQuestionService { get { return _topicQuestionService; } }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService; } }
         public ICertificateService CertificateService { get { return _certificateService; } }
@@ -81,7 +83,7 @@ namespace WebApp.MainServices
 
         }
 
-        
+
 
         private async Task AddToCertificateTopicQuestion(QuestionView question, TopicQuestion myTopicQuestion)
         {
@@ -107,7 +109,7 @@ namespace WebApp.MainServices
         private async Task AddQuestionWithTopic(QuestionView question, Question newQuestion)
         {
             var topicIds = question.TopicView.SelectedTopicIds.ToList();
-            
+
             foreach (var topicId in topicIds)
             {
                 var myTopicQuestion = new TopicQuestion
@@ -165,5 +167,22 @@ namespace WebApp.MainServices
             }
         }
 
+        public async Task QuestionLoad(Question question)
+        {
+
+            _context.Entry(question).Reference(q => q.QuestionDifficulty).Load();
+        }
+
+        public async Task TopicQuestionLoad(TopicQuestion topicQuestion)
+        {
+            _context.Entry(topicQuestion).Reference(t=>t.Topic).Load();
+
+        }
+
+        public async Task  CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion)
+        {
+            _context.Entry(certificateTopicQuestion).Reference(e=>e.CertificateTopic).Load();
+
+        }
     }
 }

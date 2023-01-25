@@ -16,8 +16,14 @@ namespace WebApp.MainServices
         public ICertificateService CertificateService { get; }
         public IQuestionViewService QuestionViewService { get; }
         public IQuestionPossibleAnswerService AnswerService { get; }
+        public ICertificateTopicService CertificateTopicService { get; }
+
+
         public IMapper Mapper { get; }
         public Task<Question> CreateNewQuestion(QuestionView question);
+        public Task QuestionLoad(Question question);
+        public Task TopicQuestionLoad(TopicQuestion topicQuestion);
+        public Task CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion);
         public Task SaveChanges();
     }
 }

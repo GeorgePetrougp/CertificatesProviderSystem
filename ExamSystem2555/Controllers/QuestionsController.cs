@@ -2,11 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MyDatabase.Models;
-using Newtonsoft.Json.Linq;
-using System.Security.Cryptography;
-using System.Security.Principal;
 using WebApp.DTO_Models;
 using WebApp.MainServices;
 
@@ -74,7 +70,7 @@ namespace WebApp.Controllers
                     if (cert.TopicQuestion == item)
                     {
                         await _service.CertificateQuestionLoad(cert);
-                        details.Certificates.Add(cert.Certificate);
+                        details.Certificates.Add(cert.CertificateTopic.Certificate);
                     }
                 }
             }
@@ -113,9 +109,9 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newQuestion = await _service.CreateNewQuestion(question);
+                //var newQuestion = await _service.CreateNewQuestion(question);
                 //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set to OFF.
-                //var myQuestion = _mapper.Map<Question>(question);
+                var myQuestion = _mapper.Map<Question>(question);
 
                 //Adding Question and QuestionDifficulty
                 //myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
@@ -169,9 +165,10 @@ namespace WebApp.Controllers
                     {
                         var newFanantziofDeath = new CertificateTopicQuestion
                         {
-                            
-                        }
-                      
+
+                        };
+
+
 
                     }
 
