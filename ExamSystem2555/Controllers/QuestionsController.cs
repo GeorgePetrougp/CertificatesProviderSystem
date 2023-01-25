@@ -127,6 +127,29 @@ namespace WebApp.Controllers
                         Question = myQuestion,
                         Topic = null
                     };
+
+                    var certificatesId = question.CertificatesView.SelectedCertificateIds;
+                    foreach (var item in certificatesId)
+                    {
+                        var myCert = await _service.CertificateService.GetCertificateByIdAsync(item);
+                        var certTopic = new CertificateTopic
+                        {
+                            Certificate = myCert,
+                            Topic = null
+                        };
+
+                        var theEnd = new CertificateTopicQuestion
+                        {
+                            CertificateTopic = certTopic,
+                            TopicQuestion = myTopicQuestion
+                        };
+
+                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(theEnd);
+
+
+
+
+                    }
                     await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
 
 
@@ -134,49 +157,33 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-
+                    var certTopicAll = _service.CertificateTopicService.GetAllCertificateTopicsAsync().Result.ToList();
                     var topicIds = question.TopicView.SelectedTopicIds.ToList();
                     foreach (var topicId in topicIds)
                     {
+                        var myTopic = await _service.TopicService.GetTopicByIdAsync(topicId);
                         var myTopicQuestion = new TopicQuestion
                         {
                             Question = myQuestion,
-                            Topic = await _service.TopicService.GetTopicByIdAsync(topicId)
+                            Topic = myTopic
                         };
                         await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
+
+                        foreach (var item in certTopicAll)
+                        {
+                            if (item.Topic == myTopic)
+                            {
+                                var newFanantziofDeath = new CertificateTopicQuestion
+                                {
+                                    TopicQuestion = myTopicQuestion,
+                                    CertificateTopic = item
+                                };
+                                await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(newFanantziofDeath);
+                            };
+
+                        }
+
                     }
-
-                    //IEnumerable<CertificateTopic> allCertTopics = await _service.CertificateTopicService.GetAllCertificateTopicsAsync();
-                    //List<CertificateTopic> filteredList = new List<CertificateTopic>();
-
-                    //foreach (var topicId in topicIds)
-                    //{
-                    //    foreach (var item in allCertTopics)
-                    //    {
-                    //        if (topicId == item.Topic.TopicId)
-                    //        {
-                    //            filteredList.Add(item);
-                    //        }
-                    //    }
-
-                    //}
-
-                    //foreach (var item in filteredList)
-                    //{
-                    //    var newFanantziofDeath = new CertificateTopicQuestion
-                    //    {
-
-                    //    };
-
-
-
-                    //}
-
-
-                    //var finalList = filteredList.Distinct();
-
-
-
                 }
 
 
