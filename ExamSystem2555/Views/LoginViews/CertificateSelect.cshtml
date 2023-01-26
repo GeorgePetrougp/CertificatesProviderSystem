@@ -1,0 +1,36 @@
+﻿@model WebApp.DTO_Models.LoginView
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Question</h4>
+<hr />
+<div class="row">
+    <div>
+        <form method="post" asp-action = "CertificateSelect">
+            <div class="form-group">
+                <label asp-for="SelectedId"></label>
+                <select asp-for="SelectedId" asp-items="@Model.CertificatesList"></select>
+                <span asp-validation-for="SelectedId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
