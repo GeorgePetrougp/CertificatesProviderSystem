@@ -1,5 +1,6 @@
 ﻿@model WebApp.DTO_Models.ExaminationView
 
+
 <h1>welcome</h1>
 @*<h3>@Model.Question.Display</h3>
 <h3>@Model.AnswerA.Display</h3>
@@ -18,28 +19,28 @@
     <label asp-for="@Model.AnswerA.Display" class="control-label">Answer A</label>
     <input asp-for="@Model.AnswerA.Display" class="form-control" readonly />
     <label asp-for="@Model.AnswerA.SelectedAnswer" class="control-label">Is correct</label>
-    <input asp-for="@Model.AnswerA.SelectedAnswer" class="form-check-input" type="checkbox" /><br />
+    <input asp-for="@Model.AnswerA.SelectedAnswer" name="IsCorrect" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)"/><br />
     <span asp-validation-for="@Model.AnswerA" class="text-danger"></span>
 </div>
 <div class="form-group">
     <label asp-for="@Model.AnswerB.Display" class="control-label">Answer B</label>
     <input asp-for="@Model.AnswerB.Display" class="form-control" readonly />
     <label asp-for="@Model.AnswerB.SelectedAnswer" class="control-label">Is correct</label>
-    <input asp-for="@Model.AnswerB.SelectedAnswer" class="form-check-input" type="checkbox" /><br />
+    <input asp-for="@Model.AnswerB.SelectedAnswer" name="IsCorrect" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)"/><br />
     <span asp-validation-for="@Model.AnswerB" class="text-danger"></span>
 </div>
 <div class="form-group">
     <label asp-for="@Model.AnswerC.Display" class="control-label">Answer C</label>
     <input asp-for="@Model.AnswerC.Display" class="form-control" readonly />
     <label asp-for="@Model.AnswerC.SelectedAnswer" class="control-label">Is correct</label>
-    <input asp-for="@Model.AnswerC.SelectedAnswer" class="form-check-input" type="checkbox" /><br />
+    <input asp-for="@Model.AnswerC.SelectedAnswer" name="IsCorrect" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)"/><br />
     <span asp-validation-for="@Model.AnswerC" class="text-danger"></span>
 </div>
 <div class="form-group">
     <label asp-for="@Model.AnswerD.Display" class="control-label">Answer D</label>
     <input asp-for="@Model.AnswerD.Display" class="form-control" readonly />
     <label asp-for="@Model.AnswerD.SelectedAnswer" class="control-label">Is correct</label>
-    <input asp-for="@Model.AnswerD.SelectedAnswer" class="form-check-input" type="checkbox" /><br />
+    <input asp-for="@Model.AnswerD.SelectedAnswer" name="IsCorrect" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)"/><br />
     <span asp-validation-for="@Model.AnswerD" class="text-danger"></span>
 </div>
     <div class="form-group">
@@ -47,3 +48,27 @@
     </div>
 </form>
 
+
+@section Scripts{
+
+
+<script>
+    function handleCheckboxClick(clickedCheckbox) {
+        var checkboxes = document.getElementsByName("IsCorrect");
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] !== clickedCheckbox) {
+                checkboxes[i].checked = false;
+            }
+        }
+    }
+</script>
+}
+
+
+
+
+
+
+
+<script>
+</script>
