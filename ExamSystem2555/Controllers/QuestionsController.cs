@@ -106,8 +106,8 @@ namespace WebApp.Controllers
                 var myQuestion = _mapper.Map<Question>(question);
 
                 //Adding Question and QuestionDifficulty
-                //myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
-                //myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
+                myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
+                myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
                 //await _service.QuestionService.AddQuestionAsync(myQuestion);
 
                 //Adding Topics,Certificates

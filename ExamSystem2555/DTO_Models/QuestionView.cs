@@ -9,7 +9,6 @@ namespace WebApp.DTO_Models
     {
         [ValidateNever]
         public int QId { get; set; }
-        [Required(ErrorMessage = "Question Display Is Required!")]
         public string QDisplay { get; set; }
         [ValidateNever]
         public QuestionDifficultyView Difficulty { get; set; }

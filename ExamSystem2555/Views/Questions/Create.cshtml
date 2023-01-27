@@ -5,6 +5,8 @@
 
 
 }
+<script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
+<script src="https://cdn.ckbox.io/CKBox/1.3.0-rc.0/ckbox.js"></script>
 
 
 <h2 class="text-decoration-underline text-center">Create a new question</h2>
@@ -12,15 +14,14 @@
 <div class="container p-3">
     <div>
         <form asp-action="Create">
-            <script
-  src="https://code.jquery.com/jquery-3.6.3.js"
-  integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-  crossorigin="anonymous"></script>
-            
+            <script src="https://code.jquery.com/jquery-3.6.3.js"
+                    integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+                    crossorigin="anonymous"></script>
+
             <div class="form-group">
-                <label asp-for="QDisplay" class="control-label fw-bold" >Question Display</label>
-                <input asp-for="QDisplay" class="form-control" />
-                <span asp-validation-for="QDisplay"  class="text-danger"></span>
+                <label asp-for="QDisplay" class="control-label fw-bold">Question Display</label>
+                <textarea asp-for="QDisplay" class="form-control" id="editor" ></textarea>
+                <span asp-validation-for="QDisplay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Difficulty.SelectedId" class="control-label fw-bold">Difficulty</label>
@@ -31,13 +32,13 @@
             <div class="form-group">
                 @for (int i = 0; i < 4; i++)
                 {
-                <div class="form-group">
+                    <div class="form-group">
                         <label asp-for="AnswerViews[i].IsCorrect" class="control-label fw-bold">Correct</label>
-                        <input asp-for="AnswerViews[i].IsCorrect" name="Correct" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)"/>
+                        <input asp-for="AnswerViews[i].IsCorrect" name="Correct" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)" />
                         <label asp-for="AnswerViews[i].Answer" class="control-label fw-bold">Answer @(i + 1)</label>
-                    <input asp-for="AnswerViews[i].Answer" class="form-control"/>
+                        <textarea asp-for="AnswerViews[i].Answer" class="form-control" id="ans@(i+1)" ></textarea>
                         <span asp-validation-for="AnswerViews[i].Answer" class="text-danger"></span><br />
-                </div>
+                    </div>
                 }
             </div>
             <div class="form-group form-label mt-4" id="certificatesForm">
@@ -46,44 +47,67 @@
                 <span asp-validation-for="CertificatesView.SelectedCertificateIds" class="text-danger"></span>
             </div>
 
-@* Test HasTopic Checkbox with dropdown accordion
-*@            
+            @* Test HasTopic Checkbox with dropdown accordion
+            *@
 
 
-<div class="form-group">
-    <div class="form-check">
-        <input asp-for="HasTopic" class="form-check-input" type="checkbox" id="hasTopic">
-        <label class="form-check-label" for="hasTopic">
-            This question has a topic
-        </label>
+            <div class="form-group">
+                <div class="form-check">
+                    <label asp-for="HasTopic" class="form-check-label">
+                        This question has a topic
+                    </label>
+                    <input asp-for="HasTopic" class="form-check-input" type="checkbox" id="hasTopic">
+                </div>
+            </div>
+            <div class="form-group form-label mt-4" id="topicSelect">
+                <label asp-for="TopicView.SelectedTopicIds"></label>
+                <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
+                <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
+            </div>
+            @*End of test
+            *@
+
+            @*----Old dropdown for topics----
+            <div class="form-group">
+            <label asp-for="TopicView.SelectedTopicIds"></label>
+            <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
+            <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+
+
+            
+        </form>
     </div>
-</div>
-<div class="form-group form-label mt-4" id="topicSelect">
-    <label asp-for="TopicView.SelectedTopicIds"></label>
-    <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
-    <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
-</div>
-@*End of test
-*@
-
-@*----Old dropdown for topics----
-    <div class="form-group">
-        <label asp-for="TopicView.SelectedTopicIds"></label>
-        <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
-        <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
-</div>*@
-    <div class="form-group">
-        <input type="submit" value="Submit" class="btn btn-primary" />
-    </div>
-  </form>
-</div>
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+
+
 <script>
-    document.getElementById("hasTopic").onchange = function() {
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            ckbox: {
+                tokenUrl: 'https://95153.cke-cs.com/token/dev/0220f230518b20a34681e88f7e10941b4aa959b16e5fd9c5f0088ea8e6c8?limit=10',
+            },
+            toolbar: [
+                'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
+            ],
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
+<script>
+    document.getElementById("hasTopic").onchange = function () {
         var topicSelect = document.getElementById("topicSelect");
         if (this.checked) {
             topicSelect.style.display = "block";
@@ -92,21 +116,14 @@
         }
     };
 
-    //function toggleCertificates() {
-    //    if ($("#hasTopic").is(":checked")) {
-    //        $("#certificatesForm").hide();
-    //    }
-    //    else {
-    //        $("#certificatesForm").show();
-    //    }
-    //}
+    
 </script>
 
 <script>
-          $(document).ready(function() {
+    $(document).ready(function () {
         toggleCertificates();
 
-        $("#hasTopic").change(function() {
+        $("#hasTopic").change(function () {
             toggleCertificates();
         });
 
@@ -120,25 +137,46 @@
         }
     });
 
- </script>
+</script>
+
+
+     
+    @for (var i = 0; i < 4; i++)
+{
+    <script>
+
+        ClassicEditor
+            .create(document.querySelector('#ans@(i+1)'), {
+                ckbox: {
+                            tokenUrl: 'https://95153.cke-cs.com/token/dev/1e8402a0dff517a45e22cf007ffc706f9aa641e0bf6807fe94d694ff4598?limit=10',
+                },
+                toolbar: [
+                    'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
+                ],
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    }
+        
+
+        <script>
+            function handleCheckboxClick(clickedCheckbox) {
+                var checkboxes = document.getElementsByName("Correct");
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i] !== clickedCheckbox) {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+        </script>
 
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-   <script>
-        function handleCheckboxClick(clickedCheckbox) {
-            var checkboxes = document.getElementsByName("Correct");
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i] !== clickedCheckbox) {
-                    checkboxes[i].checked = false;
-                }
-            }
-        }
-   </script>
-
-
     }
 }
 
