@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyDatabase.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.DTO_Models
 {
@@ -8,6 +9,7 @@ namespace WebApp.DTO_Models
     {
         [ValidateNever]
         public int QId { get; set; }
+        [Required(ErrorMessage = "Question Display Is Required!")]
         public string QDisplay { get; set; }
         [ValidateNever]
         public QuestionDifficultyView Difficulty { get; set; }

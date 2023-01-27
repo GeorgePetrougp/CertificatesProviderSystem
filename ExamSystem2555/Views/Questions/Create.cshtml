@@ -6,9 +6,8 @@
 
 }
 
-<h1>Create</h1>
 
-<h4>Question</h4>
+<h2 class="text-decoration-underline text-center">Create a new question</h2>
 <hr />
 <div class="container p-3">
     <div>
@@ -19,24 +18,25 @@
   crossorigin="anonymous"></script>
             
             <div class="form-group">
-                <label asp-for="QDisplay" class="control-label"></label>
+                <label asp-for="QDisplay" class="control-label fw-bold" >Question Display</label>
                 <input asp-for="QDisplay" class="form-control" />
-                <span asp-validation-for="QDisplay" class="text-danger"></span>
+                <span asp-validation-for="QDisplay"  class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Difficulty.SelectedId"></label>
-                <select asp-for="Difficulty.SelectedId" asp-items="@Model.Difficulty.Difficulties"></select>
+                <label asp-for="Difficulty.SelectedId" class="control-label fw-bold">Difficulty</label>
+                <select asp-for="Difficulty.SelectedId" class="form-select" asp-items="@Model.Difficulty.Difficulties"><option disabled selected class="text-muted">Choose difficulty level</option></select>
                 <span asp-validation-for="Difficulty.SelectedId" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 @for (int i = 0; i < 4; i++)
                 {
                 <div class="form-group">
-                    <label asp-for="AnswerViews[i].IsCorrect" class="control-label"></label>
-                    <input asp-for="AnswerViews[i].IsCorrect" class="form-check-input" type="checkbox" />
-                    <label asp-for="AnswerViews[i].Answer" class="control-label">Is correct</label>
-                    <input asp-for="AnswerViews[i].Answer" class="form-control"/><br />
-                    <span asp-validation-for="AnswerViews[i].Answer" class="text-danger"></span>
+                        <label asp-for="AnswerViews[i].IsCorrect" class="control-label fw-bold">Correct</label>
+                        <input asp-for="AnswerViews[i].IsCorrect" name="Correct" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)"/>
+                        <label asp-for="AnswerViews[i].Answer" class="control-label fw-bold">Answer @(i + 1)</label>
+                    <input asp-for="AnswerViews[i].Answer" class="form-control"/>
+                        <span asp-validation-for="AnswerViews[i].Answer" class="text-danger"></span><br />
                 </div>
                 }
             </div>
@@ -126,6 +126,19 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+   <script>
+        function handleCheckboxClick(clickedCheckbox) {
+            var checkboxes = document.getElementsByName("Correct");
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== clickedCheckbox) {
+                    checkboxes[i].checked = false;
+                }
+            }
+        }
+   </script>
+
+
     }
 }
 

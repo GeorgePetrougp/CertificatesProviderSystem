@@ -16,14 +16,11 @@ namespace WebApp.Controllers
             _service = service;
         }
 
-
         // GET: ExaminationViewController
         public ActionResult Index()
         {
             return View();
         }
-
-       
 
         // GET: ExaminationViewController/Create
         public async Task<ActionResult> CreateAsync()
@@ -33,7 +30,7 @@ namespace WebApp.Controllers
                 
                 Question = new ExamQuestionView
                 {
-                    Display = _service.QuestionService.GetQuestionByIdAsync(1).Result.Display,
+                    Display =  _service.QuestionService.GetQuestionByIdAsync(1).Result.Display,
                     QuestionId = _service.QuestionService.GetQuestionByIdAsync(1).Result.QuestionId
                 },
                 AnswerA = new ExamAnswerView
@@ -95,9 +92,6 @@ namespace WebApp.Controllers
 
             return View("Index");
         }
-
-      
-
 
     }
 }
