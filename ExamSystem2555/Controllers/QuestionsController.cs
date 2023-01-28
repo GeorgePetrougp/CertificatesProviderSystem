@@ -41,14 +41,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             await _service.QuestionLoad(question);
-            QuestionDetailsView details = new QuestionDetailsView();
-
-            details.QuestionDetailsViewId = question.QuestionId;
-            details.QuestionDisplay = question.Display;
-            details.QuestionDifficulty = question.QuestionDifficulty.Difficulty;
-            details.Answers = _service.AnswerService.GetAllAnswersAsync().Result.Where(an => an.Question == question).ToList();
-
-            details.Topics = new List<Topic>();
+            var details = new QuestionDetailsView
+            {
+                QuestionDetailsViewId = question.QuestionId,
+                QuestionDisplay = question.Display,
+                QuestionDifficulty = question.QuestionDifficulty.Difficulty,
+                Answers = _service.AnswerService.GetAllAnswersAsync().Result.Where(an => an.Question == question).ToList(),
+                Topics = new List<Topic>()
+            };
             var topicQuestion = _service.TopicQuestionService.GetAllTopicQuestionsAsync().Result.Where(tq => tq.Question == question).ToList();
 
             foreach (var item in topicQuestion)
@@ -90,7 +90,6 @@ namespace WebApp.Controllers
             newQuestion.TopicView.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
 
             return View(newQuestion);
-
         }
 
 
@@ -101,79 +100,40 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var newQuestion = await _service.CreateNewQuestion(question);
-                //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set to OFF.
-                var myQuestion = _mapper.Map<Question>(question);
+                //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set 
+                var newQuestion = _mapper.Map<Question>(question);
 
-                //Adding Question and QuestionDifficulty
-                myQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
-                myQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
-                //await _service.QuestionService.AddQuestionAsync(myQuestion);
+                var topicIds = question.TopicView.SelectedTopicIds;
+                var certificatesId = question.CertificatesView.SelectedCertificateIds;
 
-                //Adding Topics,Certificates
-                myQuestion.TopicQuestions = new List<TopicQuestion>();
-                if (question.TopicView.SelectedTopicIds == null)
+
+                if (topicIds == null)
                 {
-                    var myTopicQuestion = new TopicQuestion
-                    {
-                        Question = myQuestion,
-                        Topic = null
-                    };
+                    var newTopicQuestion = new TopicQuestion { Question = newQuestion, Topic = null };
 
-                    var certificatesId = question.CertificatesView.SelectedCertificateIds;
-                    foreach (var item in certificatesId)
-                    {
-                        var myCert = await _service.CertificateService.GetCertificateByIdAsync(item);
-                        var certTopic = new CertificateTopic
-                        {
-                            Certificate = myCert,
-                            Topic = null
-                        };
-
-                        var theEnd = new CertificateTopicQuestion
-                        {
-                            CertificateTopic = certTopic,
-                            TopicQuestion = myTopicQuestion
-                        };
-                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(theEnd);
-                    }
-                    await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
-
-
-
+                    var selectedCertificates = (await _service.CertificateService.SortCertificatesById(certificatesId)).ToList();
+                    selectedCertificates.ForEach(sc => _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sc, Topic = null }, newTopicQuestion));
                 }
                 else
                 {
-                    var certTopicAll = _service.CertificateTopicService.GetAllCertificateTopicsAsync().Result.ToList();
-                    var topicIds = question.TopicView.SelectedTopicIds.ToList();
-                    foreach (var topicId in topicIds)
+                    var selectedTopics = (await _service.TopicService.GetAllTopicsAsync()).Where(ti => topicIds.Contains(ti.TopicId)).ToList();
+                    var newTopicQuestionList = selectedTopics.Select(t => new TopicQuestion { Topic = t, Question = newQuestion });
+                    
+
+                    foreach (var tq in newTopicQuestionList)
                     {
-                        var myTopic = await _service.TopicService.GetTopicByIdAsync(topicId);
-                        var myTopicQuestion = new TopicQuestion
+                        foreach (var ct in (await _service.CertificateTopicService.GetAllCertificateTopicsAsync()).ToList())
                         {
-                            Question = myQuestion,
-                            Topic = myTopic
-                        };
-                        await _service.TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
-
-                        foreach (var item in certTopicAll)
-                        {
-                            if (item.Topic == myTopic)
+                            if (ct.Topic == tq.Topic)
                             {
-                                var newFanantziofDeath = new CertificateTopicQuestion
-                                {
-                                    TopicQuestion = myTopicQuestion,
-                                    CertificateTopic = item
-                                };
-                                await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(newFanantziofDeath);
-                            };
-
+                                await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(ct, tq);
+                            }
                         }
-
                     }
                 }
                 await _service.SaveChanges();
                 return RedirectToAction(nameof(Index));
+
             }
             return View(question);
         }

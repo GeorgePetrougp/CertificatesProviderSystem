@@ -13,41 +13,35 @@ namespace WebApp.Services
             _topicQuestionRepository = topicQuestionRepository;
         }
 
-        public async Task<TopicQuestion> GetTopicQuestionByIdAsync(int? id)
-        {
-            return await _topicQuestionRepository.GetByIdAsync(id);
-        }
+        public async Task<TopicQuestion> GetTopicQuestionByIdAsync(int? id) => await _topicQuestionRepository.GetByIdAsync(id);
 
-        public async Task<IEnumerable<TopicQuestion>> GetAllTopicQuestionsAsync()
-        {
-            return await _topicQuestionRepository.GetAllAsync();
-        }
+        public async Task<IEnumerable<TopicQuestion>> GetAllTopicQuestionsAsync() => await _topicQuestionRepository.GetAllAsync();
 
-        public async Task<TopicQuestion> AddTopicQuestionAsync(TopicQuestion topicQuestion)
-        {
-            return await _topicQuestionRepository.AddAsync(topicQuestion);
-        }
+        public async Task<TopicQuestion> AddTopicQuestionAsync(TopicQuestion topicQuestion) => await _topicQuestionRepository.AddAsync(topicQuestion);
 
-        public async Task<TopicQuestion> UpdateTopicQuestionAsync(TopicQuestion topicQuestion)
-        {
-            return await (_topicQuestionRepository.UpdateAsync(topicQuestion));
-        }
+        public async Task<TopicQuestion> UpdateTopicQuestionAsync(TopicQuestion topicQuestion) => await _topicQuestionRepository.UpdateAsync(topicQuestion);
 
-        public async Task DeleteTopicQuestionAsync(int? id)
-        {
-            await _topicQuestionRepository.DeleteAsync(id);
-        }
+        public async Task DeleteTopicQuestionAsync(int? id) => await _topicQuestionRepository.DeleteAsync(id);
 
-        public async Task<TopicQuestion> AddTopicQuestionAsync(Question question, Topic topic)
+        public async Task<TopicQuestion> AddTopicQuestionAsync(Topic topic, Question question)
         {
-            var newTopicQuestion = new TopicQuestion
-            {
-                Question = question,
-                Topic = topic
-            };
+            var newTopicQuestion = new TopicQuestion { Question = question, Topic = topic };
             await AddTopicQuestionAsync(newTopicQuestion);
             return newTopicQuestion;
         }
 
+        public async Task<TopicQuestion> AddTopicQuestionAsync(Question question)
+        {
+            var newTopicQuestion = new TopicQuestion{Question = question};
+            await AddTopicQuestionAsync(newTopicQuestion);
+            return newTopicQuestion;
+        }
+
+        public async Task<IEnumerable<TopicQuestion>> AddRangeTopicQuestionAsync(IEnumerable<TopicQuestion> topicQuestions)
+        {
+            var topicQuestionsList = topicQuestions;
+            await _topicQuestionRepository.AddRangeAsync(topicQuestionsList);
+            return topicQuestionsList;
+        }
     }
 }

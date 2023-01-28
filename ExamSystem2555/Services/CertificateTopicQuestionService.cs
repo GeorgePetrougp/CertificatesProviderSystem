@@ -37,6 +37,25 @@ namespace WebApp.Services
             await _certificateTopicQuestionRepository.DeleteAsync(id);
         }
 
+        public async Task<CertificateTopicQuestion> AddCertificateTopicQuestionAsync(CertificateTopic certicateTopic, TopicQuestion topicQuestion)
+        {
+            var newCertificateTopicQuestion = new CertificateTopicQuestion
+            {
+                CertificateTopic = certicateTopic,
+                TopicQuestion = topicQuestion
+            };
+
+            return await AddCertificateTopicQuestionAsync(newCertificateTopicQuestion);
+        }
+
+        public async Task<IEnumerable<CertificateTopicQuestion>> AddCTQFromList(IEnumerable<CertificateTopicQuestion> certifications)
+        {
+            await _certificateTopicQuestionRepository.AddRangeAsync(certifications);
+            return certifications;
+        }
+
+        public async Task<IEnumerable<CertificateTopicQuestion>> AddRangeCTQ()
+
         public string CheckNull(CertificateTopicQuestion certificateTopicQuestion)
         {
             if (certificateTopicQuestion != null)
