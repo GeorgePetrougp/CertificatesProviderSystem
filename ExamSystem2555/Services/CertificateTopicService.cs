@@ -37,6 +37,9 @@ namespace WebApp.Services
         }
 
         public async Task AddX()
+        {
+
+        }
 
         public async Task<IEnumerable<CertificateTopic>> SortCTByTopic(Topic topic)
         {

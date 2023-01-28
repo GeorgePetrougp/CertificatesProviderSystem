@@ -55,6 +55,9 @@ namespace WebApp.Services
         }
 
         public async Task<IEnumerable<CertificateTopicQuestion>> AddRangeCTQ()
+        {
+            return null;
+        }
 
         public string CheckNull(CertificateTopicQuestion certificateTopicQuestion)
         {
