@@ -36,5 +36,13 @@ namespace WebApp.Services
             await _certificateTopicRepository.DeleteAsync(id);
         }
 
+        public async Task AddX()
+
+        public async Task<IEnumerable<CertificateTopic>> SortCTByTopic(Topic topic)
+        {
+            return (await GetAllCertificateTopicsAsync()).Where(x => x.Topic == topic);
+        }
+
+
     }
 }

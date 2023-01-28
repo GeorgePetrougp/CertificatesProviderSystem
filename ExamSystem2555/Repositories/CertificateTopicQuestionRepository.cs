@@ -46,9 +46,10 @@ namespace WebApp.Repositories
             return await _context.CertificateTopicQuestions.ToListAsync();
         }
 
-        public Task<IEnumerable<CertificateTopicQuestion>> AddRangeAsync(IEnumerable<CertificateTopicQuestion> entities)
+        public async Task<IEnumerable<CertificateTopicQuestion>> AddRangeAsync(IEnumerable<CertificateTopicQuestion> entities)
         {
-            throw new NotImplementedException();
+            await _context.CertificateTopicQuestions.AddRangeAsync(entities);
+            return entities;
         }
     }
 }

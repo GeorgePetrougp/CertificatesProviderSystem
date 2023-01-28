@@ -37,6 +37,12 @@ namespace WebApp.Services
             await _certificateRepository.DeleteAsync(id);
         }
 
+        public async Task<IEnumerable<Certificate>> SortCertificatesById(IEnumerable<int> certificateIds)
+        {
+            var sortedCertificates = (await GetAllCertificatesAsync()).Where(ci => certificateIds.Contains(ci.CertificateId)).ToList();
+            return sortedCertificates;
+        }
+
         public string CheckNull(Topic topic)
         {
             if (topic != null)

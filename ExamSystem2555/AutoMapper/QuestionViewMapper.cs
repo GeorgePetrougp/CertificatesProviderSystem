@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using MyDatabase.Data;
 using MyDatabase.Models;
 using WebApp.DTO_Models;
 
@@ -33,7 +31,7 @@ namespace WebApp.Mappers
             .ForMember(dest => dest.Answer, opt => opt.MapFrom(src => src.PossibleAnswer))
             .ForMember(dest => dest.IsCorrect, opt => opt.MapFrom(src => src.IsCorrect))
             .ReverseMap();
-            
+
             CreateMap<ICollection<TopicQuestion>, TopicView>()
                 .ForMember(dest => dest.SelectedTopicIds, opt => opt.MapFrom(src => src.Select(x => x.Topic.TopicId)))
                 .ForMember(dest => dest.TopicsList, opt => opt.Ignore())
@@ -46,7 +44,7 @@ namespace WebApp.Mappers
         }
 
 
-        
+
 
 
 

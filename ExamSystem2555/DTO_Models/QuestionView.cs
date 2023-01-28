@@ -16,9 +16,6 @@ namespace WebApp.DTO_Models
         [ValidateNever]
         public AnswerView[] AnswerViews { get; set; }
 
-
-
-
         [ValidateNever]
         public TopicView TopicView { get; set; }
 
