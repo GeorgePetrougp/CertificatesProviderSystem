@@ -47,9 +47,7 @@
                 <span asp-validation-for="CertificatesView.SelectedCertificateIds" class="text-danger"></span>
             </div>
 
-            @* Test HasTopic Checkbox with dropdown accordion
-            *@
-
+            
 
             <div class="form-group">
                 <div class="form-check">
@@ -64,8 +62,7 @@
                 <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
                 <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
             </div>
-            @*End of test
-            *@
+            
 
             @*----Old dropdown for topics----
             <div class="form-group">
