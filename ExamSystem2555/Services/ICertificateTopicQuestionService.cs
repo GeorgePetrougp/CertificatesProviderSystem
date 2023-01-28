@@ -9,6 +9,8 @@ namespace WebApp.Services
         Task<CertificateTopicQuestion> AddCertificateTopicQuestionAsync(CertificateTopicQuestion entity);
         Task<CertificateTopicQuestion> AddCertificateTopicQuestionAsync(CertificateTopic certicateTopic, TopicQuestion topicQuestion);
         Task<CertificateTopicQuestion> UpdateCertificateTopicQuestionAsync(CertificateTopicQuestion entity);
+        Task<CertificateTopicQuestion> UpdateCertificateTopicQuestionAsync(CertificateTopic erticateTopic, TopicQuestion topicQuestion);
+
         Task DeleteCertificateTopicQuestionAsync(int? id);
         string CheckNull(CertificateTopicQuestion entity);
     }
