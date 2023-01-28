@@ -4,11 +4,11 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Question Details</h2>
 
 <dl>
     <dt>Display</dt>
-    <dd>@Model.QuestionDisplay</dd>
+    <dd>@Html.Raw(Model.QuestionDisplay)</dd>
 
     <dt>Difficulty</dt>
     <dd>@Model.QuestionDifficulty</dd>
@@ -67,7 +67,7 @@
             @foreach (var answer in Model.Answers)
             {
                 <li>
-                    @answer.PossibleAnswer
+                    @Html.Raw(answer.PossibleAnswer)
                     @if (answer.IsCorrect)
                     {
                         <em>(Correct Answer)</em>

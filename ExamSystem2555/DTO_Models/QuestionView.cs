@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyDatabase.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.DTO_Models
 {
@@ -28,6 +29,8 @@ namespace WebApp.DTO_Models
             CertificatesView = new CertificatesView();
             TopicView = new TopicView();
         }
+        public bool HasTopic { get; set; }
+
 
     }
 }

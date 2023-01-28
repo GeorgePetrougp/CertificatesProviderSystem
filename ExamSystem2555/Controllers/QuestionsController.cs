@@ -26,7 +26,7 @@ namespace WebApp.Controllers
             return View(await _service.QuestionService.GetAllQuestionsAsync());
         }
 
-        // GET: Questions/Details/5
+        // GET: Questions/Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _service.QuestionService == null)
@@ -74,6 +74,7 @@ namespace WebApp.Controllers
                     }
                 }
             }
+
             return View(details);
         }
 
@@ -85,7 +86,6 @@ namespace WebApp.Controllers
             var difficultiesList = await _service.QuestionDifficultyService.GetAllDifficultiesAsync();
             var newQuestion = new QuestionView();
             newQuestion.Difficulty.Difficulties = new SelectList(difficultiesList, "QuestionDifficultyId", "Difficulty");
-
             newQuestion.CertificatesView.CertificateList = new MultiSelectList(certificateList, "CertificateId", "Title");
             newQuestion.TopicView.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
 
@@ -94,15 +94,13 @@ namespace WebApp.Controllers
 
 
         // POST: Questions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] QuestionView question)
         {
             if (ModelState.IsValid)
             {
-                //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set to OFF.
+                //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set 
                 var newQuestion = _mapper.Map<Question>(question);
 
                 var topicIds = question.TopicView.SelectedTopicIds;
@@ -137,12 +135,11 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-
             return View(question);
         }
 
 
-        // GET: Questions/Edit/5
+        // GET: Questions/Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _service.QuestionService == null)
@@ -159,8 +156,6 @@ namespace WebApp.Controllers
         }
 
         // POST: Questions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("QuestionId,Display")] Question question)
@@ -210,7 +205,7 @@ namespace WebApp.Controllers
             return View(question);
         }
 
-        // POST: Questions/Delete/5
+        // POST: Questions/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

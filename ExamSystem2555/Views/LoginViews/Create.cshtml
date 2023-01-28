@@ -1,0 +1,27 @@
+﻿@model WebApp.DTO_Models.LoginView
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Login</h2>
+
+
+<form method="post">
+    <div>
+        <label asp-for="CandidateId"></label>
+        <input asp-for="CandidateId" type="number" />
+    </div>
+
+    <div>
+        <input type="submit" value="Log In" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

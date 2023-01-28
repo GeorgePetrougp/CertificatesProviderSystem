@@ -26,10 +26,14 @@
           <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" @Html.ActionLink("Questions","Index","Questions")</a>
+          <a class="nav-link text-dark" @Html.ActionLink("Questions C.R.U.D","Index","Questions")</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-dark" @Html.ActionLink("Exam","Index","ExaminationView")</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" @Html.ActionLink("ExaminationView","Index","ExaminationView")</a>
+          <a class="nav-link text-dark" @Html.ActionLink("CandidateLogin","Login","LoginViews")</a>
         </li>
         @*-----Drop Down Menu for Navbar:-----*@
         @*<li class="nav-item dropdown">
@@ -55,6 +59,8 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <h2>TEAM 2555!<br /></h2>
+            
             @RenderBody()
         </main>
     </div>
