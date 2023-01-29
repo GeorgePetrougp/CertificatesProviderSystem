@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
 using NuGet.Packaging;
@@ -249,7 +250,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await _service.QuestionService.UpdateQuestionAsync(newQuestion);
+                    //await _service.QuestionService.UpdateQuestionAsync(newQuestion);
 
                     //if (topicIds == null)
                     //{
@@ -296,10 +297,103 @@ namespace WebApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("EditTopicsAndCertificates", "Questions",new{id=newQuestion.QuestionId});
             }
             return View(question);
         }
+
+
+        public async Task<IActionResult> EditTopicsAndCertificates(int? id)
+        {
+            
+            List<Topic> topicsList = new List<Topic>();
+            List<Certificate> certificateList = new List<Certificate>();
+
+            var allTopicQuestions = await _service.TopicQuestionService.GetAllTopicQuestionsAsync();
+            foreach(var tq in allTopicQuestions)
+            {
+                await _service.TopicQuestionLoad(tq);
+            }
+           var topicQuestions = allTopicQuestions.Where(tq => tq.Question.QuestionId == id);
+            foreach (var topicQuestion in topicQuestions)
+            {
+            var certificateTopicQuestions = (await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync()).Where(ctq => ctq.TopicQuestion == topicQuestion);
+                foreach(var certificateTopicQuestion in certificateTopicQuestions)
+                {
+                    await _service.CertificateTopicsLoad(certificateTopicQuestion);
+                    topicsList.Add(certificateTopicQuestion.CertificateTopic.Topic);    
+                    certificateList.Add(certificateTopicQuestion.CertificateTopic.Certificate);
+
+                }
+            }
+            EditCertAndTopicsView model = new EditCertAndTopicsView()
+            {
+                CurrentCertificateList = certificateList,
+                CurrentTopicsList = topicsList
+            };
+
+
+            var topics = await _service.TopicService.GetAllTopicsAsync();
+            var certificates = await _service.CertificateService.GetAllCertificatesAsync();
+            model.TopicsList = new MultiSelectList(topics, "TopicId", "Title");
+            model.CertificateList = new MultiSelectList(certificates, "CertificateId", "Title");
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTopicsAndCertificates(int id, [FromForm] EditCertAndTopicsView model)
+        {
+            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+            var topicQuestionsNoTopic = (await _service.TopicQuestionService.GetAllTopicQuestionsAsync()).Where(tq=>tq.Question == question && tq.Topic == null).First();
+
+            var selectedCertificateIds = model.SelectedCertificates;
+
+            List<Certificate> certificates = new List<Certificate>();
+
+            foreach (var certificateId in selectedCertificateIds)
+            {
+               certificates.Add((await _service.CertificateService.GetAllCertificatesAsync()).Where(c => c.CertificateId == certificateId).SingleOrDefault());
+            }
+
+            foreach(var certificate in certificates)
+            {
+                var newCertificateTopic = new CertificateTopic()
+                {
+                    Certificate = certificate,
+                    Topic = null
+                };
+                await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(newCertificateTopic, topicQuestionsNoTopic);
+            }
+
+            await _service.SaveChanges();
+
+            //var certificateTopicQuestions = await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync();
+            //List<CertificateTopicQuestion> sortedCertificateTopicQuestionList = new List<CertificateTopicQuestion>();
+            //foreach(var certTopQuest in certificateTopicQuestions)
+            //{
+            //    foreach(var topicQuestion in topicQuestions)
+            //    {
+            //        var x = certificateTopicQuestions.FirstOrDefault(x => x.TopicQuestion== topicQuestion);
+            //        sortedCertificateTopicQuestionList.Add(x);
+            //    }
+            //}
+
+
+            return RedirectToAction(nameof(Index));
+
+
+
+        }
+
+
+
+
+
+
 
         // GET: Questions/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -341,5 +435,80 @@ namespace WebApp.Controllers
         {
             return _service.QuestionService.GetQuestionByIdAsync(id) != null;
         }
+
+
+        public async Task<IActionResult> EditQuestionTopicsIndex(int? id)
+        {
+            EditQuestionTopicView model = new EditQuestionTopicView();
+            List<Topic> topics = new List<Topic>();
+
+            var allTopicQuestions = await _service.TopicQuestionService.GetAllTopicQuestionsAsync();
+            foreach (var tq in allTopicQuestions)
+            {
+                await _service.TopicQuestionLoad(tq);
+            }
+            var topicQuestions = allTopicQuestions.Where(tq => tq.Question.QuestionId == id);
+            foreach (var topicQuestion in topicQuestions)
+            {
+                topics.Add(topicQuestion.Topic);
+            }
+            model.Topics = topics;
+            model.QuestionId = id;
+            
+            return View(model);
+        }
+
+        public async Task<IActionResult> AddQuestionTopic(EditQuestionTopicView model)
+        {
+            var topics = await _service.TopicService.GetAllTopicsAsync();
+            model.TopicsList = new MultiSelectList(topics, "TopicId", "Title");
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        
+        public async Task<IActionResult> AddQuestionTopic(int? id,[FromForm]EditQuestionTopicView model)
+        {
+
+            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+            var selectedTopics = model.SelectedTopicIds.ToList();
+            List<Topic> sortedTopics = new List<Topic>();
+
+               var allTopics =  await _service.TopicService.GetAllTopicsAsync();
+            foreach (var item in allTopics)
+            {
+
+                foreach(var topic in selectedTopics)
+                {
+                    if(topic == item.TopicId)
+                    {
+                        sortedTopics.Add(item);
+                    }
+                }
+            }
+            var certificateTopics = await _service.CertificateTopicService.GetAllCertificateTopicsAsync();
+            foreach (var cert in certificateTopics)
+            {
+
+                foreach(var topic in sortedTopics)
+                {
+                    if(topic == cert.Topic)
+                    {
+                        var certTopic = await _service.CertificateTopicService.GetCertificateTopicByIdAsync(cert.CertificateTopicId);
+                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(certTopic, new TopicQuestion { Topic = topic, Question = question });
+                    }
+
+                }
+            }
+
+            await _service.SaveChanges();
+
+            return RedirectToAction("EditQuestionTopicsIndex", "Questions", new {id=id});
+
+
+
+        }
+
     }
 }
