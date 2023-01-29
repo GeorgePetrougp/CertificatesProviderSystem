@@ -52,12 +52,16 @@ namespace WebApp.Controllers
                 Topics = new List<Topic>()
             };
             var topicQuestion = _service.TopicQuestionService.GetAllTopicQuestionsAsync().Result.Where(tq => tq.Question == question).ToList();
+            // topiQuestion where question with id 1 exists
 
             foreach (var item in topicQuestion)
             {
                 await _service.TopicQuestionLoad(item);
-
-                details.Topics.Add(item.Topic);
+                if(item.Topic != null)
+                {
+                    details.Topics.Add(item.Topic);
+                }
+                
             }
 
             // from certificatetopicquestions 
@@ -66,16 +70,17 @@ namespace WebApp.Controllers
             var certificateTopicQuestion = _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync().Result.ToList();
             foreach (var item in topicQuestion)
             {
-                var certTopicQuestList = _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync().Result.Where(ctq => ctq.TopicQuestion == item);
-                foreach (var cert in certificateTopicQuestion)
+                var certTopicQuestList =(await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync()).Where(ctq => ctq.TopicQuestion == item);
+                foreach (var cert in certTopicQuestList)
                 {
-                    if (cert.TopicQuestion == item)
-                    {
-                        await _service.CertificateQuestionLoad(cert);
+                        await _service.CertificateTopicsLoad(cert);
+                    
                         details.Certificates.Add(cert.CertificateTopic.Certificate);
-                    }
+                    
                 }
             }
+            var x = details.Certificates.GroupBy(c=>c.CertificateId).Select(x=>x.First()).ToList();
+            details.Certificates = x;
 
             return View(details);
         }
@@ -204,7 +209,7 @@ namespace WebApp.Controllers
                 {
                     if(certificateTopicQuestion.TopicQuestion == topicQuestion)
                     {
-                        await _service.CertificateQuestionLoad(certificateTopicQuestion);
+                        await _service.CertificateTopicsLoad(certificateTopicQuestion);
                         var currentCqertificate = (await _service.CertificateService.GetAllCertificatesAsync()).Where(t => t.CertificateId == certificateTopicQuestion.CertificateTopic.Certificate.CertificateId);
                         editModel.Certificates.AddRange(currentCqertificate);
                     }

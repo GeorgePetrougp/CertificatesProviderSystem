@@ -30,8 +30,8 @@ namespace WebApp.Controllers
                 
                 Question = new ExamQuestionView
                 {
-                    Display =  _service.QuestionService.GetQuestionByIdAsync(1).Result.Display,
-                    QuestionId = _service.QuestionService.GetQuestionByIdAsync(1).Result.QuestionId
+                    Display =  _service.QuestionService.GetQuestionByIdAsync(20).Result.Display,
+                    QuestionId = _service.QuestionService.GetQuestionByIdAsync(20).Result.QuestionId
                 },
                 AnswerA = new ExamAnswerView
                 {

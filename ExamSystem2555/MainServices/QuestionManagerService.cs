@@ -7,6 +7,7 @@ using NuGet.Packaging;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.AccessControl;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.MainServices
 {
@@ -170,18 +171,19 @@ namespace WebApp.MainServices
         public async Task QuestionLoad(Question question)
         {
 
-            _context.Entry(question).Reference(q => q.QuestionDifficulty).Load();
+            await _context.Entry(question).Reference(q => q.QuestionDifficulty).LoadAsync();
         }
 
         public async Task TopicQuestionLoad(TopicQuestion topicQuestion)
         {
-            _context.Entry(topicQuestion).Reference(t=>t.Topic).Load();
+            await _context.Entry(topicQuestion).Reference(t=>t.Topic).LoadAsync();
 
         }
 
-        public async Task  CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion)
+        
+        public async Task CertificateTopicsLoad(CertificateTopicQuestion ctq)
         {
-            _context.Entry(certificateTopicQuestion).Reference(e=>e.CertificateTopic).Load();
+            await _context.Entry(ctq).Reference(c => c.CertificateTopic).Query().Include(cert=>cert.Certificate).LoadAsync();
 
         }
     }
