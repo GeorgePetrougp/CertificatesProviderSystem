@@ -68,5 +68,11 @@ namespace WebApp.Services
 
             return null;
         }
+
+        public Task<CertificateTopicQuestion> UpdateCertificateTopicQuestionAsync(CertificateTopic erticateTopic, TopicQuestion topicQuestion)
+        {
+
+            throw new NotImplementedException();
+        }
     }
 }

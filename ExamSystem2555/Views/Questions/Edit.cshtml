@@ -1,8 +1,10 @@
-﻿@model MyDatabase.Models.Question
+﻿@model WebApp.DTO_Models.EditQuestionView
 
 @{
     ViewData["Title"] = "Edit";
 }
+<script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
+<script src="https://cdn.ckbox.io/CKBox/1.3.0-rc.0/ckbox.js"></script>
 
 <h1>Edit</h1>
 
@@ -12,15 +14,102 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="QuestionId" />
+            <input type="hidden" asp-for="EditQuestionId" />
             <div class="form-group">
-                <label asp-for="Display" class="control-label"></label>
-                <input asp-for="Display" class="form-control" />
-                <span asp-validation-for="Display" class="text-danger"></span>
+                <label asp-for="EditQuestionDisplay" class="control-label"></label>
+                <textarea asp-for="EditQuestionDisplay" class="form-control" id="editor"></textarea>
+                <span asp-validation-for="EditQuestionDisplay" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="EditDifficultyLevel" class="control-label">Current Difficulty Level</label>
+                <input asp-for="EditDifficultyLevel" class="form-control" disabled value="@Model.EditDifficultyLevel" />
+                <span asp-validation-for="EditDifficultyLevel" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="EditDifficulty.SelectedId" class="control-label fw-bold">Difficulty</label>
+                <select asp-for="EditDifficulty.SelectedId" class="form-select" asp-items="@Model.EditDifficulty.Difficulties"><option readonly selected class="text-muted">Choose difficulty level</option></select>
+                <span asp-validation-for="EditDifficulty.SelectedId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @{
+                    var i = 0;
+                    foreach (var item in Model.AnswerViews)
+                    {
+                        <div class="form-group">
+                            <label asp-for="@item.IsCorrect" class="control-label fw-bold">Correct</label>
+                            <input asp-for="@item.IsCorrect" name="Correct" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)" />
+                            <label asp-for="@item" class="control-label fw-bold">Answer</label>
+                            <textarea asp-for="@item.Answer" class="form-control" id="ans@(i+1)"></textarea>
+                            <span asp-validation-for="@item.Answer" class="text-danger"></span><br />
+                        </div>
+                        i++;
+                    }
+                }
+            </div>
+
+        <dt>Current Topics</dt>
+        <dd>
+
+                @foreach (var topicId in Model.Topics)
+                {
+                    if (topicId == null)
+                    {
+                    <ul>
+                        <li>No Topics</li>
+
+                    </ul>
+                    }
+                    else
+                    {
+                    <ul>
+                        <li>@topicId.Title</li>
+                    </ul>
+                    }
+
+                }
+
+        </dd>
+
+        <div class="form-group form-label mt-4" id="topicSelect">
+            <label asp-for="TopicIds"></label>
+            <select asp-for="TopicIds" asp-items="Model.TopicsList"></select>
+            <span asp-validation-for="TopicIds" class="text-danger"></span>
+        </div>
+
+
+        <dt>Current Certificates</dt>
+        <dd>
+
+                @foreach (var cert in Model.Certificates)
+                {
+                    if (cert == null)
+                    {
+
+                    <h6>NO CERT</h6>
+
+                    }
+                    else
+                    {
+                    <ul>
+                        <li>@cert.Title</li>
+                    </ul>
+                    }
+
+                }
+
+        </dd>
+
+        <div class="form-group form-label mt-4" id="certificatesForm">
+            <label asp-for="CertificateIds"></label>
+            <select asp-for="CertificateIds" asp-items="Model.CertificateList"></select>
+            <span asp-validation-for="CertificateIds" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
         </form>
     </div>
 </div>
@@ -30,5 +119,49 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            ckbox: {
+                tokenUrl: 'https://95153.cke-cs.com/token/dev/0220f230518b20a34681e88f7e10941b4aa959b16e5fd9c5f0088ea8e6c8?limit=10',
+            },
+            toolbar: [
+                'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
+            ],
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
+
+@{
+    var i = 0;
+    foreach (var item in Model.AnswerViews)
+    {
+
+        <script>
+
+            ClassicEditor
+                .create(document.querySelector('#ans@(i + 1)'), {
+                    ckbox: {
+                        tokenUrl: 'https://95153.cke-cs.com/token/dev/1e8402a0dff517a45e22cf007ffc706f9aa641e0bf6807fe94d694ff4598?limit=10',
+                    },
+                    toolbar: [
+                        'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
+                    ],
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
+        i++;
+    }
 }
