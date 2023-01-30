@@ -19,19 +19,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
                     @Html.Raw(item.Display)
-            </td>
-            <td>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit Display</a> |
+                    <a asp-action="EditAnswersIndex" asp-route-id="@item.QuestionId">Edit Answers</a> |
                     <a asp-action="EditQuestionTopicsIndex" asp-route-id="@item.QuestionId">Edit Topics</a> |
-                    <a asp-action="EditQuestionCertificatesIndex" asp-route-id="@item.QuestionId">Edit Certificate</a> |
-                <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
-            </td>
-        </tr>
-}
+                    <a asp-action="EditQuestionCertificatesIndex" asp-route-id="@item.QuestionId">Edit Certificate</a> ||
+                    <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

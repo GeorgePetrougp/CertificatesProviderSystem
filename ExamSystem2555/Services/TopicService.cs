@@ -46,5 +46,11 @@ namespace WebApp.Services
 
             return null;
         }
+
+        public async Task<IEnumerable<Topic>> SortTopicsById(IEnumerable<int> topicIds)
+        {
+            var sortedTopics = (await GetAllTopicsAsync()).Where(ci => topicIds.Contains(ci.TopicId)).ToList();
+            return sortedTopics;
+        }
     }
 }

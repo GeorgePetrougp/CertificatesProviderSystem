@@ -34,7 +34,6 @@ namespace WebApp
             builder.Services.AddScoped<IAsyncGenericRepository<TopicQuestion>, TopicQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopicQuestion>, CertificateTopicQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopic>, CertificateTopicRepository>();
-
             builder.Services.AddScoped<IAsyncGenericRepository<Certificate>, CertificateRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<ExamCandidateAnswer>, ExamCandidateAnswerRepository>();
             builder.Services.AddScoped<IQuestionService, QuestionService>();
@@ -42,29 +41,15 @@ namespace WebApp
             builder.Services.AddScoped<IQuestionPossibleAnswerService, QuestionPossibleAnswerService>();
             builder.Services.AddScoped<ITopicService, TopicService>();
             builder.Services.AddScoped<ICertificateTopicService, CertificateTopicService>();
-
             builder.Services.AddScoped<ITopicQuestionService, TopicQuestionService>();
             builder.Services.AddScoped<ICertificateTopicQuestionService, CertificateTopicQuestionService>();
             builder.Services.AddScoped<ICertificateService, CertificateService>();
             builder.Services.AddScoped<IQuestionViewService, QuestionViewService>();
             builder.Services.AddScoped<IQuestionManagerService, QuestionManagerService>();
             builder.Services.AddScoped<IExamCandidateAnswerService, ExamCandidateAnswerService>();
-
-
-
             builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
 
-
-
-
-
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
-
-
-
-
 
             var app = builder.Build();
 

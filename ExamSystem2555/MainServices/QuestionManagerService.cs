@@ -140,33 +140,6 @@ namespace WebApp.MainServices
             await QuestionService.AddQuestionAsync(newQuestion);
         }
 
-        private async Task<TopicQuestion> Test(Question newQuestion)
-        {
-            var myTopicQuestion = new TopicQuestion
-            {
-                Question = newQuestion,
-                Topic = null
-            };
-            await TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
-            return myTopicQuestion;
-
-        }
-
-        private async Task Test(Question newQuestion, IEnumerable<int> topicIds)
-        {
-
-            //var topicIds = question.TopicView.SelectedTopicIds.ToList();
-
-            foreach (var topicId in topicIds)
-            {
-                var myTopicQuestion = new TopicQuestion
-                {
-                    Question = newQuestion,
-                    Topic = await TopicService.GetTopicByIdAsync(topicId)
-                };
-                await TopicQuestionService.AddTopicQuestionAsync(myTopicQuestion);
-            }
-        }
 
         public async Task QuestionLoad(Question question)
         {
@@ -177,7 +150,7 @@ namespace WebApp.MainServices
         public async Task QuestionAnswerLoad(QuestionPossibleAnswer answer)
         {
 
-            _context.Entry(answer).Reference(q => q.Question).Load();
+             await _context.Entry(answer).Reference(q => q.Question).LoadAsync();
         }
 
         public async Task TopicQuestionLoad(TopicQuestion topicQuestion)
@@ -186,12 +159,16 @@ namespace WebApp.MainServices
             await _context.Entry(topicQuestion).Reference(t=>t.Topic).LoadAsync();
 
         }
-
         
         public async Task CertificateTopicsLoad(CertificateTopicQuestion ctq)
         {
             await _context.Entry(ctq).Reference(c => c.CertificateTopic).Query().Include(cert=>cert.Certificate).LoadAsync();
 
+        }
+
+        public Task CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion)
+        {
+            throw new NotImplementedException();
         }
     }
 }

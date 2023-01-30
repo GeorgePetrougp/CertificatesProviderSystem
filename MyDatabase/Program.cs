@@ -216,7 +216,7 @@ namespace MyDatabase
                 new Question {Display="Question7", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
                 new Question {Display="Question8", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
                 new Question {Display="Question9", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
-                new Question {Display="Question7", QuestionDifficulty=context.QuestionDifficulties.Find(3) },
+                new Question {Display="Question10", QuestionDifficulty=context.QuestionDifficulties.Find(3) }
             };
 
             context.Questions.AddRange(dummyQuestions);
@@ -287,25 +287,40 @@ namespace MyDatabase
 
             IList<CertificateTopic> certificateTopics = new List<CertificateTopic>()
             {
-                new CertificateTopic
+                new CertificateTopic//1
                 {
                     Certificate=context.Certificates.Find(1),
                     Topic=context.Topics.Find(1)
                 },
-                new CertificateTopic
+                new CertificateTopic//2
                 {
                     Certificate=context.Certificates.Find(1),
                     Topic=context.Topics.Find(2)
                 },
-                new CertificateTopic
+                new CertificateTopic//3
                 {
                     Certificate=context.Certificates.Find(1),
                     Topic=context.Topics.Find(3)
                 },
-                new CertificateTopic
+                new CertificateTopic//4
                 {
                     Certificate=context.Certificates.Find(1),
                     Topic=null
+                },
+                new CertificateTopic//5
+                {
+                    Certificate=context.Certificates.Find(3),
+                    Topic=context.Topics.Find(4)
+                },
+                new CertificateTopic//6
+                {
+                    Certificate=context.Certificates.Find(3),
+                    Topic=context.Topics.Find(5)
+                },
+                new CertificateTopic//7
+                {
+                    Certificate=context.Certificates.Find(3),
+                    Topic=context.Topics.Find(6)
                 }
             };
 
@@ -331,23 +346,33 @@ namespace MyDatabase
                 },
                 new TopicQuestion
                 {
-                    Topic= context.Topics.Find(2),
+                    Topic= context.Topics.Find(3),
                     Question= context.Questions.Find(4)
                 },
-                new TopicQuestion
+                new TopicQuestion //5
                 {
-                    Topic= context.Topics.Find(3),
+                    Topic= context.Topics.Find(4),
                     Question= context.Questions.Find(5)
                 },
-                new TopicQuestion
+                new TopicQuestion //6
                 {
-                    Topic= context.Topics.Find(3),
+                    Topic= context.Topics.Find(4),
                     Question= context.Questions.Find(6)
+                },
+                new TopicQuestion //7
+                {
+                    Topic= context.Topics.Find(5),
+                    Question= context.Questions.Find(7)
+                },
+                new TopicQuestion//8
+                {
+                    Topic= context.Topics.Find(6),
+                    Question=context.Questions.Find(8)
                 },
                 new TopicQuestion
                 {
                     Topic= null,
-                    Question=context.Questions.Find(7)
+                    Question=context.Questions.Find(9)
                 }
             };
 
@@ -368,28 +393,38 @@ namespace MyDatabase
                 },
                 new CertificateTopicQuestion
                 {
-                    CertificateTopic = context.CertificateTopics.Find(1),
+                    CertificateTopic = context.CertificateTopics.Find(2),
                     TopicQuestion= context.TopicQuestions.Find(3)
                 },
                 new CertificateTopicQuestion
                 {
-                    CertificateTopic = context.CertificateTopics.Find(1),
-                    TopicQuestion= context.TopicQuestions.Find(7)
-                },
-                new CertificateTopicQuestion
-                {
-                    CertificateTopic= context.CertificateTopics.Find(2),
-                    TopicQuestion= context.TopicQuestions.Find(1)
-                },
-                new CertificateTopicQuestion
-                {
-                    CertificateTopic = context.CertificateTopics.Find(2),
+                    CertificateTopic = context.CertificateTopics.Find(3),
                     TopicQuestion= context.TopicQuestions.Find(4)
                 },
                 new CertificateTopicQuestion
                 {
-                    CertificateTopic = context.CertificateTopics.Find(2),
+                    CertificateTopic= context.CertificateTopics.Find(4),
+                    TopicQuestion= context.TopicQuestions.Find(9)
+                },
+                new CertificateTopicQuestion
+                {
+                    CertificateTopic = context.CertificateTopics.Find(5),
+                    TopicQuestion= context.TopicQuestions.Find(5)
+                },
+                new CertificateTopicQuestion
+                {
+                    CertificateTopic = context.CertificateTopics.Find(5),
+                    TopicQuestion= context.TopicQuestions.Find(6)
+                },
+                new CertificateTopicQuestion
+                {
+                    CertificateTopic = context.CertificateTopics.Find(6),
                     TopicQuestion= context.TopicQuestions.Find(7)
+                },
+                new CertificateTopicQuestion
+                {
+                    CertificateTopic = context.CertificateTopics.Find(7),
+                    TopicQuestion= context.TopicQuestions.Find(8)
                 }
             };
 
@@ -400,6 +435,9 @@ namespace MyDatabase
             {
                 new Examination {Certificate=context.Certificates.Find(1)},
                 new Examination {Certificate=context.Certificates.Find(1)},
+                new Examination {Certificate=context.Certificates.Find(3)},
+                new Examination {Certificate=context.Certificates.Find(3)}
+
             };
 
             context.Examinations.AddRange(examinations);
@@ -441,13 +479,8 @@ namespace MyDatabase
                 },
                 new ExaminationQuestion
                 {
-                    Examination =context.Examinations.Find(1),
-                    CertificateTopicQuestion =context.CertificateTopicQuestions.Find(4)
-                },
-                new ExaminationQuestion
-                {
                     Examination =context.Examinations.Find(2),
-                    CertificateTopicQuestion =context.CertificateTopicQuestions.Find(2)
+                    CertificateTopicQuestion =context.CertificateTopicQuestions.Find(3)
                 },
                 new ExaminationQuestion
                 {
@@ -457,7 +490,26 @@ namespace MyDatabase
                 new ExaminationQuestion
                 {
                     Examination =context.Examinations.Find(2),
+                    CertificateTopicQuestion =context.CertificateTopicQuestions.Find(5)
+                },
+                new ExaminationQuestion
+                {
+                    Examination =context.Examinations.Find(3),
+                    CertificateTopicQuestion =context.CertificateTopicQuestions.Find(6)
+                },
+                new ExaminationQuestion
+                {
+                    Examination =context.Examinations.Find(3),
                     CertificateTopicQuestion =context.CertificateTopicQuestions.Find(7)
+                },
+                new ExaminationQuestion
+                {
+                    Examination =context.Examinations.Find(4),
+                    CertificateTopicQuestion =context.CertificateTopicQuestions.Find(8)
+                },new ExaminationQuestion
+                {
+                    Examination =context.Examinations.Find(4),
+                    CertificateTopicQuestion =context.CertificateTopicQuestions.Find(9)
                 }
             };
 
@@ -486,14 +538,8 @@ namespace MyDatabase
                     CorrectAnswer="2",
                     CandidateExam=context.CandidateExams.Find(1),
                     CertificateTopicQuestion=context.CertificateTopicQuestions.Find(3)
-                },
-                new ExamCandidateAnswer
-                {
-                    SelectedAnswer="4",
-                    CorrectAnswer="4",
-                    CandidateExam=context.CandidateExams.Find(1),
-                    CertificateTopicQuestion=context.CertificateTopicQuestions.Find(7)
-                },
+                }
+                
             };
 
             context.ExamCandidateAnswers.AddRange(examCandidateAnswers);

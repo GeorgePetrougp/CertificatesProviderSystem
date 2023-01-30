@@ -6,6 +6,8 @@
 
 <h1>Edit Topics</h1>
 <h1>@Model.QuestionId</h1>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input type="hidden" asp-for="QuestionId" />
 
 <p>
     <a asp-action="AddQuestionTopic" asp-route-id="@Model.QuestionId">Add Topic</a>

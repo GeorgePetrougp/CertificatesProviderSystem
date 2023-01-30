@@ -5,10 +5,10 @@
 <h2>Add Topics</h2>
 <h1>@Model.QuestionId</h1>
 
-<form asp-action="AddQuestionTopic">
+<form asp-action="AddQuestionTopicPost">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="QuestionId" />
-<div class="form-group form-label mt-4" id="topicSelect">
+    <div class="form-group form-label mt-4" id="topicSelect">
         <label asp-for="SelectedTopicIds"></label>
         <select asp-for="SelectedTopicIds" asp-items="Model.TopicsList"></select>
         <span asp-validation-for="SelectedTopicIds" class="text-danger"></span>
@@ -16,5 +16,5 @@
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
-</div>
+    </div>
 </form>

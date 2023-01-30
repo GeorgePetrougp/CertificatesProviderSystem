@@ -9,6 +9,8 @@ namespace WebApp.Services
         Task<Topic> AddTopicAsync(Topic entity);
         Task<Topic> UpdateTopicAsync(Topic entity);
         Task DeleteTopicAsync(int? id);
+        Task<IEnumerable<Topic>> SortTopicsById(IEnumerable<int> topicIds);
+
         string CheckNull(Topic entity);
     }
 }

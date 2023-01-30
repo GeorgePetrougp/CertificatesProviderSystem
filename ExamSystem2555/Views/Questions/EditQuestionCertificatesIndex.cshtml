@@ -5,6 +5,8 @@
 }
 
 <h1>Edit Certificates</h1>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input type="hidden" asp-for="QuestionId" />
 
 <p>
     <a asp-action="AddQuestionCertificate" asp-route-id="@Model.QuestionId">Add Certificate</a>

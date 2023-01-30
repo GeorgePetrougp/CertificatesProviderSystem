@@ -113,10 +113,6 @@ namespace WebApp.Controllers
                 //newQuestion.QuestionDifficulty.QuestionDifficultyId = question.Difficulty.SelectedId;
                 newQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
                 newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
-                //await _service.QuestionService.AddQuestionAsync(newQuestion);
-
-
-
 
                 var topicIds = question.TopicView.SelectedTopicIds;
                 var certificatesId = question.CertificatesView.SelectedCertificateIds;
@@ -127,11 +123,22 @@ namespace WebApp.Controllers
                     var newTopicQuestion = new TopicQuestion { Question = newQuestion, Topic = null };
 
                     var selectedCertificates = (await _service.CertificateService.SortCertificatesById(certificatesId)).ToList();
+                    var ct = (await _service.CertificateTopicService.GetAllCertificateTopicsAsync()).ToList();
+
+
+
+                    //foreach (var item in ct)
+                    //{
+                    //    if (item.Certificate == selectedCertificates && item.Topic ==null)
+                    //    {
+                    //        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(item,newTopicQuestion);
+                    //    }
+                    //}
                     selectedCertificates.ForEach(sc => _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sc, Topic = null }, newTopicQuestion));
                 }
                 else
                 {
-                    var selectedTopics = (await _service.TopicService.GetAllTopicsAsync()).Where(ti => topicIds.Contains(ti.TopicId)).ToList();
+                    var selectedTopics = await _service.TopicService.SortTopicsById(topicIds);
                     var newTopicQuestionList = selectedTopics.Select(t => new TopicQuestion { Topic = t, Question = newQuestion });
 
 
@@ -166,8 +173,7 @@ namespace WebApp.Controllers
 
             var question = await _service.QuestionService.GetQuestionByIdAsync(id);
             var difficulties = await _service.QuestionDifficultyService.GetAllDifficultiesAsync();
-            var topics = await _service.TopicService.GetAllTopicsAsync();
-            var certificates = await _service.CertificateService.GetAllCertificatesAsync();
+
             await _service.QuestionLoad(question);
 
             EditQuestionView editModel = new EditQuestionView()
@@ -178,44 +184,6 @@ namespace WebApp.Controllers
 
             };
             editModel.EditDifficulty.Difficulties = new SelectList(difficulties, "QuestionDifficultyId", "Difficulty");
-            editModel.TopicsList = new MultiSelectList(topics, "TopicId", "Title");
-            editModel.CertificateList = new MultiSelectList(certificates, "CertificateId", "Title");
-            var currentAnswers = (await _service.AnswerService.GetAllAnswersAsync()).Where(ca => ca.Question == question).ToList();
-
-            foreach (var item in currentAnswers)
-            {
-                editModel.AnswerViews.Add(
-
-                    new AnswerView
-                    {
-                        QAnswerId = item.Question.QuestionId,
-                        Answer = item.PossibleAnswer,
-                        IsCorrect = item.IsCorrect
-                    });
-            }
-            var currentTopicQuestions = (await _service.TopicQuestionService.GetAllTopicQuestionsAsync()).Where(tq => tq.Question == question);
-
-            foreach (var topicQuestion in currentTopicQuestions)
-            {
-                var currentTopic = (await _service.TopicService.GetAllTopicsAsync()).Where(t => t.TopicId == topicQuestion.Topic.TopicId);
-                editModel.Topics.AddRange(currentTopic);
-
-            }
-
-            var certificateTopicQuestions = await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync();
-
-            foreach (var certificateTopicQuestion in certificateTopicQuestions)
-            {
-                foreach (var topicQuestion in currentTopicQuestions)
-                {
-                    if (certificateTopicQuestion.TopicQuestion == topicQuestion)
-                    {
-                        await _service.CertificateTopicsLoad(certificateTopicQuestion);
-                        var currentCqertificate = (await _service.CertificateService.GetAllCertificatesAsync()).Where(t => t.CertificateId == certificateTopicQuestion.CertificateTopic.Certificate.CertificateId);
-                        editModel.Certificates.AddRange(currentCqertificate);
-                    }
-                }
-            }
 
             if (question == null)
             {
@@ -243,7 +211,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    await _service.QuestionService.UpdateQuestionAsync(newQue
+                    await _service.QuestionService.UpdateQuestionAsync(newQuestion);
 
                     await _service.SaveChanges();
 
@@ -260,32 +228,18 @@ namespace WebApp.Controllers
                     }
                 }
 
-                return RedirectToAction("EditTopicsAndCertificates", "Questions", new { id = newQuestion.QuestionId });
-                return RedirectToAction("EditAnswersIndex", "Questions", new { id = newQuestion.QuestionId});
+                return RedirectToAction(nameof(Index));
+
             }
             return View(question);
         }
 
 
-        // GET: Questions/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _service.QuestionService == null)
-            {
-                return NotFound();
-            }
 
-            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
-            if (question == null)
-            {
-                return NotFound();
-            }
-
-            return View(question);
-        }
 
         public async Task<IActionResult> EditAnswersIndex(int? id)
         {
+            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
             var answers = (await _service.AnswerService.GetAllAnswersAsync()).ToList();
             answers.ForEach(a => _service.QuestionAnswerLoad(a));
             return View(answers.Where(x => x.Question.QuestionId == id));
@@ -309,25 +263,19 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditSelectedAnswer(int id,[FromForm] QuestionPossibleAnswer questionPossibleAnswer)
+        public async Task<IActionResult> EditSelectedAnswer(int id, [FromForm] QuestionPossibleAnswer questionPossibleAnswer)
         {
             if (id != questionPossibleAnswer.QuestionPossibleAnswerId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            await _service.AnswerService.UpdateAnswerAsync(questionPossibleAnswer);
+            await _service.SaveChanges();
 
 
-                await _service.AnswerService.UpdateAnswerAsync(questionPossibleAnswer);
-                await _service.SaveChanges();
+            return RedirectToAction(nameof(Index));
 
-
-                return RedirectToAction(nameof(Index));
-            }
-            
-            return View(ModelState);
         }
 
         // POST: Questions/Delete
@@ -376,17 +324,45 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AddQuestionTopic(EditQuestionTopicView model)
+        public async Task<IActionResult> AddQuestionTopic(int? id, EditQuestionTopicView model)
         {
-            var topics = await _service.TopicService.GetAllTopicsAsync();
-            model.TopicsList = new MultiSelectList(topics, "TopicId", "Title");
+
+            var myQuestion = await _service.QuestionService.GetQuestionByIdAsync(id);
+
+            var topicQuestions = (await _service.TopicQuestionService.GetAllTopicQuestionsAsync()).Where(x => x.Question == myQuestion);
+
+            List<Topic> sortedTopics = new List<Topic>();
+            foreach (var item in topicQuestions)
+            {
+                await _service.TopicQuestionLoad(item);
+                if (item.Topic != null)
+                {
+                    sortedTopics.Add(item.Topic);
+                }
+            }
+
+            List<Topic> final = new List<Topic>();
+
+
+            var x = await _service.TopicService.GetAllTopicsAsync();
+
+            foreach (var topic in sortedTopics)
+            {
+                foreach (var item in x)
+                {
+                    if (topic != item)
+                        final.Add(item);
+                }
+            }
+
+            model.TopicsList = new MultiSelectList(final, "TopicId", "Title");
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> AddQuestionTopic(int? id, [FromForm] EditQuestionTopicView model)
+        public async Task<IActionResult> AddQuestionTopicPost(int? id, [FromForm] EditQuestionTopicView model)
         {
 
             var question = await _service.QuestionService.GetQuestionByIdAsync(id);
@@ -464,17 +440,49 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AddQuestionCertificate(EditQuestionCertificateView model)
+        public async Task<IActionResult> AddQuestionCertificate(int? id, EditQuestionCertificateView model)
         {
-            var certificates = await _service.CertificateService.GetAllCertificatesAsync();
-            model.CertificatesList = new MultiSelectList(certificates, "CertificateId", "Title");
+            var myQuestion = await _service.QuestionService.GetQuestionByIdAsync(id);
+
+            var topicQuestion = (await _service.TopicQuestionService.GetAllTopicQuestionsAsync()).First(x => x.Question == myQuestion);
+
+            var ctq = await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync();
+
+            var myCt = new List<Certificate>();
+
+
+            foreach (var item in ctq)
+            {
+                await _service.CertificateTopicsLoad(item);
+                if (item.TopicQuestion == topicQuestion)
+                {
+                    myCt.Add(item.CertificateTopic.Certificate);
+                }
+            }
+
+            List<Certificate> sortedCertificates = new List<Certificate>();
+            var ct = await _service.CertificateService.GetAllCertificatesAsync();
+
+            foreach (var certificate in ct)
+            {
+                foreach (var item in myCt)
+                {
+                    if (certificate != item)
+                    {
+                        sortedCertificates.Add(certificate);
+                    }
+
+                }
+            }
+
+            model.CertificatesList = new MultiSelectList(sortedCertificates, "CertificateId", "Title");
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> AddQuestionCertificate(int? id, [FromForm] EditQuestionCertificateView model)
+        public async Task<IActionResult> AddQuestionCertificatePost(int? id, [FromForm] EditQuestionCertificateView model)
         {
 
             var question = await _service.QuestionService.GetQuestionByIdAsync(id);
@@ -519,14 +527,14 @@ namespace WebApp.Controllers
                 if (certificateTopicsList.Count == 0)
                 {
 
-                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sortedCertificate, Topic = null }, myNewTopicQuestion);
+                    await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sortedCertificate, Topic = null }, myNewTopicQuestion);
 
                 }
                 else
                 {
                     foreach (var certificateTopic in certificateTopicsList)
                     {
-                    await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(certificateTopic, myNewTopicQuestion);
+                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(certificateTopic, myNewTopicQuestion);
 
                     }
                 }
@@ -540,6 +548,23 @@ namespace WebApp.Controllers
 
 
 
+        }
+
+        // GET: Questions/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _service.QuestionService == null)
+            {
+                return NotFound();
+            }
+
+            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+            if (question == null)
+            {
+                return NotFound();
+            }
+
+            return View(question);
         }
 
 
