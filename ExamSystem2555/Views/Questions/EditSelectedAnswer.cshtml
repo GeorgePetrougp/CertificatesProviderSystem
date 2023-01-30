@@ -1,19 +1,19 @@
 ﻿@model MyDatabase.Models.QuestionPossibleAnswer
 
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
+<script src="https://cdn.ckbox.io/CKBox/1.3.0-rc.0/ckbox.js"></script>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditSelectedAnswer">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="QuestionPossibleAnswerId" />
             <div class="form-group">
+                <label asp-for="IsCorrect" class="control-label"></label>
+                <input class="form-check-input" asp-for="IsCorrect" /> @Html.DisplayNameFor(model => model.IsCorrect)
                 <label asp-for="PossibleAnswer" class="control-label"></label>
-                <input asp-for="PossibleAnswer" class="form-control" />
+                <textarea asp-for="PossibleAnswer" class="form-control" id="answer"></textarea>
                 <span asp-validation-for="PossibleAnswer" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsCorrect" /> @Html.DisplayNameFor(model => model.IsCorrect)
-                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -21,3 +21,20 @@
         </form>
     </div>
 </div>
+
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#answer'), {
+            ckbox: {
+                tokenUrl: 'https://95153.cke-cs.com/token/dev/0220f230518b20a34681e88f7e10941b4aa959b16e5fd9c5f0088ea8e6c8?limit=10',
+            },
+            toolbar: [
+                'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
+            ],
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
