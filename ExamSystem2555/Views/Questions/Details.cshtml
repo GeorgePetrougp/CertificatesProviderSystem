@@ -13,53 +13,42 @@
     <dt>Difficulty</dt>
     <dd>@Model.QuestionDifficulty</dd>
 
-    <dt>Topics</dt>
-    <dd>
-        
-        
-            @foreach (var topicId in Model.Topics)
-            {
-                if(topicId == null)
-                {
-                    <ul>
-                    <li>No Topics</li>
 
-                    </ul>
-                }
-                else
-                {
-                    <ul>
-                    <li>@topicId.Title</li>
-                    </ul>
-                }
-                
-            }
-        
-        
-    </dd>
+
+    <dt>Topics</dt>
+    @if (Model.Topics.Count == 0)
+    {
+        <dd>
+            <ul>
+                <li>No Topics</li>
+            </ul>
+        </dd>
+    }
+    else
+    {
+        foreach (var topic in Model.Topics)
+        {
+
+            <ul>
+                <li>@topic.Title</li>
+            </ul>
+
+
+        }
+
+    }
+
     <dt>Certificates</dt>
     <dd>
-        
-            @foreach (var cert in Model.Certificates)
-            {
-                if(cert == null)
-                {
-                    
-                    <h6>NO CERT</h6>
-                    
-                }
-                else
-                {
-                    <ul>
-                    <li>@cert.Title</li>
-                    </ul>
-                }
-                
-            }
-        
+        @foreach (var cert in Model.Certificates)
+        {
+            <ul>
+                <li>@cert.Title</li>
+            </ul>
+        }
     </dd>
 
-    
+
 
     <dt>Answers</dt>
     <dd>
