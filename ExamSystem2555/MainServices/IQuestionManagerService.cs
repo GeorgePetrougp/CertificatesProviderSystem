@@ -23,7 +23,13 @@ namespace WebApp.MainServices
         public Task<Question> CreateNewQuestion(QuestionView question);
         public Task QuestionLoad(Question question);
         public Task TopicQuestionLoad(TopicQuestion topicQuestion);
+
+        public Task CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion);
+        public Task QuestionAnswerLoad(QuestionPossibleAnswer answer);
+
+
         public Task CertificateTopicsLoad(CertificateTopicQuestion ctq);
+
         public Task SaveChanges();
     }
 }

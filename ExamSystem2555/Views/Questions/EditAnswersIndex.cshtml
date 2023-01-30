@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MyDatabase.Models.QuestionPossibleAnswer>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PossibleAnswer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Raw(item.PossibleAnswer)
+                </td>
+                <td>
+                    @Html.Raw(item.IsCorrect)
+                </td>
+                <td>
+                    <a asp-action="EditSelectedAnswer" asp-route-id="@item.QuestionPossibleAnswerId">Edit</a> |
+@*                    <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -229,10 +229,11 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [FromForm] EditQuestionView question)
         {
-            var newQuestion = await _service.QuestionService.GetQuestionByIdAsync(question.EditQuestionId);
-            newQuestion = _mapper.Map<Question>(question);
+            //var newQuestion =await _service.QuestionService.GetQuestionByIdAsync(question.EditQuestionId);
+            var newQuestion = _mapper.Map<Question>(question);
             newQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.EditDifficulty.SelectedId);
- 
+
+
             if (id != newQuestion.QuestionId)
             {
                 return NotFound();
@@ -242,6 +243,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    await _service.QuestionService.UpdateQuestionAsync(newQue
 
                     await _service.SaveChanges();
 
@@ -257,85 +259,11 @@ namespace WebApp.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction("EditTopicsAndCertificates", "Questions", new { id = newQuestion.QuestionId });
+                return RedirectToAction("EditAnswersIndex", "Questions", new { id = newQuestion.QuestionId});
             }
             return View(question);
-        }
-
-
-
-        //Extra Edits For Question(Topics,Certificates)
-
-        public async Task<IActionResult> EditTopicsAndCertificates(int? id)
-        {
-
-            List<Topic> topicsList = new List<Topic>();
-            List<Certificate> certificateList = new List<Certificate>();
-
-            var allTopicQuestions = await _service.TopicQuestionService.GetAllTopicQuestionsAsync();
-            foreach (var tq in allTopicQuestions)
-            {
-                await _service.TopicQuestionLoad(tq);
-            }
-            var topicQuestions = allTopicQuestions.Where(tq => tq.Question.QuestionId == id);
-            foreach (var topicQuestion in topicQuestions)
-            {
-                var certificateTopicQuestions = (await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync()).Where(ctq => ctq.TopicQuestion == topicQuestion);
-                foreach (var certificateTopicQuestion in certificateTopicQuestions)
-                {
-                    await _service.CertificateTopicsLoad(certificateTopicQuestion);
-                    topicsList.Add(certificateTopicQuestion.CertificateTopic.Topic);
-                    certificateList.Add(certificateTopicQuestion.CertificateTopic.Certificate);
-
-                }
-            }
-            EditCertAndTopicsView model = new EditCertAndTopicsView()
-            {
-                CurrentCertificateList = certificateList,
-                CurrentTopicsList = topicsList
-            };
-
-
-            var topics = await _service.TopicService.GetAllTopicsAsync();
-            var certificates = await _service.CertificateService.GetAllCertificatesAsync();
-            model.TopicsList = new MultiSelectList(topics, "TopicId", "Title");
-            model.CertificateList = new MultiSelectList(certificates, "CertificateId", "Title");
-
-            return View(model);
-        }
-
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTopicsAndCertificates(int id, [FromForm] EditCertAndTopicsView model)
-        {
-            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
-            var topicQuestionsNoTopic = (await _service.TopicQuestionService.GetAllTopicQuestionsAsync()).Where(tq => tq.Question == question && tq.Topic == null).First();
-
-            var selectedCertificateIds = model.SelectedCertificates;
-
-            List<Certificate> certificates = new List<Certificate>();
-
-            foreach (var certificateId in selectedCertificateIds)
-            {
-                certificates.Add((await _service.CertificateService.GetAllCertificatesAsync()).Where(c => c.CertificateId == certificateId).SingleOrDefault());
-            }
-
-            foreach (var certificate in certificates)
-            {
-                var newCertificateTopic = new CertificateTopic()
-                {
-                    Certificate = certificate,
-                    Topic = null
-                };
-                await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(newCertificateTopic, topicQuestionsNoTopic);
-            }
-
-            await _service.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
-
         }
 
 
@@ -354,6 +282,52 @@ namespace WebApp.Controllers
             }
 
             return View(question);
+        }
+
+        public async Task<IActionResult> EditAnswersIndex(int? id)
+        {
+            var answers = (await _service.AnswerService.GetAllAnswersAsync()).ToList();
+            answers.ForEach(a => _service.QuestionAnswerLoad(a));
+            return View(answers.Where(x => x.Question.QuestionId == id));
+        }
+
+        public async Task<IActionResult> EditSelectedAnswer(int? id)
+        {
+            if (id == null || _service.QuestionService == null)
+            {
+                return NotFound();
+            }
+
+            var answer = await _service.AnswerService.GetAnswerByIdAsync(id);
+            if (answer == null)
+            {
+                return NotFound();
+            }
+
+            return View(answer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditSelectedAnswer(int id,[FromForm] QuestionPossibleAnswer questionPossibleAnswer)
+        {
+            if (id != questionPossibleAnswer.QuestionPossibleAnswerId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+
+
+                await _service.AnswerService.UpdateAnswerAsync(questionPossibleAnswer);
+                await _service.SaveChanges();
+
+
+                return RedirectToAction(nameof(Index));
+            }
+            
+            return View(ModelState);
         }
 
         // POST: Questions/Delete

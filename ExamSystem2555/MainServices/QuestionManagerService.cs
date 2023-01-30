@@ -174,6 +174,12 @@ namespace WebApp.MainServices
             await _context.Entry(question).Reference(q => q.QuestionDifficulty).LoadAsync();
         }
 
+        public async Task QuestionAnswerLoad(QuestionPossibleAnswer answer)
+        {
+
+            _context.Entry(answer).Reference(q => q.Question).Load();
+        }
+
         public async Task TopicQuestionLoad(TopicQuestion topicQuestion)
         {
             await _context.Entry(topicQuestion).Reference(t=>t.Question).LoadAsync();

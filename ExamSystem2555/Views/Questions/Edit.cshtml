@@ -30,34 +30,6 @@
                 <select asp-for="EditDifficulty.SelectedId" class="form-select" asp-items="@Model.EditDifficulty.Difficulties"><option readonly selected class="text-muted">Choose difficulty level</option></select>
                 <span asp-validation-for="EditDifficulty.SelectedId" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                @{
-                    var i = 0;
-                    foreach (var item in Model.AnswerViews)
-                    {
-                        <div class="form-group">
-                            <label asp-for="@item.IsCorrect" class="control-label fw-bold">Correct</label>
-                            <input asp-for="@item.IsCorrect" name="Correct" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)" />
-                            <label asp-for="@item" class="control-label fw-bold">Answer</label>
-                            <textarea asp-for="@item.Answer" class="form-control" id="ans@(i+1)"></textarea>
-                            <span asp-validation-for="@item.Answer" class="text-danger"></span><br />
-                        </div>
-                        i++;
-                    }
-                }
-            </div>
-
-       
-
-        
-
-
-        
-
-        
-
-
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
@@ -75,44 +47,3 @@
     }
 }
 
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'), {
-            ckbox: {
-                tokenUrl: 'https://95153.cke-cs.com/token/dev/0220f230518b20a34681e88f7e10941b4aa959b16e5fd9c5f0088ea8e6c8?limit=10',
-            },
-            toolbar: [
-                'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
-                'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
-            ],
-        })
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-
-
-@{
-    var j = 0;
-    foreach (var item in Model.AnswerViews)
-    {
-
-        <script>
-
-            ClassicEditor
-                .create(document.querySelector('#ans@(j + 1)'), {
-                    ckbox: {
-                        tokenUrl: 'https://95153.cke-cs.com/token/dev/1e8402a0dff517a45e22cf007ffc706f9aa641e0bf6807fe94d694ff4598?limit=10',
-                    },
-                    toolbar: [
-                        'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
-                        'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
-                    ],
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
-        j++;
-    }
-}
