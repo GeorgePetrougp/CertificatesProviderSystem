@@ -17,7 +17,7 @@
             <input type="hidden" asp-for="EditQuestionId" />
             <div class="form-group">
                 <label asp-for="EditQuestionDisplay" class="control-label"></label>
-                <textarea asp-for="EditQuestionDisplay" class="form-control" id="editor"></textarea>
+                <textarea asp-for="EditQuestionDisplay" class="form-control" id="display"></textarea>
                 <span asp-validation-for="EditQuestionDisplay" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,6 +40,24 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#display'), {
+            ckbox: {
+                tokenUrl: 'https://95153.cke-cs.com/token/dev/0220f230518b20a34681e88f7e10941b4aa959b16e5fd9c5f0088ea8e6c8?limit=10',
+            },
+            toolbar: [
+                'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                'blockQuote', 'indent', 'link', '|', 'bulletedList', 'numberedList'
+            ],
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 
 @section Scripts {
     @{
