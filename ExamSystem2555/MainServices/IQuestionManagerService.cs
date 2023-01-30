@@ -24,6 +24,8 @@ namespace WebApp.MainServices
         public Task QuestionLoad(Question question);
         public Task TopicQuestionLoad(TopicQuestion topicQuestion);
         public Task CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion);
+        public Task QuestionAnswerLoad(QuestionPossibleAnswer answer);
+
         public Task SaveChanges();
     }
 }
