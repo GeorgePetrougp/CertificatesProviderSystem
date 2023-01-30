@@ -1,0 +1,38 @@
+﻿@model WebApp.DTO_Models.EditQuestionTopicView
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Edit Topics</h1>
+<h1>@Model.QuestionId</h1>
+
+<p>
+    <a asp-action="AddQuestionTopic" asp-route-id="@Model.QuestionId">Add Topic</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Topic
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Topics)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.TopicId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

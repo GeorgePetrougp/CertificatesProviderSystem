@@ -1,0 +1,74 @@
+﻿@model WebApp.DTO_Models.EditCertAndTopicsView
+
+<h2>Edit Certificates And Topics</h2>
+
+
+
+<dt>Current Topics</dt>
+<dd>
+    @if(Model.CurrentTopicsList != null)
+    {
+        foreach (var topicId in Model.CurrentTopicsList)
+    {
+        if (topicId == null)
+        {
+            <ul>
+                <li>No Topics</li>
+
+            </ul>
+        }
+        else
+        {
+            <ul>
+                <li>@topicId.Title</li>
+            </ul>
+        }
+    }
+    }
+    
+</dd>
+
+
+
+<dt>Current Certificates</dt>
+<dd>
+    @if (Model.CurrentCertificateList != null)
+    {
+        foreach (var cert in Model.CurrentCertificateList)
+    {
+        if (cert == null)
+        {
+
+            <h6>NO CERT</h6>
+
+        }
+        else
+        {
+            <ul>
+                <li>@cert.Title</li>
+            </ul>
+        }
+
+    }
+    }
+    
+
+</dd>
+
+<form asp-action="EditTopicsAndCertificates">
+<div class="form-group form-label mt-4" id="topicSelect">
+        <label asp-for="SelectedTopics"></label>
+        <select asp-for="SelectedTopics" asp-items="Model.TopicsList"></select>
+        <span asp-validation-for="SelectedTopics" class="text-danger"></span>
+</div>
+
+<div class="form-group form-label mt-4" id="certificatesForm">
+        <label asp-for="SelectedCertificates"></label>
+        <select asp-for="SelectedCertificates" asp-items="Model.CertificateList"></select>
+        <span asp-validation-for="SelectedCertificates" class="text-danger"></span>
+</div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+    <a asp-action="Index">Back to List</a>
