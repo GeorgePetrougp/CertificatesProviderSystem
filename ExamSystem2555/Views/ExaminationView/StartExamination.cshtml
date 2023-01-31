@@ -70,7 +70,7 @@
         var answerList = document.getElementById("answer-list");
         answerList.innerHTML = "";
         for (var i = 0; i < questions[currentIndex].possibleAnswers.length; i++) {
-            var answer = questions[currentIndex].possibleAnswers[i].questionPossibleAnswer[i];
+            var answer = questions[currentIndex].possibleAnswers[i].questionPossibleAnswer;
             answerList.innerHTML += "<p>"+answer+"</p>";
             
         }
