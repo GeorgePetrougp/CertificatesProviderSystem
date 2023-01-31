@@ -1,0 +1,65 @@
+﻿@model WebApp.DTO_Models.Final.ExaminationQuestionView
+
+
+<h1 style="margin:0 auto;width:50%">ExamSystem</h1>
+
+<div>
+    <h3 id="h">Question @Model.CurrentQuestion.QuestionId:</h3>
+    <p id="p">@Model.CurrentQuestion.QuestionDisplay</p>
+    @*<ul>
+    <li>@Model.CurrentQuestion.Option1</li>
+    <li>@Model.CurrentQuestion.Option2</li>
+    <li>@Model.CurrentQuestion.Option3</li>
+    <li>@Model.CurrentQuestion.Option4</li>
+    </ul>*@
+    <button id="previous">Previous</button>
+    <button id="next">Next</button>
+</div>
+
+@*<form asp-action="StartExamination" style="width:auto; margin:auto;border: 1px solid black;padding: 10px;display: inline-block; ">
+
+    <div class="form-group">
+        <label asp-for="@Model." class="control-label">Question</label>
+        <div>@Html.Raw(Model.Question.Display)</div>
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="YES" class="btn btn-primary" />
+    </div>
+</form>*@
+
+
+<script>
+
+    var questions = @Html.Raw(Json.Serialize(Model.Questions));
+    var currentIndex = 0;
+
+    console.log(questions);
+    
+    //function myFunction() {
+    //    document.getElementById("h").innerText=questions[currentIndex].questionId;
+    //    document.getElementById("p").innerText=questions[currentIndex].questionDisplay;
+    //};
+
+
+
+    $("#previous").click(function () {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateQuestion();
+        }
+    });
+    $("#next").click(function () {
+        if (currentIndex < questions.length - 1) {
+            currentIndex++;
+            updateQuestion();
+        }
+    });
+    function updateQuestion() {
+
+        document.getElementById("h").innerText = questions[currentIndex].questionId;
+        document.getElementById("p").innerText=(questions[currentIndex].questionDisplay);
+    }
+</script>
+

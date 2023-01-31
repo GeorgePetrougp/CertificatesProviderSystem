@@ -4,6 +4,8 @@ using WebApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyDatabase.Models;
+using Microsoft.EntityFrameworkCore;
+using WebApp.DTO_Models.Final;
 
 namespace WebApp.Controllers
 {
@@ -23,49 +25,44 @@ namespace WebApp.Controllers
         }
 
         // GET: ExaminationViewController/Create
-        public async Task<ActionResult> CreateAsync()
+        public async Task<ActionResult> StartExamination()
         {
-            var examPage = new ExaminationView
+            var myExam = await _service.ExaminationService.GetExaminationByIdAsync(1);
+
+
+            var selectedExaminationQuestions = (await _service.ExamQuestionService.GetAllExaminationQuestionsAsync()).Where(e => e.Examination == myExam).ToList();
+            await _service.ExaminationQuestionLoad(selectedExaminationQuestions);
+            selectedExaminationQuestions.Select(x => x.CertificateTopicQuestion.TopicQuestion.Question).ToList();
+            List<Question> selectedQuestions = new List<Question>();
+            selectedExaminationQuestions.ForEach(x => selectedQuestions.Add(x.CertificateTopicQuestion.TopicQuestion.Question));
+
+            List<QuestionDTO> selectedQuestionDTOs = new List<QuestionDTO>();
+            foreach (var item in selectedQuestions) 
             {
-                
-                Question = new ExamQuestionView
-                {
-                    Display =  _service.QuestionService.GetQuestionByIdAsync(20).Result.Display,
-                    QuestionId = _service.QuestionService.GetQuestionByIdAsync(20).Result.QuestionId
-                },
-                AnswerA = new ExamAnswerView
-                {
-                    AnswerId = _service.AnswerService.GetAnswerByIdAsync(1).Result.QuestionPossibleAnswerId,
-                    Display = _service.AnswerService.GetAnswerByIdAsync(1).Result.PossibleAnswer
-                },
+                selectedQuestionDTOs.Add(new QuestionDTO { QuestionId = item.QuestionId, QuestionDisplay = item.Display });
+            }
+            //var xy = (await _service.AnswerService.GetAllAnswersAsync()).Where(b => b.Question == item).ToList();
+            //var posAnswers = _service.AnswerService.GetAllAnswersAsync();
 
-                AnswerB = new ExamAnswerView
-                {
-                    AnswerId = _service.AnswerService.GetAnswerByIdAsync(2).Result.QuestionPossibleAnswerId,
-                    Display = _service.AnswerService.GetAnswerByIdAsync(2).Result.PossibleAnswer
-                },
 
-                AnswerC = new ExamAnswerView
-                {
-                    AnswerId = _service.AnswerService.GetAnswerByIdAsync(3).Result.QuestionPossibleAnswerId,
-                    Display = _service.AnswerService.GetAnswerByIdAsync(3).Result.PossibleAnswer
-                },
 
-                AnswerD = new ExamAnswerView
-                {
-                    AnswerId = _service.AnswerService.GetAnswerByIdAsync(4).Result.QuestionPossibleAnswerId,
-                    Display = _service.AnswerService.GetAnswerByIdAsync(4).Result.PossibleAnswer
-                }
+            var myExamView = new ExaminationQuestionView()
+            {
+                Questions = selectedQuestionDTOs,
+                CurrentQuestion = selectedQuestionDTOs.FirstOrDefault()
 
             };
 
-            return View(examPage);
+            myExamView.Questions = selectedQuestionDTOs;
+           
+            return View(myExamView);
+
         }
 
         // POST: ExaminationViewController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(ExaminationView examinationView)
+        public async Task<ActionResult> StartExamination(ExaminationView examinationView)
         {
             var selectedAnswerList = new List<ExamAnswerView>();
             selectedAnswerList.Add(examinationView.AnswerA);
@@ -73,9 +70,9 @@ namespace WebApp.Controllers
             selectedAnswerList.Add(examinationView.AnswerC);
             selectedAnswerList.Add(examinationView.AnswerD);
             string finalAnswer = "";
-            foreach(var item in selectedAnswerList)
+            foreach (var item in selectedAnswerList)
             {
-                if(item.SelectedAnswer == true)
+                if (item.SelectedAnswer == true)
                 {
                     finalAnswer = item.Display;
                 }
