@@ -47,6 +47,7 @@ namespace WebApp.Controllers
                 possibleAnswers.ForEach(x=> possibleAnswersDTOs.Add(new QuestionPossibleAnswersDTO { QuestionPossibleAnswerId= x.QuestionPossibleAnswerId, QuestionPossibleAnswer=x.PossibleAnswer, IsAnswerCorrect=x.IsCorrect }));
 
                 selectedQuestionDTOs.Add(new QuestionDTO { QuestionId = item.QuestionId, QuestionDisplay = item.Display, PossibleAnswers = possibleAnswersDTOs});
+                possibleAnswers.Clear();
             }
 
 

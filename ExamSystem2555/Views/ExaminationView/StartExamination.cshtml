@@ -1,7 +1,6 @@
 ﻿@model WebApp.DTO_Models.Final.ExaminationQuestionView
 
 
-<form asp-action="" style="w"></form>
 
 
 <h1 style="margin:0 auto;width:50%">ExamSystem</h1>
@@ -10,38 +9,16 @@
     <h3 id="h">Question @Model.CurrentQuestion.QuestionId:</h3>
     <p id="p">@Model.CurrentQuestion.QuestionDisplay</p>
 
-
-
-
     <div id="answer-list">
-        
         @foreach (var item in Model.Questions[0].PossibleAnswers)
         {
-
             <p>@item.QuestionPossibleAnswer</p>
-        } 
+        }
     </div>
-
-
-
 
     <button id="previous">Previous</button>
     <button id="next">Next</button>
 </div>
-
-@*<form asp-action="StartExamination" style="width:auto; margin:auto;border: 1px solid black;padding: 10px;display: inline-block; ">
-
-    <div class="form-group">
-        <label asp-for="@Model." class="control-label">Question</label>
-        <div>@Html.Raw(Model.Question.Display)</div>
-    </div>
-
-
-    <div class="form-group">
-        <input type="submit" value="YES" class="btn btn-primary" />
-    </div>
-</form>*@
-
 
 <script>
 
@@ -67,20 +44,14 @@
         document.getElementById("h").innerText = "Question " + questions[currentIndex].questionId;
         document.getElementById("p").innerText = questions[currentIndex].questionDisplay;
 
-        var answerList = document.getElementById("answer-list");
-        answerList.innerHTML = "";
+        var answerList = document.querySelector("#answer-list");
+        answerList.innerText = "";
+
         for (var i = 0; i < questions[currentIndex].possibleAnswers.length; i++) {
-            var answer = questions[currentIndex].possibleAnswers[i].questionPossibleAnswer;
-            answerList.innerHTML += "<p>"+answer+"</p>";
-            
+            var answer = questions[currentIndex].possibleAnswers[i];
+            answerList.innerHTML += "<p>" + answer.questionPossibleAnswer + "</p>";
         }
 
-
-
-
     }
-
-
-
 </script>
 
