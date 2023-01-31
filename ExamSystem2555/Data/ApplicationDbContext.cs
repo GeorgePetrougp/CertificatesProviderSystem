@@ -25,6 +25,8 @@ namespace WebApp.Data
         public virtual DbSet<CandidateExam> CandidateExams { get; set; }
         public virtual DbSet<ExamCandidateAnswer> ExamCandidateAnswers { get; set; }
         public virtual DbSet<ExaminationQuestion> ExamQuestions { get; set; }
+        public virtual DbSet<CandidateExamResults> CandidateExamResults { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +56,14 @@ namespace WebApp.Data
                 .HasMany(tq => tq.CertificateTopicQuestions)
                 .WithOne(ctq => ctq.TopicQuestion)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CandidateExam>()
+        .HasOne(a => a.CandidateExamResults)
+        .WithOne(b => b.CandidateExam)
+        .HasForeignKey<CandidateExamResults>(b => b.CandidateExamId);
+
+
+
 
             base.OnModelCreating(modelBuilder);
         }

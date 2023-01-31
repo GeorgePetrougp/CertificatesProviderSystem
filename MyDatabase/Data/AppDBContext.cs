@@ -72,7 +72,7 @@ namespace MyDatabase.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLlocaldb;Initial Catalog=WebAppDB_Questions;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Server=pceplanner.anystream.eu,2555; Database=WebApp_Db4; User Id=sa;Password=SuperSecretPass2555;");
         }
 
     }
