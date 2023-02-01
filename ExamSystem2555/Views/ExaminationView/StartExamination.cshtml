@@ -1,57 +1,34 @@
 ﻿@model WebApp.DTO_Models.Final.ExaminationQuestionView
 
-
-
+<body >
 
 <h1 style="margin:0 auto;width:50%">ExamSystem</h1>
 
-<div>
-    <h3 id="h">Question @Model.CurrentQuestion.QuestionId:</h3>
-    <p id="p">@Model.CurrentQuestion.QuestionDisplay</p>
-
-    <div id="answer-list">
-        @foreach (var item in Model.Questions[0].PossibleAnswers)
-        {
-            <p>@item.QuestionPossibleAnswer</p>
-        }
-    </div>
-
+<form asp-action="">
+            
+            <div class="form-group" id="question"></div>
+            <div class="form-group" id="answers"></div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+</form>
     <button id="previous">Previous</button>
     <button id="next">Next</button>
-</div>
 
+</body>
+
+
+<script src="~/js/exams.js"></script>
 <script>
 
     var questions = @Html.Raw(Json.Serialize(Model.Questions));
-    var currentIndex = 0;
-
-
-    $("#previous").click(function () {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateQuestion();
-        }
-    });
-    $("#next").click(function () {
-        if (currentIndex < questions.length - 1) {
-            currentIndex++;
-            updateQuestion();
-        }
-    });
-    function updateQuestion() {
-
-        //document.getElementById("p").innerText=(questions[currentIndex].questionDisplay);
-        document.getElementById("h").innerText = "Question " + questions[currentIndex].questionId;
-        document.getElementById("p").innerText = questions[currentIndex].questionDisplay;
-
-        var answerList = document.querySelector("#answer-list");
-        answerList.innerText = "";
-
-        for (var i = 0; i < questions[currentIndex].possibleAnswers.length; i++) {
-            var answer = questions[currentIndex].possibleAnswers[i];
-            answerList.innerHTML += "<p>" + answer.questionPossibleAnswer + "</p>";
-        }
-
-    }
+    
 </script>
+
+
+
+
+
+
+
 

@@ -48,6 +48,7 @@ namespace WebApp.MainServices
             {
             await _context.Entry(item).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(y=>y.Question).LoadAsync();
 
+
             }
         }
     }

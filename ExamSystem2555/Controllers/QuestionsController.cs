@@ -241,8 +241,15 @@ namespace WebApp.Controllers
         {
             var question = await _service.QuestionService.GetQuestionByIdAsync(id);
             var answers = (await _service.AnswerService.GetAllAnswersAsync()).ToList();
-            answers.ForEach(a => _service.QuestionAnswerLoad(a));
-            return View(answers.Where(x => x.Question.QuestionId == id));
+            //answers.ForEach(async a => await _service.QuestionAnswerLoad(a));
+
+            foreach (var item in answers)
+            {
+                await _service.QuestionAnswerLoad(item);
+            }
+            var myAnswers = answers.Where(x => x.Question.QuestionId == id);
+
+            return View(myAnswers);
         }
 
         public async Task<IActionResult> EditSelectedAnswer(int? id)
