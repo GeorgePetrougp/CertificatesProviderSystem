@@ -72,7 +72,7 @@ namespace MyDatabase.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=pceplanner.anystream.eu,2555; Database=WebAppDB_Questions; User Id=sa;Password=SuperSecretPass2555;");
+            optionsBuilder.UseSqlServer(@"Server=pceplanner.anystream.eu,2555; Database=WebApp_Db4; User Id=sa;Password=SuperSecretPass2555;");
         }
 
     }

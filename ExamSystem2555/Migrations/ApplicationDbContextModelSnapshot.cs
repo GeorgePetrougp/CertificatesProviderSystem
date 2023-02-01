@@ -266,9 +266,6 @@ namespace WebApp.Migrations
                     b.Property<int?>("CandidateId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CandidateTotalScore")
-                        .HasColumnType("int");
-
                     b.Property<string>("ExamCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -279,13 +276,6 @@ namespace WebApp.Migrations
                     b.Property<int?>("ExaminationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ResultIssueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ResultLabel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("CandidateExamId");
 
                     b.HasIndex("CandidateId");
@@ -293,6 +283,35 @@ namespace WebApp.Migrations
                     b.HasIndex("ExaminationId");
 
                     b.ToTable("CandidateExams");
+                });
+
+            modelBuilder.Entity("MyDatabase.Models.CandidateExamResults", b =>
+                {
+                    b.Property<int>("CandidateExamResultsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidateExamResultsId"), 1L, 1);
+
+                    b.Property<int>("CandidateExamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CandidateTotalScore")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ResultIssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResultLabel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CandidateExamResultsId");
+
+                    b.HasIndex("CandidateExamId")
+                        .IsUnique();
+
+                    b.ToTable("CandidateExamResults");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.Certificate", b =>
@@ -717,6 +736,17 @@ namespace WebApp.Migrations
                     b.Navigation("Examination");
                 });
 
+            modelBuilder.Entity("MyDatabase.Models.CandidateExamResults", b =>
+                {
+                    b.HasOne("MyDatabase.Models.CandidateExam", "CandidateExam")
+                        .WithOne("CandidateExamResults")
+                        .HasForeignKey("MyDatabase.Models.CandidateExamResults", "CandidateExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CandidateExam");
+                });
+
             modelBuilder.Entity("MyDatabase.Models.Certificate", b =>
                 {
                     b.HasOne("MyDatabase.Models.Level", "Level")
@@ -849,6 +879,9 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExam", b =>
                 {
+                    b.Navigation("CandidateExamResults")
+                        .IsRequired();
+
                     b.Navigation("ExamCandidateAnswers");
                 });
 

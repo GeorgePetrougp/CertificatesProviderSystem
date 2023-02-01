@@ -449,17 +449,24 @@ namespace MyDatabase
                 {
                     ExamCode="A001",
                     ExamDate=new DateTime(2001-1-1),
-                    ResultIssueDate=new DateTime(2001-1-2),
-                    CandidateTotalScore=100,
                     Candidate=context.Candidates.Find(2),
                     Examination=context.Examinations.Find(1),
-                    ResultLabel="Pass"
+                    CandidateExamResults =new CandidateExamResults
+                    {
+
+                            ResultIssueDate=new DateTime(2001-1-2),
+                            CandidateTotalScore=100,
+                            ResultLabel="Pass"
+ 
+                    }
+ 
                 }
             };
 
             context.CandidateExams.AddRange(candidateExams);
             context.SaveChanges();
 
+            
             IList<ExaminationQuestion> examQuestions = new List<ExaminationQuestion>()
             {
                 new ExaminationQuestion

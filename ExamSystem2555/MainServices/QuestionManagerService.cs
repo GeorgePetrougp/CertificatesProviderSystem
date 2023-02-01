@@ -163,8 +163,12 @@ namespace WebApp.MainServices
         public async Task CertificateTopicsLoad(CertificateTopicQuestion ctq)
         {
             await _context.Entry(ctq).Reference(c => c.CertificateTopic).Query().Include(cert=>cert.Certificate).LoadAsync();
+            await _context.Entry(ctq).Reference(c => c.TopicQuestion).Query().Include(cert => cert.Question).LoadAsync();
+
 
         }
+
+
 
         public Task CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion)
         {
