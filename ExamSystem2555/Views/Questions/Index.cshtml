@@ -6,34 +6,41 @@
 
 <h1>Welcome</h1>
 
-<p>
-    <a type="button" class="btn btn-primary" asp-action="Create">Add</a>
-</p>
-<table class="table table-hover">
-    <thead>
+
+<table class="table table-hover width=80% table-light" style = "text-align: center">
+    <thead class="table-primary">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Display)
             </th>
-            <th></th>
+            <th>Edit Actions</th>
+            <th>Details</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+                <tr>
+                    <td>
                     @Html.Raw(item.Display)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit Display</a> |
-                    <a asp-action="EditAnswersIndex" asp-route-id="@item.QuestionId">Edit Answers</a> |
-                    <a asp-action="EditQuestionTopicsIndex" asp-route-id="@item.QuestionId">Edit Topics</a> |
-                    <a asp-action="EditQuestionCertificatesIndex" asp-route-id="@item.QuestionId">Edit Certificate</a> ||
-                    <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
-                </td>
-            </tr>
+                    </td>
+                    <td >
+                        <a class="btn btn-link" asp-action="Edit" asp-route-id="@item.QuestionId">Edit Display</a> |
+                        <a class="btn btn-link" asp-action="EditAnswersIndex" asp-route-id="@item.QuestionId">Edit Answers</a> |
+                        <a class="btn btn-link" asp-action="EditQuestionTopicsIndex" asp-route-id="@item.QuestionId">Edit Topics</a> |
+                        <a class="btn btn-link" asp-action="EditQuestionCertificatesIndex" asp-route-id="@item.QuestionId">Edit Certificate</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-warning" asp-action="Details" asp-route-id="@item.QuestionId">Details</a> 
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
+                    </td>
+                </tr>
         }
     </tbody>
 </table>
+<p>
+    <a type="button" class="btn btn-primary btn-lg" asp-action="Create">Add Question</a>
+</p>

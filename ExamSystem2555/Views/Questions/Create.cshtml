@@ -54,10 +54,8 @@
                     <select asp-for="CertificatesView.SelectedCertificateIds" asp-items="Model.CertificatesView.CertificateList"></select>
                     <span asp-validation-for="CertificatesView.SelectedCertificateIds" class="text-danger"></span>
                 </div>
-                <div class="form-check fw-bold">
-                    <label asp-for="HasTopic" class="form-check-label">
-                        No Topic
-                    </label>
+                <div class="form-check form-switch">
+                    <label asp-for="HasTopic" class="form-check-label">No Topic</label>
                     <input asp-for="HasTopic" class="form-check-input" type="checkbox" id="hasTopic" onclick="toggleCertificates()">
                 </div>
             </div><br />
