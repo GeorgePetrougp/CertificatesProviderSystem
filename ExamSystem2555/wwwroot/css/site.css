@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.custom-width {
+    width: 80%;
+    margin: 0 auto;
+}

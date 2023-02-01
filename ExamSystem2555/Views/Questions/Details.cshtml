@@ -6,7 +6,7 @@
 
 <h2>Question Details</h2>
 
-<dl>
+@*<dl>
     <dt>Display</dt>
     <dd>@Html.Raw(Model.QuestionDisplay)</dd>
 
@@ -65,4 +65,63 @@
             }
         </ul>
     </dd>
-</dl>
+</dl>*@
+
+<table class="table table-hover width=80% table-light" style = "text-align: center">
+        <tr>
+        <th>Display</th>
+        <td>@Html.Raw(Model.QuestionDisplay)</td>
+    </tr>
+    <tr>
+        <th>Difficulty</th>
+        <td>@Model.QuestionDifficulty</td>
+    </tr>
+    <tr>
+        <th>Topics</th>
+        <td>
+                @if (Model.Topics.Count == 0)
+                {
+                    <ul>
+                        <li>No Topics</li>
+                    </ul>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var topic in Model.Topics)
+                        {
+                                <li>@topic.Title</li>
+                        }
+                    </ul>
+                }
+        </td>
+    </tr>
+    <tr>
+        <th>Certificates</th>
+        <td>
+            <ul>
+                    @foreach (var cert in Model.Certificates)
+                    {
+                        <li>@cert.Title</li>
+                    }
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>Answers</th>
+        <td>
+            <ul>
+                    @foreach (var answer in Model.Answers)
+                    {
+                        <li>
+                            @Html.Raw(answer.PossibleAnswer)
+                            @if (answer.IsCorrect)
+                            {
+                                    <em>(Correct Answer)</em>
+                            }
+                        </li>
+                    }
+            </ul>
+        </td>
+    </tr>
+</table>
