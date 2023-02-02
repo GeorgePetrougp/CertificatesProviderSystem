@@ -3,71 +3,13 @@
 @{
     ViewData["Title"] = "Details";
 }
+<head>
+    <link rel="stylesheet" href="~/css/QuestionDetails.css" asp-append-version="true"/>    
+</head>
 
-<h2>Question Details</h2>
+<div class="center"><h2>Question Details</h2></div>
 
-@*<dl>
-    <dt>Display</dt>
-    <dd>@Html.Raw(Model.QuestionDisplay)</dd>
-
-    <dt>Difficulty</dt>
-    <dd>@Model.QuestionDifficulty</dd>
-
-
-
-    <dt>Topics</dt>
-    @if (Model.Topics.Count == 0)
-    {
-        <dd>
-            <ul>
-                <li>No Topics</li>
-            </ul>
-        </dd>
-    }
-    else
-    {
-        foreach (var topic in Model.Topics)
-        {
-
-            <ul>
-                <li>@topic.Title</li>
-            </ul>
-
-
-        }
-
-    }
-
-    <dt>Certificates</dt>
-    <dd>
-        @foreach (var cert in Model.Certificates)
-        {
-            <ul>
-                <li>@cert.Title</li>
-            </ul>
-        }
-    </dd>
-
-
-
-    <dt>Answers</dt>
-    <dd>
-        <ul>
-            @foreach (var answer in Model.Answers)
-            {
-                <li>
-                    @Html.Raw(answer.PossibleAnswer)
-                    @if (answer.IsCorrect)
-                    {
-                        <em>(Correct Answer)</em>
-                    }
-                </li>
-            }
-        </ul>
-    </dd>
-</dl>*@
-
-<table class="table table-hover width=80% table-light" style = "text-align: center">
+<table class="table table-hover width=30% table-light" style = "text-align: center">
         <tr>
         <th>Display</th>
         <td>@Html.Raw(Model.QuestionDisplay)</td>
@@ -79,49 +21,44 @@
     <tr>
         <th>Topics</th>
         <td>
-                @if (Model.Topics.Count == 0)
+            @if (Model.Topics.Count == 0)
+            {
+                <p>NoTopics</p>
+            }
+            else
+            {
+                @foreach (var topic in Model.Topics)
                 {
-                    <ul>
-                        <li>No Topics</li>
-                    </ul>
+                    @topic.Title <br>
                 }
-                else
-                {
-                    <ul>
-                        @foreach (var topic in Model.Topics)
-                        {
-                                <li>@topic.Title</li>
-                        }
-                    </ul>
-                }
+            }
         </td>
     </tr>
     <tr>
         <th>Certificates</th>
         <td>
-            <ul>
-                    @foreach (var cert in Model.Certificates)
-                    {
-                        <li>@cert.Title</li>
-                    }
-            </ul>
+            @foreach (var cert in Model.Certificates)
+            {
+                @cert.Title <br>
+            }
         </td>
     </tr>
     <tr>
-        <th>Answers</th>
+        <th><br><br>Answers</th>
         <td>
-            <ul>
-                    @foreach (var answer in Model.Answers)
-                    {
-                        <li>
-                            @Html.Raw(answer.PossibleAnswer)
-                            @if (answer.IsCorrect)
-                            {
-                                    <em>(Correct Answer)</em>
-                            }
-                        </li>
-                    }
-            </ul>
+            @foreach (var answer in Model.Answers)
+            {
+                @Html.Raw(answer.PossibleAnswer)
+                @if (answer.IsCorrect)
+                {
+                            <h6>(Correct Answer)</h6>
+                }
+                    
+            }
         </td>
     </tr>
 </table>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
