@@ -2,8 +2,10 @@
 {
     public class ExaminationQuestionView
     {
-        public List<QuestionDTO> Questions { get; set; }
-        public QuestionDTO CurrentQuestion { get; set; }    
+        public int CandidateExamId { get; set; }
+        public int CurrentIndex { get; set; }
+        public QuestionDTO[] Questions { get; set; }
+        public int SelectedAnswerId { get; set; }
         
     }
 }

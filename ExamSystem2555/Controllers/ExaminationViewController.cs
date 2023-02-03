@@ -1,11 +1,10 @@
-﻿using WebApp.DTO_Models;
-using WebApp.MainServices;
-using WebApp.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyDatabase.Models;
-using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
 using WebApp.DTO_Models.Final;
+using WebApp.MainServices;
 
 namespace WebApp.Controllers
 {
@@ -19,13 +18,15 @@ namespace WebApp.Controllers
         }
 
         // GET: ExaminationViewController
-        public ActionResult Index()
+        public async Task<ActionResult> Index(int candidateExamId)
         {
-            return View();
+            var myExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
+
+            return View(myExam);
         }
 
         // GET: ExaminationViewController/Create
-        public async Task<ActionResult> StartExamination()
+        public async Task<ActionResult> StartExamination(CandidateExam mmyExam)
         {
             var myExam = await _service.ExaminationService.GetExaminationByIdAsync(1);
 
@@ -36,44 +37,79 @@ namespace WebApp.Controllers
             var selectedQuestions = new List<Question>();
             selectedExaminationQuestions.ForEach(x => selectedQuestions.Add(x.CertificateTopicQuestion.TopicQuestion.Question));
             var possibleAnswers = new List<QuestionPossibleAnswer>();
-            var selectedQuestionDTOs = new List<QuestionDTO>();
-            
+            var selectedQuestionDTOs = new QuestionDTO[selectedQuestions.Count];
+
+            var h = 0;
             foreach (var item in selectedQuestions)
             {
                 var myAnswers = (await _service.AnswerService.GetAllAnswersAsync()).Where(a => a.Question == item);
                 possibleAnswers.AddRange(myAnswers);
 
                 List<QuestionPossibleAnswersDTO> possibleAnswersDTOs = new List<QuestionPossibleAnswersDTO>();
-                possibleAnswers.ForEach(x=> possibleAnswersDTOs.Add(new QuestionPossibleAnswersDTO { QuestionPossibleAnswerId= x.QuestionPossibleAnswerId, QuestionPossibleAnswer=x.PossibleAnswer, IsAnswerCorrect=x.IsCorrect }));
+                possibleAnswers.ForEach(x => possibleAnswersDTOs.Add(new QuestionPossibleAnswersDTO { QuestionPossibleAnswerId = x.QuestionPossibleAnswerId, QuestionPossibleAnswer = x.PossibleAnswer, IsAnswerCorrect = x.IsCorrect }));
 
-                selectedQuestionDTOs.Add(new QuestionDTO { QuestionId = item.QuestionId, QuestionDisplay = item.Display, PossibleAnswers = possibleAnswersDTOs});
+               
+                    selectedQuestionDTOs[h] = new QuestionDTO
+                    {
+                        QuestionId = item.QuestionId,
+                        QuestionDisplay = item.Display,
+                        PossibleAnswers = possibleAnswersDTOs
+                    };
+                
                 possibleAnswers.Clear();
+                h++;
+
+
             }
+                var myExamView = new ExaminationQuestionView()
+                {
+                    Questions = selectedQuestionDTOs,
+                    CurrentIndex = 0
+                };
 
 
 
+                return View(myExamView);
 
-            var myExamView = new ExaminationQuestionView()
-            {
-                Questions = selectedQuestionDTOs,
-                CurrentQuestion = selectedQuestionDTOs.FirstOrDefault(),
-            };
-
-
-
-            return View(myExamView);
-
-        }
+            }
+        
 
 
         // POST: ExaminationViewController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> StartExamination(ExaminationView examinationView)
+        public async Task<ActionResult> StartExamination([FromForm]ExaminationQuestionView myExamView, string action, int? SelectedAnswerId)
         {
+            if (action == "Next")
+                {
+                myExamView.CurrentIndex++;
+                    if (myExamView.CurrentIndex >= myExamView.Questions.Length)
+                    {
+                        return RedirectToAction("ExamFinished");
+                    }
+
+                    // Save the selected answer in the database
+                    if (SelectedAnswerId.HasValue)
+                    {
+                        var ctq = (await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync()).First(x => x.TopicQuestion.Question.QuestionId == myExamView.Questions[myExamView.CurrentIndex].QuestionId);
+                        await _service.CertificateTopicsLoad(ctq);
+                        var answers = new ExamCandidateAnswer
+                        {
+                            CandidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(myExamView.CandidateExamId),
+                            SelectedAnswer = (await _service.AnswerService.GetAnswerByIdAsync(SelectedAnswerId)).PossibleAnswer,
+                            CorrectAnswer = "correct",
+                            CertificateTopicQuestion = ctq
 
 
-            return View("Index");
+                        };
+                        await _service.CandidateAnswerService.AddExamCandidateAnswerAsync(answers);
+                        await _service.SaveChangesAsync();
+                    }
+
+                }
+
+                return View(myExamView);
+            
         }
 
     }

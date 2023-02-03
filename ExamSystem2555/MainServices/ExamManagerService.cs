@@ -15,8 +15,10 @@ namespace WebApp.MainServices
         private readonly IExaminationQuestionService _examQuestionService;
         private readonly IExaminationService _examService;
         private readonly ICertificateTopicQuestionService _certificateTopicQuestionService;
+        private readonly ICandidateExamService _candidateExamService;
 
-        public ExamManagerService(ApplicationDbContext context, ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService)
+
+        public ExamManagerService(ApplicationDbContext context, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService)
         {
             _context = context;
             _questionService = questionService;
@@ -26,6 +28,7 @@ namespace WebApp.MainServices
             _examService = examService;
             _topicQuestionService = topicQuestionService;
             _certificateTopicQuestionService = certificateTopicQuestionService;
+            _candidateExamService= candidateExamService;
         }
 
         public IQuestionService QuestionService { get { return _questionService; } }
@@ -36,6 +39,7 @@ namespace WebApp.MainServices
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService; } }
 
         public ITopicQuestionService TopicQuestionService { get { return _topicQuestionService; } }
+        public ICandidateExamService CandidateExamService { get { return _candidateExamService;} }
 
         public async Task SaveChangesAsync()
         {
@@ -50,6 +54,14 @@ namespace WebApp.MainServices
 
 
             }
+        }
+
+        public async Task CertificateTopicsLoad(CertificateTopicQuestion ctq)
+        {
+            await _context.Entry(ctq).Reference(c => c.CertificateTopic).Query().Include(cert => cert.Certificate).LoadAsync();
+            await _context.Entry(ctq).Reference(c => c.TopicQuestion).Query().Include(cert => cert.Question).LoadAsync();
+
+
         }
     }
 }

@@ -8,17 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.DTO_Models;
 using WebApp.Data;
 using WebApp.Services;
+using MyDatabase.Models;
 
 namespace WebApp.Controllers
 {
     public class LoginViewsController : Controller
     {
-        private readonly ICertificateService _service;
+        private readonly ICertificateService _certService;
+        private readonly ICandidateService _candidateSertvice;
+        private readonly IExaminationService _examService;
+
         private readonly ApplicationDbContext _context;
 
-        public LoginViewsController(ICertificateService service, ApplicationDbContext context)
+        public LoginViewsController(ICertificateService certService, ICandidateService candidateService, IExaminationService examService, ApplicationDbContext context)
         {
-            _service = service;
+            _certService = certService;
+            _candidateSertvice = candidateService;
+            _examService = examService;
             _context = context;
         }
 
@@ -44,30 +50,42 @@ namespace WebApp.Controllers
                 return View();
             }
             // login logic
-            return RedirectToAction("CertificateSelect", "LoginViews",model);
+            return RedirectToAction("SelectCertificate", "LoginViews", new { candidateId = model.CandidateId });
         }
 
-        // GET: LoginViews/CertificateSelect
-        public async Task<IActionResult> CertificateSelectAsync(LoginView model)
+        public async Task<IActionResult> SelectCertificate(int candidateId)
         {
-            var certificates = await _service.GetAllCertificatesAsync();
-            model.CertificatesList = new SelectList(certificates, "CertificateId", "Title");
+            var certificatesList = await _certService.GetAllCertificatesAsync();
+            var model = new LoginView
+            {
+                CandidateId = candidateId,
+                CertificatesList = new SelectList(certificatesList, "CertificateId", "Title")
+            };
+            //model.CertificatesList = new SelectList(certificates, "CertificateId", "Title");
             return View(model);
         }
 
-
         [HttpPost]
-        public IActionResult CertificateSelect(LoginView model)
+        public async Task<IActionResult> SelectCertificate([FromForm] LoginView model, int? candidateId)
         {
-                        
-            // login logic
-            return RedirectToAction("Index", "ExaminationView");
+            var myExam = await _examService.GetExaminationByIdAsync(1);
+            var candidate = await _candidateSertvice.GetCandidateByIdAsync(candidateId);
+            var certificate = await _certService.GetCertificateByIdAsync(model.SelectedId);
+            var newCandidateExam = new CandidateExam()
+            {
+                Candidate = candidate,
+                ExamCode = "GMTXS01",
+                ExamDate = DateTime.Now.AddDays(30),
+                Examination = myExam
+                
+            };
+
+
+            _context.CandidateExams.Add(newCandidateExam);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index","ExaminationView", new {candidateExamId = newCandidateExam.CandidateExamId} );
         }
 
-
- 
-      
-
-       
     }
 }

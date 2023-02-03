@@ -35,9 +35,13 @@ namespace WebApp
             builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopicQuestion>, CertificateTopicQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopic>, CertificateTopicRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Certificate>, CertificateRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<Candidate>, CandidateRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<ExamCandidateAnswer>, ExamCandidateAnswerRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<ExaminationQuestion>, ExaminationQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Examination>, ExaminationRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExam>, CandidateExamRepository>();
+
+
 
             builder.Services.AddScoped<IQuestionService, QuestionService>();
             builder.Services.AddScoped<IQuestionDifficultyService, QuestionDifficultyService>();
@@ -47,12 +51,15 @@ namespace WebApp
             builder.Services.AddScoped<ITopicQuestionService, TopicQuestionService>();
             builder.Services.AddScoped<ICertificateTopicQuestionService, CertificateTopicQuestionService>();
             builder.Services.AddScoped<ICertificateService, CertificateService>();
+            builder.Services.AddScoped<ICandidateService, CandidateService>();
             builder.Services.AddScoped<IQuestionViewService, QuestionViewService>();
             builder.Services.AddScoped<IQuestionManagerService, QuestionManagerService>();
             builder.Services.AddScoped<IExaminationService, ExaminationService>();
             builder.Services.AddScoped<IExamCandidateAnswerService, ExamCandidateAnswerService>();
             builder.Services.AddScoped<IExaminationQuestionService, ExaminationQuestionService>();
             builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
+            builder.Services.AddScoped<ICandidateExamService, CandidateExamService>();
+
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

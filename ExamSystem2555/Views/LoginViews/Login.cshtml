@@ -7,7 +7,7 @@
 <h2>Login</h2>
 
 
-<form method="post">
+<form asp-action="Login">
     <div>
         <label asp-for="CandidateId">Candidate ID</label>
         <input asp-for="CandidateId" type="number" />
@@ -18,27 +18,3 @@
     </div>
 </form>
 
-
-@*<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CandidateId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CandidateId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CandidateId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
