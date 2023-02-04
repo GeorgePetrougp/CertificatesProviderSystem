@@ -4,16 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Login</h2>
+<div><h2 class= "center">Login</h2>
+
 
 
 <form asp-action="Login">
-    <div>
+   
+
+
+    <div class= "center">
+
         <label asp-for="CandidateId">Candidate ID</label>
         <input asp-for="CandidateId" type="number" />
     </div>
-
-    <div>
+    
+    <div class= "center">
         <input type="submit" value="Log In" />
     </div>
 </form>

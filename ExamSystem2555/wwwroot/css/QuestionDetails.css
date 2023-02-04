@@ -1,0 +1,15 @@
+﻿
+table {
+    border-collapse: collapse;
+}
+
+tr {
+    border: solid 1px;
+}
+
+td {
+    border-right: solid 1px;
+    border-left: solid 1px;
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+}
