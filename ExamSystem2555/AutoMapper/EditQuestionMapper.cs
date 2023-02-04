@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyDatabase.Models;
 using WebApp.DTO_Models;
+using WebApp.DTO_Models.Final;
 
 namespace WebApp.AutoMapper
 {
@@ -33,6 +34,12 @@ namespace WebApp.AutoMapper
                         .ForMember(dest => dest.SelectedTopicIds, opt => opt.MapFrom(src => src.Select(x => x.Topic.TopicId)))
                         .ForMember(dest => dest.TopicsList, opt => opt.Ignore())
                         .ReverseMap();
+
+            CreateMap<QuestionPossibleAnswer,QuestionPossibleAnswersDTO>()
+                .ForMember(dest=>dest.QuestionPossibleAnswerId,opt=>opt.MapFrom(src=>src.QuestionPossibleAnswerId))
+                .ForMember(dest => dest.QuestionPossibleAnswer, opt => opt.MapFrom(src => src.PossibleAnswer))
+                .ForMember(dest => dest.IsAnswerCorrect, opt => opt.MapFrom(src => src.IsCorrect))
+                .ReverseMap();
         }
 
             //.ForMember(dest => dest.QuestionDifficulty, opt => opt.MapFrom(src => new QuestionDifficulty { QuestionDifficultyId = src.SelectedDifficultyId }))

@@ -22,6 +22,7 @@ namespace WebApp.MainServices
         Task ExaminationQuestionLoad(IEnumerable<ExaminationQuestion> eq);
         Task CandidateExaminationLoad(CandidateExam c);
         Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList);
+        Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer);
         Task SaveChangesAsync();
 
 

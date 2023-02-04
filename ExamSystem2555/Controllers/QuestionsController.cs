@@ -410,7 +410,6 @@ namespace WebApp.Controllers
 
 
         }
-        //################################################################################################################
 
 
         public async Task<IActionResult> EditQuestionCertificatesIndex(int? id)

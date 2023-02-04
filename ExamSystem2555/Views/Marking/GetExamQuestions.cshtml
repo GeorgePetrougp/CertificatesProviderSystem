@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MyDatabase.Models.ExamCandidateAnswer>
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<table class="table table-hover width=80% table-light" style="text-align: center">
+    <thead class="table-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CertificateTopicQuestion.TopicQuestion.Question)
+            </th>
+            <th>Edit Actions</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Raw(item.CertificateTopicQuestion.TopicQuestion.Question.Display)
+                </td>
+                <td>
+                    <a class="btn btn-link" asp-action="EditExamAnswers" asp-route-id="@item.ExamCandidateAnswerId">Edit Answers</a> 
+                    
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -134,7 +134,7 @@ namespace WebApp.Controllers
                 result = "FAIL";
             }
 
-            var z = new CandidateExamResults
+            var examResults = new CandidateExamResults
             {
                 CandidateExamId = candidateExamId,
                 ResultIssueDate = DateTime.Now,
@@ -143,9 +143,9 @@ namespace WebApp.Controllers
 
             };
             
-            await _service.CandidateExamResultsService.AddCandidateExamResultsAsync(z);
+            await _service.CandidateExamResultsService.AddCandidateExamResultsAsync(examResults);
             await _service.SaveChangesAsync();
-            return View(z);
+            return View(examResults);
         }
         
 

@@ -69,6 +69,14 @@ namespace WebApp.MainServices
 
         }
 
+        public async Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer)
+        {
+            await _context.Entry(examAnswer).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(tq => tq.Question).ThenInclude(q=>q.QuestionPossibleAnswers).LoadAsync();
+
+
+
+        }
+
         public async Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList)
         {
             foreach (var item in ctqList)
@@ -92,5 +100,7 @@ namespace WebApp.MainServices
         {
             await _context.Entry(c).Reference(e=>e.Examination).LoadAsync();
         }
+
+      
     }
 }

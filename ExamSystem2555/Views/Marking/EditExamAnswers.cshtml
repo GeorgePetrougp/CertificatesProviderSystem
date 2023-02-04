@@ -1,0 +1,34 @@
+﻿@model WebApp.DTO_Models.Final.MarkingEditAnswerView
+
+
+<h1 style="margin:0 auto;width:50%">ExamSystem</h1>
+
+
+
+<h4>@Html.Raw(Model.Question.QuestionDisplay)</h4>
+
+
+<ul>
+    @foreach (var item in Model.Question.PossibleAnswers)
+    {
+        <p>Answer Id: @item.QuestionPossibleAnswerId</p>
+        <li>@Html.Raw(item.QuestionPossibleAnswer)</li>
+    }
+</ul>
+
+<p>Correct Answer: @Model.CorrectAnswer</p>
+
+<form method="post" asp-action="EditExamAnswers">
+
+        
+        
+    <div class="form-group">
+        <label asp-for="SelectedAnswer" class="control-label"></label>
+        <input asp-for="@Model.SelectedAnswer" class="form-control" value="@Model.SelectedAnswer"/>
+        <span asp-validation-for="@Model.SelectedAnswer" class="text-danger"></span>
+    </div>
+        
+                    
+        
+        <button type="submit" name="action" value="Next">Next</button>
+    </form>
