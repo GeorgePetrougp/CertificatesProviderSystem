@@ -7,8 +7,13 @@
 <div><h2 class= "center">Login</h2>
 
 
-<form method="post">
+
+<form asp-action="Login">
+   
+
+
     <div class= "center">
+
         <label asp-for="CandidateId">Candidate ID</label>
         <input asp-for="CandidateId" type="number" />
     </div>
@@ -17,4 +22,4 @@
         <input type="submit" value="Log In" />
     </div>
 </form>
-    </div>
+

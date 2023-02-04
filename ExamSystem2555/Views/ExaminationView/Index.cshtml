@@ -1,9 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model MyDatabase.Models.CandidateExam
 <h1>Start Exam</h1>
 <div>
-    <a asp-action="StartExamination">Start Exam</a>
+   
+    <a asp-action="StartExamination" asp-route-candidateExamId="@Model.CandidateExamId">Start Exam</a>
+    <p>Number: @Model.ExamCode</p>
 </div>

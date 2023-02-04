@@ -454,8 +454,8 @@ namespace WebApp.Migrations
                 {
                     ExamCandidateAnswerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SelectedAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CorrectAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SelectedAnswer = table.Column<int>(type: "int", nullable: false),
+                    CorrectAnswer = table.Column<int>(type: "int", nullable: false),
                     CandidateExamId = table.Column<int>(type: "int", nullable: true),
                     CertificateTopicQuestionId = table.Column<int>(type: "int", nullable: true)
                 },
