@@ -40,6 +40,8 @@ namespace WebApp
             builder.Services.AddScoped<IAsyncGenericRepository<ExaminationQuestion>, ExaminationQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Examination>, ExaminationRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CandidateExam>, CandidateExamRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExamResults>, CandidateExamResultsRepository>();
+
 
 
 
@@ -59,6 +61,8 @@ namespace WebApp
             builder.Services.AddScoped<IExaminationQuestionService, ExaminationQuestionService>();
             builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
             builder.Services.AddScoped<ICandidateExamService, CandidateExamService>();
+            builder.Services.AddScoped<ICandidateExamResultsService, CandidateExamResultsService>();
+
 
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

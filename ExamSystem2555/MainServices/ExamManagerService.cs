@@ -16,9 +16,11 @@ namespace WebApp.MainServices
         private readonly IExaminationService _examService;
         private readonly ICertificateTopicQuestionService _certificateTopicQuestionService;
         private readonly ICandidateExamService _candidateExamService;
+        private readonly ICandidateExamResultsService _candidateExamResultsService;
 
 
-        public ExamManagerService(ApplicationDbContext context, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService)
+
+        public ExamManagerService(ApplicationDbContext context, ICandidateExamResultsService candidateExamResultsService, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService)
         {
             _context = context;
             _questionService = questionService;
@@ -29,6 +31,7 @@ namespace WebApp.MainServices
             _topicQuestionService = topicQuestionService;
             _certificateTopicQuestionService = certificateTopicQuestionService;
             _candidateExamService= candidateExamService;
+            _candidateExamResultsService= candidateExamResultsService;
         }
 
         public IQuestionService QuestionService { get { return _questionService; } }
@@ -40,6 +43,8 @@ namespace WebApp.MainServices
 
         public ITopicQuestionService TopicQuestionService { get { return _topicQuestionService; } }
         public ICandidateExamService CandidateExamService { get { return _candidateExamService;} }
+        public ICandidateExamResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
+
 
         public async Task SaveChangesAsync()
         {
@@ -62,6 +67,30 @@ namespace WebApp.MainServices
             await _context.Entry(ctq).Reference(c => c.TopicQuestion).Query().Include(cert => cert.Question).LoadAsync();
 
 
+        }
+
+        public async Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList)
+        {
+            foreach (var item in ctqList)
+            {
+
+            await _context.Entry(item).Reference(c => c.CertificateTopic).Query().Include(cert => cert.Certificate).LoadAsync();
+            await _context.Entry(item).Reference(c => c.TopicQuestion).Query().Include(cert => cert.Question).LoadAsync();
+            }
+        }
+
+        public async Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers)
+        {
+            foreach (var item in examCandidateAnswers)
+            {
+
+                await _context.Entry(item).Reference(c => c.CandidateExam).LoadAsync();
+            }
+        }
+
+        public async Task CandidateExaminationLoad(CandidateExam c)
+        {
+            await _context.Entry(c).Reference(e=>e.Examination).LoadAsync();
         }
     }
 }

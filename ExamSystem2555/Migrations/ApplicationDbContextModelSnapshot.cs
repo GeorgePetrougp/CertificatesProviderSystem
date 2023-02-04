@@ -407,13 +407,11 @@ namespace WebApp.Migrations
                     b.Property<int?>("CertificateTopicQuestionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CorrectAnswer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CorrectAnswer")
+                        .HasColumnType("int");
 
-                    b.Property<string>("SelectedAnswer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SelectedAnswer")
+                        .HasColumnType("int");
 
                     b.HasKey("ExamCandidateAnswerId");
 

@@ -207,16 +207,16 @@ namespace MyDatabase
 
             IList<Question> dummyQuestions = new List<Question>()
             {
-                new Question {Display="Question1", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
-                new Question {Display="Question2", QuestionDifficulty=context.QuestionDifficulties.Find(3) },
-                new Question {Display="Question3", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
-                new Question {Display="Question4", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
-                new Question {Display="Question5", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
-                new Question {Display="Question6", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
-                new Question {Display="Question7", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
-                new Question {Display="Question8", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
-                new Question {Display="Question9", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
-                new Question {Display="Question10", QuestionDifficulty=context.QuestionDifficulties.Find(3) }
+                new Question {Display="<p>Question1</p>", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
+                new Question {Display="<p>Question2</p>", QuestionDifficulty=context.QuestionDifficulties.Find(3) },
+                new Question {Display="<p>Question3</p>", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
+                new Question {Display="<p>Question4</p>", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
+                new Question {Display="<p>Question5</p>", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
+                new Question {Display="<p>Question6</p>", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
+                new Question {Display="<p>Question7</p>", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
+                new Question {Display="<p>Question8</p>", QuestionDifficulty=context.QuestionDifficulties.Find(1) },
+                new Question {Display="<p>Question9</p>", QuestionDifficulty=context.QuestionDifficulties.Find(2) },
+                new Question {Display="<p>Question10</p>", QuestionDifficulty=context.QuestionDifficulties.Find(3) }
             };
 
             context.Questions.AddRange(dummyQuestions);
@@ -224,46 +224,46 @@ namespace MyDatabase
 
             IList<QuestionPossibleAnswer> questionPossibleAnswers = new List<QuestionPossibleAnswer>()
             {
-                new QuestionPossibleAnswer {Question=context.Questions.Find(1) ,PossibleAnswer="Answer1", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(1) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(1) ,PossibleAnswer="Answer3", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(1) ,PossibleAnswer="Answer4", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(2) ,PossibleAnswer="Answer1", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(2) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(2) ,PossibleAnswer="Answer3", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(2) ,PossibleAnswer="Answer4", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(3) ,PossibleAnswer="Answer1", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(3) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(3) ,PossibleAnswer="Answer3", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(3) ,PossibleAnswer="Answer4", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(4) ,PossibleAnswer="Answer1", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(4) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(4) ,PossibleAnswer="Answer3", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(4) ,PossibleAnswer="Answer4", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(5) ,PossibleAnswer="Answer1", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(5) ,PossibleAnswer="Answer2", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(5) ,PossibleAnswer="Answer3", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(5) ,PossibleAnswer="Answer4", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(6) ,PossibleAnswer="Answer1", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(6) ,PossibleAnswer="Answer2", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(6) ,PossibleAnswer="Answer3", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(6) ,PossibleAnswer="Answer4", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(7) ,PossibleAnswer="Answer1", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(7) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(7) ,PossibleAnswer="Answer3", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(7) ,PossibleAnswer="Answer4", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(8) ,PossibleAnswer="Answer1", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(8) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(8) ,PossibleAnswer="Answer3", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(8) ,PossibleAnswer="Answer4", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(9) ,PossibleAnswer="Answer1", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(9) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(9) ,PossibleAnswer="Answer3", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(9) ,PossibleAnswer="Answer4", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(10) ,PossibleAnswer="Answer1", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(10) ,PossibleAnswer="Answer2", IsCorrect=false},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(10) ,PossibleAnswer="Answer3", IsCorrect=true},
-                new QuestionPossibleAnswer {Question=context.Questions.Find(10) ,PossibleAnswer="Answer4", IsCorrect=false}
+                new QuestionPossibleAnswer { Question = context.Questions.Find(1), PossibleAnswer = "<p>Answer1</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(1), PossibleAnswer = "<p>Answer2</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(1), PossibleAnswer = "<p>Answer3</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(1), PossibleAnswer = "<p>Answer4</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(2), PossibleAnswer = "<p>Answer5</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(2), PossibleAnswer = "<p>Answer6</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(2), PossibleAnswer = "<p>Answer7</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(2), PossibleAnswer = "<p>Answer8</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(3), PossibleAnswer = "<p>Answer9</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(3), PossibleAnswer = "<p>Answer10</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(3), PossibleAnswer = "<p>Answer11</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(3), PossibleAnswer = "<p>Answer12</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(4), PossibleAnswer = "<p>Answer1</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(4), PossibleAnswer = "<p>Answer2</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(4), PossibleAnswer = "<p>Answer3</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(4), PossibleAnswer = "<p>Answer4</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(5), PossibleAnswer = "<p>Answer1</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(5), PossibleAnswer = "<p>Answer2</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(5), PossibleAnswer = "<p>Answer3</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(5), PossibleAnswer = "<p>Answer4</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(6), PossibleAnswer = "<p>Answer1</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(6), PossibleAnswer = "<p>Answer2</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(6), PossibleAnswer = "<p>Answer3</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(6), PossibleAnswer = "<p>Answer4</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(7), PossibleAnswer = "<p>Answer1</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(7), PossibleAnswer = "<p>Answer2</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(7), PossibleAnswer = "<p>Answer3</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(7), PossibleAnswer = "<p>Answer4</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(8), PossibleAnswer = "<p>Answer1</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(8), PossibleAnswer = "<p>Answer2</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(8), PossibleAnswer = "<p>Answer3</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(8), PossibleAnswer = "<p>Answer4</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(9), PossibleAnswer = "<p>Answer1</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(9), PossibleAnswer = "<p>Answer2</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(9), PossibleAnswer = "<p>Answer3</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(9), PossibleAnswer = "<p>Answer4</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(10), PossibleAnswer = "<p>Answer1</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(10), PossibleAnswer = "<p>Answer2</p>", IsCorrect = false },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(10), PossibleAnswer = "<p>Answer3</p>", IsCorrect = true },
+                new QuestionPossibleAnswer { Question = context.Questions.Find(10), PossibleAnswer = "<p>Answer4</p>", IsCorrect = false }
             };
 
             context.QuestionPossibleAnswers.AddRange(questionPossibleAnswers);
@@ -457,16 +457,16 @@ namespace MyDatabase
                             ResultIssueDate=new DateTime(2001-1-2),
                             CandidateTotalScore=100,
                             ResultLabel="Pass"
- 
+
                     }
- 
+
                 }
             };
 
             context.CandidateExams.AddRange(candidateExams);
             context.SaveChanges();
 
-            
+
             IList<ExaminationQuestion> examQuestions = new List<ExaminationQuestion>()
             {
                 new ExaminationQuestion
@@ -527,26 +527,26 @@ namespace MyDatabase
             {
                 new ExamCandidateAnswer
                 {
-                    SelectedAnswer="1",
-                    CorrectAnswer="1",
+                    SelectedAnswer=1,
+                    CorrectAnswer=4,
                     CandidateExam=context.CandidateExams.Find(1),
                     CertificateTopicQuestion=context.CertificateTopicQuestions.Find(1)
                 },
                 new ExamCandidateAnswer
                 {
-                    SelectedAnswer="2",
-                    CorrectAnswer="4",
+                    SelectedAnswer=3,
+                    CorrectAnswer=4,
                     CandidateExam=context.CandidateExams.Find(1),
                     CertificateTopicQuestion=context.CertificateTopicQuestions.Find(2)
                 },
                 new ExamCandidateAnswer
                 {
-                    SelectedAnswer="2",
-                    CorrectAnswer="2",
+                    SelectedAnswer=1,
+                    CorrectAnswer=2,
                     CandidateExam=context.CandidateExams.Find(1),
                     CertificateTopicQuestion=context.CertificateTopicQuestions.Find(3)
                 }
-                
+
             };
 
             context.ExamCandidateAnswers.AddRange(examCandidateAnswers);
