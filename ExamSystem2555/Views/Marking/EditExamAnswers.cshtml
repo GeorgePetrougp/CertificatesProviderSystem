@@ -20,8 +20,8 @@
 
 <form method="post" asp-action="EditExamAnswers">
 
-        
-        
+    <input type="hidden" name="id" asp-for="@Model.CandidateAnswerId" />
+
     <div class="form-group">
         <label asp-for="SelectedAnswer" class="control-label"></label>
         <input asp-for="@Model.SelectedAnswer" class="form-control" value="@Model.SelectedAnswer"/>

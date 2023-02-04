@@ -68,8 +68,10 @@ namespace WebApp.Controllers
 
             var model = new MarkingEditAnswerView
             {
+                CandidateAnswerId =id ,
                  Question = new QuestionDTO
                  {
+                     
                      QuestionId=question.QuestionId,
                      PossibleAnswers=_mapper.Map<List<QuestionPossibleAnswersDTO>>(answers),
                      QuestionDisplay=question.Display
@@ -83,39 +85,17 @@ namespace WebApp.Controllers
 
         }
 
-        // POST: Marking/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CandidateExamId,ExamCode,ExamDate")] CandidateExam candidateExam)
+        public async Task<IActionResult> EditExamAnswers(int id,int selectedAnswer)
         {
-            if (id != candidateExam.CandidateExamId)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _service.CandidateExamService.UpdateCandidateExamAsync(candidateExam);
-                    await _service.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CandidateExamExists(candidateExam.CandidateExamId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(candidateExam);
+            var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
+            candidateAnswer.SelectedAnswer = selectedAnswer;
+            await _service.SaveChangesAsync();
+            
+            return RedirectToAction("GetExamQuestions", "Marking", new {id=id});
         }
 
         // GET: Marking/Delete/5
