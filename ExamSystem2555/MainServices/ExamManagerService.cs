@@ -101,6 +101,13 @@ namespace WebApp.MainServices
             await _context.Entry(c).Reference(e=>e.Examination).LoadAsync();
         }
 
-      
+        public async Task CandidateResultsLoad(CandidateExam c)
+        {
+            await _context.Entry(c).Reference(e => e.CandidateExamResults).LoadAsync();
+            await _context.Entry(c).Reference(e => e.Candidate).LoadAsync();
+
+        }
+
+
     }
 }
