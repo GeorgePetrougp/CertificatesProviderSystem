@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MyDatabase.Models;
+using System.Data;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
 
@@ -16,9 +18,11 @@ namespace WebApp.Controllers
         }
 
         // GET: ExaminationViewController
+        
         public async Task<ActionResult> Index(int candidateExamId)
         {
             var myExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
+            
 
             return View(myExam);
         }

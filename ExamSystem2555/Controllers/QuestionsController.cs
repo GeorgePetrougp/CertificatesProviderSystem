@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
@@ -23,13 +24,14 @@ namespace WebApp.Controllers
             _mapper = mapper;
         }
 
-        // GET: Questions
+        [Authorize(Roles = "QualityControllers,Administrators")]
         public async Task<IActionResult> Index()
         {
             return View(await _service.QuestionService.GetAllQuestionsAsync());
         }
 
         // GET: Questions/Details
+        [Authorize(Roles = "QualityControllers,Administrators")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _service.QuestionService == null)
@@ -87,6 +89,8 @@ namespace WebApp.Controllers
         }
 
         // GET: Questions/Create
+        [Authorize(Roles = "Administrators")]
+
         public async Task<IActionResult> Create()
         {
             var topicsList = await _service.TopicService.GetAllTopicsAsync();
@@ -102,6 +106,7 @@ namespace WebApp.Controllers
 
 
         // POST: Questions/Create
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] QuestionView question)
@@ -162,6 +167,8 @@ namespace WebApp.Controllers
 
 
         // GET: Questions/Edit
+        [Authorize(Roles = "Administrators")]
+
         public async Task<IActionResult> Edit(int? id)
         {
 
@@ -193,6 +200,8 @@ namespace WebApp.Controllers
         }
 
         // POST: Questions/Edit/5
+        [Authorize(Roles = "Administrators")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [FromForm] EditQuestionView question)
@@ -236,7 +245,7 @@ namespace WebApp.Controllers
 
 
 
-
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> EditAnswersIndex(int? id)
         {
             var question = await _service.QuestionService.GetQuestionByIdAsync(id);
@@ -251,7 +260,7 @@ namespace WebApp.Controllers
 
             return View(myAnswers);
         }
-
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> EditSelectedAnswer(int? id)
         {
             if (id == null || _service.QuestionService == null)
@@ -268,6 +277,7 @@ namespace WebApp.Controllers
             return View(answer);
         }
 
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSelectedAnswer(int id, [FromForm] QuestionPossibleAnswer questionPossibleAnswer)
@@ -286,6 +296,7 @@ namespace WebApp.Controllers
         }
 
         // POST: Questions/Delete
+        [Authorize(Roles = "Administrators")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -303,13 +314,14 @@ namespace WebApp.Controllers
             await _service.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
-
+        
+        [Authorize(Roles = "Administrators")]
         private bool QuestionExists(int id)
         {
             return _service.QuestionService.GetQuestionByIdAsync(id) != null;
         }
 
-
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> EditQuestionTopicsIndex(int? id)
         {
             EditQuestionTopicView model = new EditQuestionTopicView();
@@ -331,6 +343,7 @@ namespace WebApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> AddQuestionTopic(int? id, EditQuestionTopicView model)
         {
 
@@ -365,10 +378,10 @@ namespace WebApp.Controllers
             model.TopicsList = new MultiSelectList(final, "TopicId", "Title");
             return View(model);
         }
-
+        
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> AddQuestionTopicPost(int? id, [FromForm] EditQuestionTopicView model)
         {
 
@@ -411,7 +424,7 @@ namespace WebApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> EditQuestionCertificatesIndex(int? id)
         {
             EditQuestionCertificateView model = new EditQuestionCertificateView();
@@ -445,7 +458,8 @@ namespace WebApp.Controllers
 
             return View(model);
         }
-
+        
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> AddQuestionCertificate(int? id, EditQuestionCertificateView model)
         {
             var myQuestion = await _service.QuestionService.GetQuestionByIdAsync(id);
@@ -484,10 +498,11 @@ namespace WebApp.Controllers
             model.CertificatesList = new MultiSelectList(sortedCertificates, "CertificateId", "Title");
             return View(model);
         }
-
+        
+        
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> AddQuestionCertificatePost(int? id, [FromForm] EditQuestionCertificateView model)
         {
 
@@ -557,6 +572,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Questions/Delete/5
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _service.QuestionService == null)

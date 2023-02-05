@@ -2,14 +2,14 @@
 using WebApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
