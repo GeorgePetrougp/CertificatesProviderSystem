@@ -23,6 +23,7 @@ namespace WebApp.MainServices
         Task CandidateExaminationLoad(CandidateExam c);
         Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList);
         Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer);
+        Task CandidateResultsLoad(CandidateExam c);
         Task SaveChangesAsync();
 
 
