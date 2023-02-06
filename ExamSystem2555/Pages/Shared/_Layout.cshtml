@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using WebApp.Models;
+@inject SignInManager<ApplicationUser> signInManager;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,22 +28,36 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" @Html.ActionLink("Questions C.R.U.D","Index","Questions")</a>
-                        </li>
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                        {
+                            
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="ExaminationView">Exam</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="Login" asp-controller="LoginViews">Candidate Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
+                            </li>
+                        }
+                        else if (signInManager.IsSignedIn(User) && User.IsInRole("Marker"))
+                        {
+                            
                         <li class="nav-item">
-                            <a class="nav-link text-dark" @Html.ActionLink("Exam","Index","ExaminationView")</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" @Html.ActionLink("Candidate Login","Login","LoginViews")</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" @Html.ActionLink("Marking","GetExams","Marking")</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" @Html.ActionLink("Examination","CertificateExaminationsIndex","CertificateExamination")</a>
-                        </li>
+                                <a class="nav-link text-dark" asp-action="GetExams" asp-controller="Marking">Marking</a>
+                            </li>
+                        }
                         @*-----Drop Down Menu for Navbar:-----*@
                         @*<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
