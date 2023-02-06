@@ -53,6 +53,10 @@ namespace WebApp.MainServices
         {
             await _context.Entry(exam).Reference(e => e.Certificate).LoadAsync();
         }
+        public async Task LoadExamQuestions(Examination exam)
+        {
+            await _context.Entry(exam).Collection(e => e.ExamQuestions).LoadAsync();
+        }
 
         public async Task LoadCTQ(ExaminationQuestion examQuestion)
         {

@@ -1,0 +1,17 @@
+﻿@model WebApp.DTO_Models.Final.ExaminationDTO
+
+<p>Update Examination</p>
+
+<form asp-action="UpdateCertificateExamination">
+    <input type="hidden" asp-for="CertificateId" />
+    <input type="hidden" asp-for="ExaminationId" />
+
+    @foreach (var item in Model.Questions)
+    {
+            <div>
+                <p>@item.QuestionDisplay</p>
+                <input type="checkbox" name="selectedQuestions" value="@item.QuestionId" checked="@item.IsSelected" />
+            </div>
+    }
+    <button type="submit">Submit</button>
+</form>

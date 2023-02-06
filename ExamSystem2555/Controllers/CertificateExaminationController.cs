@@ -4,6 +4,7 @@ using MyDatabase.Models;
 using Newtonsoft.Json;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
+using WebApp.Pages.Questions;
 
 namespace WebApp.Controllers
 {
@@ -100,7 +101,7 @@ namespace WebApp.Controllers
                         myQuestionList.Add(new CertificateExaminationQuestionDTO
                         {
                             QuestionId = ctq.TopicQuestion.Question.QuestionId,
-                            QuestionDisplay = ctq.TopicQuestion.Question.Display
+                            QuestionDisplay = ctq.TopicQuestion.Question.Display,
                         });
                     }
                 }
@@ -128,7 +129,7 @@ namespace WebApp.Controllers
             {
                 await _service.CertificateTopicQuestionLoad(item);
             }
-            
+
             foreach (var id in selectedQuestions)
             {
                 var q = await _service.QuestionService.GetQuestionByIdAsync(id);
@@ -153,8 +154,108 @@ namespace WebApp.Controllers
             await _service.ExaminationService.AddExaminationAsync(newExamination);
             await _service.SaveChanges();
 
-            return View();
+            return RedirectToAction("CertificateExaminationsIndex");
         }
+
+        public async Task<IActionResult> UpdateCertificateExamination(int id)
+        {
+            var examination = await _service.ExaminationService.GetExaminationByIdAsync(id);
+            await _service.LoadCertificates(examination);
+            await _service.LoadExamQuestions(examination);
+
+            //get all questions related to that certificate in a list
+            var ctqList = (await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync()).ToList();
+
+            var ctList = (await _service.CertificateTopicService.GetAllCertificateTopicsAsync()).Where(ct => ct.Certificate == examination.Certificate).ToList();
+
+            var myQuestionList = new List<CertificateExaminationQuestionDTO>();
+
+            foreach (var ctq in ctqList)
+            {
+                foreach (var ct in ctList)
+                {
+                    if (ctq.CertificateTopic == ct)
+                    {
+                        await _service.CertificateTopicQuestionLoad(ctq);
+                        myQuestionList.Add(new CertificateExaminationQuestionDTO
+                        {
+                            QuestionId = ctq.TopicQuestion.Question.QuestionId,
+                            QuestionDisplay = ctq.TopicQuestion.Question.Display,
+                        });
+                    }
+                }
+            }
+
+            var currentQuestion = examination.ExamQuestions;
+            
+            foreach (var ctq in currentQuestion)
+            {
+                await _service.LoadCTQ(ctq);
+                foreach (var item in myQuestionList)
+                {
+                    if (ctq.CertificateTopicQuestion.TopicQuestion.Question.QuestionId == item.QuestionId)
+                    {
+                        item.IsSelected = true;
+                    }
+
+                }
+            }
+
+            var myModel = new ExaminationDTO
+            {
+                ExaminationId= examination.ExaminationId,
+                CertificateId = examination.Certificate.CertificateId,
+                Questions = myQuestionList
+            };
+
+
+            return View(myModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCertificateExamination(ExaminationDTO model, int[] selectedQuestions)
+        {
+            var examination = await _service.ExaminationService.GetExaminationByIdAsync(model.ExaminationId);
+            await _service.LoadExamQuestions(examination);
+            var examQuestions = new List<ExaminationQuestion>();
+
+            var c = await _service.CertificateService.GetCertificateByIdAsync(model.CertificateId);
+            var ctqList = (await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync()).ToList();
+
+            foreach (var item in ctqList)
+            {
+                await _service.CertificateTopicQuestionLoad(item);
+            }
+
+            foreach (var id in selectedQuestions)
+            {
+                var q = await _service.QuestionService.GetQuestionByIdAsync(id);
+
+                var ctq = ctqList.Where(ctq => ctq.TopicQuestion.Question == q && ctq.CertificateTopic.Certificate == c);
+                foreach (var item in ctq)
+                {
+                    examQuestions.Add(new ExaminationQuestion
+                    {
+                        CertificateTopicQuestion = item
+                    });
+
+                }
+            }
+
+            var z = examination.ExamQuestions.Count;
+
+            examination.ExamQuestions = examQuestions;
+
+            
+
+            await _service.ExaminationService.UpdateExaminationAsync(examination);
+            await _service.SaveChanges();
+
+            return RedirectToAction("CertificateExaminationsIndex");
+
+
+        }
+
 
     }
 }

@@ -15,6 +15,7 @@ namespace WebApp.MainServices
         Task LoadCertificates(Examination exam);
         Task CertificateTopicQuestionLoad(CertificateTopicQuestion ctq);
         Task LoadCTQ(ExaminationQuestion examQuestion);
+        Task LoadExamQuestions(Examination exam);
         Task SaveChanges();
     }
 }
