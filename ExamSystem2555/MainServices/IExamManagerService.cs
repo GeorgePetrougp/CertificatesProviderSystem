@@ -14,6 +14,7 @@ namespace WebApp.MainServices
         public IExaminationQuestionService ExamQuestionService { get; }
         public ICandidateExamService CandidateExamService { get; }
         public ICandidateExamResultsService CandidateExamResultsService { get; }
+        public IMarkerAssignedExamService MarkerAssignedExamService { get; }
         public Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers);
 
 

@@ -1,0 +1,19 @@
+﻿@model WebApp.DTO_Models.Final.AssignExamForMarkingView
+
+<h1>Assign Exam:@Model.ExaminationId to a Marker</h1>
+
+<form asp-action="AssignExaminationForMarking">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ExaminationId" />
+
+    <div class="form-group form-label mt-4">
+
+        <label asp-for="SelectedMarkerId">Add Role</label>
+        <select asp-for="SelectedMarkerId" asp-items="@Model.Markers"></select>
+        <span asp-validation-for="SelectedMarkerId" class="text-danger"></span>
+</div>
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary"/>
+    </div>
+
+</form>

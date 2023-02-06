@@ -17,10 +17,11 @@ namespace WebApp.MainServices
         private readonly ICertificateTopicQuestionService _certificateTopicQuestionService;
         private readonly ICandidateExamService _candidateExamService;
         private readonly ICandidateExamResultsService _candidateExamResultsService;
+        private readonly IMarkerAssignedExamService _markerAssignedExamService;
 
 
 
-        public ExamManagerService(ApplicationDbContext context, ICandidateExamResultsService candidateExamResultsService, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService)
+        public ExamManagerService(ApplicationDbContext context, ICandidateExamResultsService candidateExamResultsService, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService, IMarkerAssignedExamService markerAssignedExamService)
         {
             _context = context;
             _questionService = questionService;
@@ -32,6 +33,7 @@ namespace WebApp.MainServices
             _certificateTopicQuestionService = certificateTopicQuestionService;
             _candidateExamService= candidateExamService;
             _candidateExamResultsService= candidateExamResultsService;
+            _markerAssignedExamService= markerAssignedExamService;
         }
 
         public IQuestionService QuestionService { get { return _questionService; } }
@@ -44,6 +46,7 @@ namespace WebApp.MainServices
         public ITopicQuestionService TopicQuestionService { get { return _topicQuestionService; } }
         public ICandidateExamService CandidateExamService { get { return _candidateExamService;} }
         public ICandidateExamResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
+        public IMarkerAssignedExamService MarkerAssignedExamService { get { return _markerAssignedExamService; } }
 
 
         public async Task SaveChangesAsync()
