@@ -14,11 +14,12 @@ namespace WebApp.MainServices
         private readonly ICertificateTopicQuestionService _certificateTopicQuestionService;
         private readonly ITopicQuestionService _topicQuestionService;
         private readonly ICertificateTopicService _certificateTopicService;
+        private readonly IMarkerAssignedExamService _markerAssignedExamService;
 
         private readonly IQuestionService _questionService;
 
 
-        public CertificateExaminationService(ApplicationDbContext context, ICertificateService certificateService, IExaminationService examination, IExaminationQuestionService examinationQuestionService, ICertificateTopicQuestionService certificateTopicQuestionService, ITopicQuestionService topicQuestionService, ICertificateTopicService certificateTopicService, IQuestionService questionService)
+        public CertificateExaminationService(ApplicationDbContext context, ICertificateService certificateService, IExaminationService examination, IExaminationQuestionService examinationQuestionService, ICertificateTopicQuestionService certificateTopicQuestionService, ITopicQuestionService topicQuestionService, ICertificateTopicService certificateTopicService, IQuestionService questionService, IMarkerAssignedExamService markerAssignedExamService)
         {
             _certificateService = certificateService;
             _examinationService = examination;
@@ -28,6 +29,7 @@ namespace WebApp.MainServices
             _certificateTopicService = certificateTopicService;
             _questionService = questionService;
             _context = context;
+            _markerAssignedExamService = markerAssignedExamService;
         }
 
         public IExaminationQuestionService ExaminationQuestionService { get => _examinationQuestionService; }
@@ -43,6 +45,7 @@ namespace WebApp.MainServices
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get => _certificateTopicQuestionService; }
 
         public IQuestionService QuestionService { get => _questionService; }
+        public IMarkerAssignedExamService MarkerAssignedExamService { get => _markerAssignedExamService; }
 
         public async Task SaveChanges()
         {

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,24 +12,46 @@ using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class MarkingController : Controller
     {
         private readonly IExamManagerService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly IMapper _mapper;
 
-        public MarkingController(IExamManagerService service, IMapper mapper)
+        public MarkingController(IExamManagerService service, IMapper mapper,UserManager<ApplicationUser> userManager)
+
         {
             _service= service;
             _mapper = mapper;
+            _userManager= userManager;
         }
 
         // GET: Marking
         public async Task<IActionResult> GetExams()
         {
-              return View(await _service.CandidateExamService.GetAllCandidateExamAsync());
+            var x = (ClaimsIdentity)User.Identity;
+            var y = x.FindFirst(ClaimTypes.NameIdentifier);
+            var z = y.Value;
+            var user = await _userManager.FindByIdAsync(z);
+            var exams = (await _service.MarkerAssignedExamService.GetAllMarkerAssignedExamsAsync()).Where(m=>m.ApplicationUser == user).Select(ap=>ap.Examination);
+            var candExam = new List<CandidateExam>();
+            foreach (var item in await _service.CandidateExamService.GetAllCandidateExamAsync())
+            {
+                foreach (var exam in exams)
+                {
+                    if(item.Examination == exam)
+                    {
+                        candExam.Add(item);
+                    }
+                }
+            }
+
+              return View(candExam);
         }
 
         

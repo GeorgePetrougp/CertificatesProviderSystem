@@ -14,6 +14,7 @@ namespace WebApp.MainServices
         public IExaminationQuestionService ExamQuestionService { get; }
         public ICandidateExamService CandidateExamService { get; }
         public ICandidateExamResultsService CandidateExamResultsService { get; }
+        public IMarkerAssignedExamService MarkerAssignedExamService { get; }
         public Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers);
 
 
@@ -23,6 +24,7 @@ namespace WebApp.MainServices
         Task CandidateExaminationLoad(CandidateExam c);
         Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList);
         Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer);
+        Task CandidateResultsLoad(CandidateExam c);
         Task SaveChangesAsync();
 
 

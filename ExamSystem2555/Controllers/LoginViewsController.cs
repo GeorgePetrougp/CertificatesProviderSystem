@@ -32,6 +32,7 @@ namespace WebApp.Controllers
         // GET: LoginViews/Create
         public IActionResult Login()
         {
+            
             return View();
         }
 

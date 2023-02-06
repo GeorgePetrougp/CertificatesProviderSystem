@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.MainServices;
 using AutoMapper;
 using WebApp.DTO_Models;
+using WebApp.Models;
 
 namespace WebApp
 {
@@ -22,8 +23,12 @@ namespace WebApp
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+
             builder.Services.AddRazorPages();
             builder.Services.AddMvc();
             builder.Services.AddControllersWithViews();
@@ -41,6 +46,7 @@ namespace WebApp
             builder.Services.AddScoped<IAsyncGenericRepository<Examination>, ExaminationRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CandidateExam>, CandidateExamRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CandidateExamResults>, CandidateExamResultsRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<MarkerAssignedExam>, MarkerAssignedExamRepository>();
 
 
 
@@ -63,6 +69,7 @@ namespace WebApp
             builder.Services.AddScoped<ICandidateExamService, CandidateExamService>();
             builder.Services.AddScoped<ICandidateExamResultsService, CandidateExamResultsService>();
             builder.Services.AddScoped<ICertificateExaminationService, CertificateExaminationService>();
+            builder.Services.AddScoped<IMarkerAssignedExamService, MarkerAssignedExamService>();
 
 
 

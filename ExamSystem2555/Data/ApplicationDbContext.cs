@@ -2,6 +2,8 @@
 using WebApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace WebApp.Data
 {
@@ -10,6 +12,7 @@ namespace WebApp.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<MarkerAssignedExam> MarkerAssignedExams { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
@@ -66,6 +69,16 @@ namespace WebApp.Data
 
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
+        }
+    }
+    public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUser>
+    {
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+        {
+            builder.Property(u=>u.FirstName).HasMaxLength(200);
+            builder.Property(u=>u.LastName).HasMaxLength(200);
         }
     }
 }

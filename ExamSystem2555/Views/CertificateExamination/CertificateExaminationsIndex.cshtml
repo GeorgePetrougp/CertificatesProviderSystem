@@ -42,6 +42,9 @@
                 <td>
                     <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ExaminationId">Delete</a>
                 </td>
+                    <td>
+                    <a class="btn btn-outline-danger" asp-action="AssignExaminationForMarking" asp-route-id="@item.ExaminationId">Assign For Marking</a>
+                    </td>
             </tr>
         }
     </tbody>
