@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyDatabase.Models;
 using Newtonsoft.Json;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class CertificateExaminationController : Controller
     {
         private readonly ICertificateExaminationService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CertificateExaminationController(ICertificateExaminationService service)
+        public CertificateExaminationController(ICertificateExaminationService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
+            _userManager = userManager;
         }
         public async Task<IActionResult> CertificateExaminationsIndex()
         {
@@ -154,6 +158,38 @@ namespace WebApp.Controllers
             await _service.SaveChanges();
 
             return View();
+        }
+
+        public async Task<IActionResult> AssignExaminationForMarking(int id)
+        {
+            var markers = await _userManager.GetUsersInRoleAsync("Marker");
+            var model = new AssignExamForMarkingView
+            {
+                ExaminationId = id,
+                Markers = new SelectList(markers,"Id", "LastName"),
+
+            };
+
+            return View(model);
+            
+  
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignExaminationForMarking(AssignExamForMarkingView model)
+        {
+            var examination = await _service.ExaminationService.GetExaminationByIdAsync(model.ExaminationId);
+            var user = await _userManager.FindByIdAsync(model.SelectedMarkerId);
+            var result = new MarkerAssignedExam
+            {
+                ApplicationUser = user,
+                Examination = examination
+            };
+
+            await _service.MarkerAssignedExamService.AddMarkerAssignedExamAsync(result);
+            await _service.SaveChanges();
+
+            return RedirectToAction("CertificateExaminationsIndex");
         }
 
     }
