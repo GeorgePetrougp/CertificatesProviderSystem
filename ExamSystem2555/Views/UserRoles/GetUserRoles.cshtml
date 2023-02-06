@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebApp.Models;
+@model WebApp.DTO_Models.Final.UserRolesView
+
+
+@{
+
+    ViewData["Title"] = "Application Roles";
+
+}
+
+<h1>Roles</h1>
+
+
+<p>
+    <a type="button" class="btn btn-primary btn-lg" asp-action="Roles" asp-route-id="@Model.UserId">Add Role</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>@Html.DisplayNameFor(model=>model.Roles)</th>
+
+
+
+        <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Roles)
+        {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem=>item)</td>
+                   
+                    <td>
+                    <a class="btn btn-link" asp-action="DeleteRoles"asp-route-item="@item"  asp-route-userId="@Model.UserId">Delete Role</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

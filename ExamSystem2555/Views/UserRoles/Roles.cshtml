@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model WebApp.DTO_Models.Final.UserRolesView
+
+<h1>Choose Roles</h1>
+
+<form asp-action="Roles">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+        
+    <div class="form-group form-label mt-4">
+        
+        <label asp-for="SelectedRoleId">Add Role</label>
+        <select asp-for="SelectedRoleId" asp-items="@Model.RolesSelectList"></select>
+        <span asp-validation-for="SelectedRoleId" class="text-danger"></span>
+</div>
+    <div class="form-group">
+        <input type="submit" value="Submit Role" class="btn btn-primary"/>
+    </div>
+    
+</form>

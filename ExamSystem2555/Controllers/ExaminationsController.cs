@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyDatabase.Models;
 using WebApp.DTO_Models.Final;
@@ -16,6 +17,7 @@ namespace WebApp.Controllers
             _service = examService;
         }
         // GET: ExaminationsController
+        [Authorize(Roles ="Administrators")]
         public async Task<ActionResult> Index()
         {
             var x = (await _service.CandidateExamService.GetAllCandidateExamAsync()).ToList();
