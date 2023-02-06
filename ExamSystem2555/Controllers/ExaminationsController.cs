@@ -17,7 +17,7 @@ namespace WebApp.Controllers
             _service = examService;
         }
         // GET: ExaminationsController
-        [Authorize(Roles ="Administrators")]
+        [Authorize(Roles ="Administrator")]
         public async Task<ActionResult> Index()
         {
             var x = (await _service.CandidateExamService.GetAllCandidateExamAsync()).ToList();

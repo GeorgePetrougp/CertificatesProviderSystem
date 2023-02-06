@@ -5,7 +5,7 @@
 }
 
 <h1>Welcome</h1>
-@if (User.IsInRole("Administrators"))
+@if (User.IsInRole("Administrator"))
 {
 <p>
     <a type="button" class="btn btn-primary btn-lg" asp-action="Create">Add New Question</a>
@@ -19,9 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Display)
             </th>
-            @if (User.IsInRole("Administrators")){<th>Edit Actions</th>}
+            @if (User.IsInRole("Administrator")){<th>Edit Actions</th>}
             <th>Details</th>
-            @if (User.IsInRole("Administrators")){<th>Delete</th>}
+            @if (User.IsInRole("Administrator")){<th>Delete</th>}
             
 
         </tr>
@@ -33,7 +33,7 @@
                     <td>
                     @Html.Raw(item.Display)
                     </td>
-                @if (User.IsInRole("Administrators"))
+                @if (User.IsInRole("Administrator"))
                 {
                     
                     <td >
@@ -46,7 +46,7 @@
                     <td>
                         <a class="btn btn-outline-warning" asp-action="Details" asp-route-id="@item.QuestionId">Details</a> 
                     </td>
-                @if (User.IsInRole("Administrators"))
+                @if (User.IsInRole("Administrator"))
                 {
                     
                     <td>
