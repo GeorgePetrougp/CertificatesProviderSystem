@@ -1,0 +1,107 @@
+﻿@model IEnumerable<MyDatabase.Models.Candidate>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryOfResidence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NativeLanguage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LandlineNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoIdType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoIdNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoIdIssueDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryOfResidence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NativeLanguage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LandlineNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoIdType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoIdNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoIdIssueDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CandidateId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CandidateId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CandidateId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

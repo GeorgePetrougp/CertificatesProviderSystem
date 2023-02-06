@@ -67,6 +67,7 @@ namespace WebApp
             builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
             builder.Services.AddScoped<ICandidateExamService, CandidateExamService>();
             builder.Services.AddScoped<ICandidateExamResultsService, CandidateExamResultsService>();
+            builder.Services.AddScoped<ICertificateExaminationService, CertificateExaminationService>();
 
 
 
