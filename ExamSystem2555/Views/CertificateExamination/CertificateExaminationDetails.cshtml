@@ -1,0 +1,12 @@
+﻿@model WebApp.DTO_Models.Final.CertificateExaminationView
+
+<p>ExamId: @Model.ExaminationId</p>
+
+<p>Certficate Title: @Model.CertificateTitle</p>
+
+<p>Questions: </p>
+
+@foreach(var question in Model.Questions)
+{
+    <p>@question.QuestionDisplay</p>
+}

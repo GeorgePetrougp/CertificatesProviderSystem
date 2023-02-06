@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using MyDatabase.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.DTO_Models
 {

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WebApp.DTO_Models.Final.CertificateExaminationView>
+
+
+<p>
+    <a type="button" class="btn btn-primary btn-lg" asp-action="SelectCertificateForExamination">Create Examination</a>
+</p>
+
+<table class="table table-hover width=80% table-light" style="text-align: center">
+    <thead class="table-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExaminationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CertificateTitle)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Raw(item.ExaminationId)
+                </td>
+                <td>
+                    @Html.Raw(item.CertificateTitle)
+                </td>
+
+                @*<td>
+                    <a class="btn btn-link" asp-action="Edit" asp-route-id="@item.QuestionId">Edit Display</a> |
+                    <a class="btn btn-link" asp-action="EditAnswersIndex" asp-route-id="@item.QuestionId">Edit Answers</a> |
+                    <a class="btn btn-link" asp-action="EditQuestionTopicsIndex" asp-route-id="@item.QuestionId">Edit Topics</a> |
+                    <a class="btn btn-link" asp-action="EditQuestionCertificatesIndex" asp-route-id="@item.QuestionId">Edit Certificate</a>
+                </td>*@
+                <td>
+                    <a class="btn btn-outline-warning" asp-action="CertificateExaminationDetails" asp-route-id="@item.ExaminationId">Details</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ExaminationId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p>
+    <a type="button" class="btn btn-primary btn-lg" asp-action="Create">Add New Question</a>
+</p>
