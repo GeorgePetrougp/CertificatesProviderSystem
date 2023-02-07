@@ -14,7 +14,5 @@ namespace MyDatabase.Models
         public virtual ICollection<CertificateTopic> CertificateTopics { get; set;}
         public virtual ICollection<Examination> Examinations { get; set;}
 
-        
-
     }
 }

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<MyDatabase.Models.Certificate>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="CreateCertificate">Create Certificate</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PassMark)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PassMark)
+            </td>
+            <td>
+                <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a> |
+                <a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a> |
+                <a asp-action="DeleteCertificate" asp-route-id="@item.CertificateId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

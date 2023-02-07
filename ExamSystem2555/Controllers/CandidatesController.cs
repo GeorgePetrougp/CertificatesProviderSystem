@@ -1,161 +1,138 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
-using WebApp.Data;
+using WebApp.DTO_Models.Candidates;
+using WebApp.MainServices;
 
 namespace WebApp.Controllers
 {
     public class CandidatesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICandidateManagerService _service;
+        private readonly IMapper _mapper;
 
-        public CandidatesController(ApplicationDbContext context)
+        public CandidatesController(ICandidateManagerService service, IMapper mapper)
         {
-            _context = context;
+            _service = service;
+            _mapper = mapper;
+        }
+        // GET: CandidatesController
+        public async Task<IActionResult> CandidatesIndex()
+        {
+            var candidates = await _service.CandidateService.GetAllCandidatesAsync();
+            return View(candidates);
         }
 
-        // GET: Candidates
-        public async Task<IActionResult> Index()
+        // GET: CandidatesController/Details/5
+        public async Task<IActionResult> CandidateDetails(int id)
         {
-              return View(await _context.Candidates.ToListAsync());
-        }
-
-        // GET: Candidates/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Candidates == null)
-            {
-                return NotFound();
-            }
-
-            var candidate = await _context.Candidates
-                .FirstOrDefaultAsync(m => m.CandidateId == id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-
+            var candidate = await _service.CandidateService.GetCandidateByIdAsync(id);
+            await _service.LoadCandidateAddress(candidate);
             return View(candidate);
         }
 
-        // GET: Candidates/Create
-        public IActionResult Create()
+        // GET: CandidatesController/Create
+        public async Task<IActionResult> CreateCandidate()
         {
+            var model = new CandidateDTO();
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveCandidate(CandidateDTO candidate)
+        {
+            var newCandidate = _mapper.Map<Candidate>(candidate);
+
+            if (ModelState.IsValid)
+            {
+                await _service.CandidateService.AddCandidateAsync(newCandidate);
+                await _service.SaveChangesAsync();
+                return RedirectToAction("CandidatesIndex");
+            }
+
+            return View(ModelState);
+        }
+
+
+        // GET: CandidatesController/Edit/5
+        public async Task<IActionResult> EditCandidate(int id)
+        {
+            var candidate = await _service.CandidateService.GetCandidateByIdAsync(id);
+            var model = _mapper.Map<CandidateDTO>(candidate);
+
+            return View(model);
+        }
+
+        // POST: CandidatesController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCandidate(CandidateDTO candidate)
+        {
+            var updatedCandidate = _mapper.Map<Candidate>(candidate);
+
+            if (ModelState.IsValid)
+            {
+                await _service.CandidateService.UpdateCandidateAsync(updatedCandidate);
+                await _service.SaveChangesAsync();
+                return RedirectToAction("CandidatesIndex");
+            }
+
+            return View(ModelState);
+        }
+
+        public async Task<IActionResult> CandidateAddressesIndex(int id)
+        {
+            var candidate = await _service.CandidateService.GetCandidateByIdAsync(id);
+            
+            var addressList = (await _service.AddressService.GetAllAddressesAsync()).Where(a=>a.Candidate==candidate).ToList();  
+
+            return View(addressList);
+        }
+
+        public async Task<IActionResult> EditCandidateAddresses(int id)
+        {
+            var address = await _service.AddressService.GetAddressByIdAsync(id);
+            var addressDTO = _mapper.Map<AddressDTO>(address);
+
+            return View(addressDTO);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditCandidateAddresses(AddressDTO address)
+        {
+            var newAddress = _mapper.Map<Address>(address);
+            if(ModelState.IsValid)
+            {
+                await _service.AddressService.UpdateAddressAsync(newAddress);
+                await _service.SaveChangesAsync();
+                return RedirectToAction("CandidatesIndex");
+            }
+
+            return View(ModelState);
+        }
+
+
+
+        // GET: CandidatesController/Delete/5
+        public ActionResult DeleteCandidate(int id)
+        {
+
             return View();
         }
 
-        // POST: Candidates/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: CandidatesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CandidateId,FirstName,MiddleName,LastName,BirthDate,Gender,CountryOfResidence,NativeLanguage,Email,LandlineNumber,MobileNumber,PhotoIdType,PhotoIdNumber,PhotoIdIssueDate")] Candidate candidate)
+        public ActionResult Delete(int id, IFormCollection collection)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(candidate);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(candidate);
-        }
-
-        // GET: Candidates/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Candidates == null)
+            catch
             {
-                return NotFound();
+                return View();
             }
-
-            var candidate = await _context.Candidates.FindAsync(id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-            return View(candidate);
-        }
-
-        // POST: Candidates/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CandidateId,FirstName,MiddleName,LastName,BirthDate,Gender,CountryOfResidence,NativeLanguage,Email,LandlineNumber,MobileNumber,PhotoIdType,PhotoIdNumber,PhotoIdIssueDate")] Candidate candidate)
-        {
-            if (id != candidate.CandidateId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(candidate);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CandidateExists(candidate.CandidateId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(candidate);
-        }
-
-        // GET: Candidates/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Candidates == null)
-            {
-                return NotFound();
-            }
-
-            var candidate = await _context.Candidates
-                .FirstOrDefaultAsync(m => m.CandidateId == id);
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-
-            return View(candidate);
-        }
-
-        // POST: Candidates/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Candidates == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Candidates'  is null.");
-            }
-            var candidate = await _context.Candidates.FindAsync(id);
-            if (candidate != null)
-            {
-                _context.Candidates.Remove(candidate);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CandidateExists(int id)
-        {
-          return _context.Candidates.Any(e => e.CandidateId == id);
         }
     }
 }

@@ -5,9 +5,6 @@
         public int LevelId { get; set; }
         public string Title { get; set; }
         public virtual ICollection<Certificate>? Certificates { get; set;}
-        public Level()
-        {
-
-        }
+        
     }
 }
