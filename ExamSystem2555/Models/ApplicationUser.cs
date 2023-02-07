@@ -2,8 +2,9 @@
 
 namespace WebApp.Models
 {
-    public class ApplicationUser:IdentityUser
+    public class ApplicationUser : IdentityUser
     {
-        public string User { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

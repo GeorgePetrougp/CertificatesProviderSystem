@@ -6,9 +6,9 @@ namespace WebApp.Services
 {
     public class QuestionViewService : IQuestionViewService
     {
-        public QuestionView CreateQuestion(IEnumerable<QuestionDifficulty> difficulties, IEnumerable<Topic> topics,IEnumerable<Certificate> certificates)
+        public CreateQuestionView CreateQuestion(IEnumerable<QuestionDifficulty> difficulties, IEnumerable<Topic> topics,IEnumerable<Certificate> certificates)
         {
-            var newQV = new QuestionView();
+            var newQV = new CreateQuestionView();
             return newQV;
         }
     }

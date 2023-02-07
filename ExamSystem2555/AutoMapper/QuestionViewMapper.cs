@@ -12,7 +12,7 @@ namespace WebApp.Mappers
 
             //.ForMember(dest => dest.QuestionDifficulty, opt => opt.MapFrom(src => new QuestionDifficulty { QuestionDifficultyId = src.SelectedDifficultyId }))
             //.ForMember(dest => dest.QuestionDifficulty, opt => opt.MapFrom(src => dbContext.QuestionDifficulties.Find(src.SelectedDifficultyId)))
-            CreateMap<Question, QuestionView>()
+            CreateMap<Question, CreateQuestionView>()
                 .ForMember(dest => dest.QId, opt => opt.MapFrom(src => src.QuestionId))
                 .ForMember(dest => dest.QDisplay, opt => opt.MapFrom(src => src.Display))
                 .ReverseMap();

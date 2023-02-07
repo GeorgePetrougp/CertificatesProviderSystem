@@ -59,7 +59,7 @@ namespace WebApp.MainServices
         }
 
 
-        public async Task<Question> CreateNewQuestion(QuestionView question)
+        public async Task<Question> CreateNewQuestion(CreateQuestionView question)
         {
             var newQuestion = _mapper.Map<Question>(question);
 
@@ -86,7 +86,7 @@ namespace WebApp.MainServices
 
 
 
-        private async Task AddToCertificateTopicQuestion(QuestionView question, TopicQuestion myTopicQuestion)
+        private async Task AddToCertificateTopicQuestion(CreateQuestionView question, TopicQuestion myTopicQuestion)
         {
             var certificateIds = question.CertificatesView.SelectedCertificateIds.ToList();
 
@@ -107,7 +107,7 @@ namespace WebApp.MainServices
             }
         }
 
-        private async Task AddQuestionWithTopic(QuestionView question, Question newQuestion)
+        private async Task AddQuestionWithTopic(CreateQuestionView question, Question newQuestion)
         {
             var topicIds = question.TopicView.SelectedTopicIds.ToList();
 
@@ -133,7 +133,7 @@ namespace WebApp.MainServices
             return myTopicQuestion;
         }
 
-        private async Task CreateQuestionWithDifficultyAndAnswers(QuestionView question, Question newQuestion)
+        private async Task CreateQuestionWithDifficultyAndAnswers(CreateQuestionView question, Question newQuestion)
         {
             newQuestion.QuestionDifficulty = await QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
             newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
