@@ -10,7 +10,7 @@
     @foreach (var item in Model.Questions)
     {
         <div style="border: 1px solid black; border-radius: 10px; padding: 10px;">
-                <p>@item.QuestionDisplay</p>
+            <p>@Html.Raw(item.QuestionDisplay)</p>
                 <input class="form-check-input" type="checkbox" name="selectedQuestions" value="@item.QuestionId" checked="@item.IsSelected" />
         </div>
     }

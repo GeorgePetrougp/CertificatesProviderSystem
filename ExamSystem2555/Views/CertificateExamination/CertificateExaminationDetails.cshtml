@@ -15,7 +15,7 @@
         
             @foreach (var question in Model.Questions)
             {
-                <td>@question.QuestionDisplay</td>
+            <td>@Html.Raw(question.QuestionDisplay)</td>
             }
         
     </tr>

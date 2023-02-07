@@ -6,7 +6,7 @@
     @foreach (var item in Model.Questions)
     {
         <div>
-            <p>@item.QuestionDisplay</p>
+            <p>@Html.Raw(item.QuestionDisplay)</p>
             <input type="checkbox" name="selectedQuestions" value="@item.QuestionId" checked="@item.IsSelected" />
         </div>
     }

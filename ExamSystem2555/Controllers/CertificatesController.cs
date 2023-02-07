@@ -34,7 +34,7 @@ namespace WebApp.Controllers
         // GET: Certificates/Details/5
         public async Task<IActionResult> CertificateDetails(int? id)
         {
-            if (id == null || _service.CertificateService.GetAllCertificatesAsync() == null)
+            if (id == null || await _service.CertificateService.GetAllCertificatesAsync() == null)
             {
                 return NotFound();
             }
