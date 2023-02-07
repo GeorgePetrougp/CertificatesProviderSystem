@@ -42,7 +42,6 @@ namespace WebApp.MainServices
         public IExamCandidateAnswerService CandidateAnswerService { get { return _candidateAnswerService; } }
         public IExaminationQuestionService ExamQuestionService { get { return _examQuestionService; } }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService; } }
-
         public ITopicQuestionService TopicQuestionService { get { return _topicQuestionService; } }
         public ICandidateExamService CandidateExamService { get { return _candidateExamService;} }
         public ICandidateExamResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }

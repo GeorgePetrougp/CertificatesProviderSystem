@@ -16,10 +16,7 @@ namespace WebApp.MainServices
         public ICandidateExamResultsService CandidateExamResultsService { get; }
         public IMarkerAssignedExamService MarkerAssignedExamService { get; }
         public Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers);
-
-
         Task CertificateTopicsLoad(CertificateTopicQuestion ctq);
-
         Task ExaminationQuestionLoad(IEnumerable<ExaminationQuestion> eq);
         Task CandidateExaminationLoad(CandidateExam c);
         Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList);
