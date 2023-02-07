@@ -1,96 +1,132 @@
 ﻿@model MyDatabase.Models.Candidate
 
 @{
-    ViewData["Title"] = "Details";
+    ViewBag.Title = "Candidate Details";
 }
 
-<h1>Details</h1>
-
+<h2>Details</h2>
 <div>
     <h4>Candidate</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
+    <dl class="dl-vertical">
+        <dt>
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.MiddleName)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.MiddleName)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.LastName)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.BirthDate)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.BirthDate)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.Gender)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.Gender)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.CountryOfResidence)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.CountryOfResidence)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.NativeLanguage)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.NativeLanguage)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.LandlineNumber)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.LandlineNumber)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.MobileNumber)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.MobileNumber)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.PhotoIdType)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.PhotoIdType)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.PhotoIdNumber)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.PhotoIdNumber)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt>
             @Html.DisplayNameFor(model => model.PhotoIdIssueDate)
         </dt>
-        <dd class = "col-sm-10">
+
+        <dd>
             @Html.DisplayFor(model => model.PhotoIdIssueDate)
         </dd>
+
     </dl>
+    <p>Addresses</p>
+    @foreach (var a in Model.Addresses)
+    {
+        <p>Address Line : @a.AddressLine</p>
+        <p>State :@a.State</p>
+        <p>Province :@a.Province</p>
+        <p>City :@a.City</p>
+        <p>Postal Code :@a.PostalCode</p>
+
+    }
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.CandidateId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CandidateId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

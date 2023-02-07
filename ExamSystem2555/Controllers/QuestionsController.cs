@@ -96,7 +96,7 @@ namespace WebApp.Controllers
             var topicsList = await _service.TopicService.GetAllTopicsAsync();
             var certificateList = await _service.CertificateService.GetAllCertificatesAsync();
             var difficultiesList = await _service.QuestionDifficultyService.GetAllDifficultiesAsync();
-            var newQuestion = new QuestionView();
+            var newQuestion = new CreateQuestionView();
             newQuestion.Difficulty.Difficulties = new SelectList(difficultiesList, "QuestionDifficultyId", "Difficulty");
             newQuestion.CertificatesView.CertificateList = new MultiSelectList(certificateList, "CertificateId", "Title");
             newQuestion.TopicView.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
@@ -109,14 +109,13 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] QuestionView question)
+        public async Task<IActionResult> Create([FromForm] CreateQuestionView question)
         {
             if (ModelState.IsValid)
             {
                 //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set 
                 var newQuestion = _mapper.Map<Question>(question);
-                //newQuestion.QuestionDifficulty.QuestionDifficultyId = question.Difficulty.SelectedId;
-                newQuestion.QuestionDifficulty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
+                newQuestion.QuestionDifficulty = _mapper.Map<QuestionDifficulty>(question);
                 newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
 
                 var topicIds = question.TopicView.SelectedTopicIds;

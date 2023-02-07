@@ -27,49 +27,52 @@ namespace WebApp
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
-
             builder.Services.AddRazorPages();
             builder.Services.AddMvc();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IAsyncGenericRepository<Address>, AddressRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<Candidate>, CandidateRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExam>, CandidateExamRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExamResults>, CandidateExamResultsRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<Certificate>, CertificateRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopic>, CertificateTopicRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopicQuestion>, CertificateTopicQuestionRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<Examination>, ExaminationRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<ExamCandidateAnswer>, ExamCandidateAnswerRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<ExaminationQuestion>, ExaminationQuestionRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<Level>, LevelRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Question>, QuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<QuestionDifficulty>, QuestionDifficultyRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<QuestionPossibleAnswer>, QuestionPossibleAnswerRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Topic>, TopicRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<TopicQuestion>, TopicQuestionRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopicQuestion>, CertificateTopicQuestionRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopic>, CertificateTopicRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<Certificate>, CertificateRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<Candidate>, CandidateRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<ExamCandidateAnswer>, ExamCandidateAnswerRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<ExaminationQuestion>, ExaminationQuestionRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<Examination>, ExaminationRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExam>, CandidateExamRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExamResults>, CandidateExamResultsRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<MarkerAssignedExam>, MarkerAssignedExamRepository>();
 
-
-
-
+            builder.Services.AddScoped<IAddressService, AddressService>();
+            builder.Services.AddScoped<ICandidateService, CandidateService>();
+            builder.Services.AddScoped<ICandidateExamService, CandidateExamService>();
+            builder.Services.AddScoped<ICandidateExamResultsService, CandidateExamResultsService>();
+            builder.Services.AddScoped<ICertificateService, CertificateService>();
+            builder.Services.AddScoped<ICertificateTopicService, CertificateTopicService>();
+            builder.Services.AddScoped<ICertificateTopicQuestionService, CertificateTopicQuestionService>();
+            builder.Services.AddScoped<IExaminationService, ExaminationService>();
+            builder.Services.AddScoped<IExamCandidateAnswerService, ExamCandidateAnswerService>();
+            builder.Services.AddScoped<IExaminationQuestionService, ExaminationQuestionService>();
+            builder.Services.AddScoped<ILevelService, LevelService>();
             builder.Services.AddScoped<IQuestionService, QuestionService>();
             builder.Services.AddScoped<IQuestionDifficultyService, QuestionDifficultyService>();
             builder.Services.AddScoped<IQuestionPossibleAnswerService, QuestionPossibleAnswerService>();
             builder.Services.AddScoped<ITopicService, TopicService>();
-            builder.Services.AddScoped<ICertificateTopicService, CertificateTopicService>();
             builder.Services.AddScoped<ITopicQuestionService, TopicQuestionService>();
-            builder.Services.AddScoped<ICertificateTopicQuestionService, CertificateTopicQuestionService>();
-            builder.Services.AddScoped<ICertificateService, CertificateService>();
-            builder.Services.AddScoped<ICandidateService, CandidateService>();
+            
             builder.Services.AddScoped<IQuestionViewService, QuestionViewService>();
-            builder.Services.AddScoped<IQuestionManagerService, QuestionManagerService>();
-            builder.Services.AddScoped<IExaminationService, ExaminationService>();
-            builder.Services.AddScoped<IExamCandidateAnswerService, ExamCandidateAnswerService>();
-            builder.Services.AddScoped<IExaminationQuestionService, ExaminationQuestionService>();
-            builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
-            builder.Services.AddScoped<ICandidateExamService, CandidateExamService>();
-            builder.Services.AddScoped<ICandidateExamResultsService, CandidateExamResultsService>();
             builder.Services.AddScoped<ICertificateExaminationService, CertificateExaminationService>();
-            builder.Services.AddScoped<IMarkerAssignedExamService, MarkerAssignedExamService>();
+
+            builder.Services.AddScoped<ICandidateManagerService, CandidateManagerService>();
+            builder.Services.AddScoped<ICertificateManagerService, CertificateManagerService>();
+            builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
+            builder.Services.AddScoped<IQuestionManagerService, QuestionManagerService>();
+
 
 
 

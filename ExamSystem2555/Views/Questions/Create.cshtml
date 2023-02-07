@@ -1,4 +1,4 @@
-﻿@model WebApp.DTO_Models.QuestionView
+﻿@model WebApp.DTO_Models.CreateQuestionView
 
 @{
     ViewData["Title"] = "Create";
@@ -7,20 +7,19 @@
 }
 <script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
 <script src="https://cdn.ckbox.io/CKBox/1.3.0-rc.0/ckbox.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
 
 <h2 class="text-decoration-underline text-center">Create a new question</h2>
 <hr />
 <div class="container p-3">
     <div>
         <form asp-action="Create">
-            <script src="https://code.jquery.com/jquery-3.6.3.js"
-                    integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-                    crossorigin="anonymous"></script>
 
             <div class="form-group">
                 <label asp-for="QDisplay" class="control-label fw-bold">Question Display</label>
-                <textarea asp-for="QDisplay" class="form-control" id="editor" ></textarea>
+                <textarea asp-for="QDisplay" class="form-control" id="editor"></textarea>
                 <span asp-validation-for="QDisplay" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -36,19 +35,19 @@
                         <label asp-for="AnswerViews[i].IsCorrect" class="control-label fw-bold">Correct</label>
                         <input asp-for="AnswerViews[i].IsCorrect" name="Correct" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)" />
                         <label asp-for="AnswerViews[i].Answer" class="control-label fw-bold">Answer @(i + 1)</label>
-                        <textarea asp-for="AnswerViews[i].Answer" class="form-control" id="ans@(i+1)" ></textarea>
+                        <textarea asp-for="AnswerViews[i].Answer" class="form-control" id="ans@(i+1)"></textarea>
                         <span asp-validation-for="AnswerViews[i].Answer" class="text-danger"></span><br />
                     </div>
                 }
             </div>
-            
+
             <div class="form-group">
-                <div class="form-group form-label mt-4 fw-bold" id="topicSelect" >
+                <div class="form-group form-label mt-4 fw-bold" id="topicSelect">
                     <label asp-for="TopicView.SelectedTopicIds">Please Select a Topic:</label>
                     <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
                     <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
                 </div>
-            
+
                 <div class="form-group form-label mt-4 fw-bold" id="certificatesForm" style="display: none;">
                     <label asp-for="CertificatesView.SelectedCertificateIds">Please Select a Certificate:</label>
                     <select asp-for="CertificatesView.SelectedCertificateIds" asp-items="Model.CertificatesView.CertificateList"></select>
@@ -71,7 +70,7 @@
             </div>
 
 
-            
+
         </form>
     </div>
 </div>
@@ -111,38 +110,38 @@
             topicSelect.style.display = "block";
             certificatesForm.style.display = "none";
         }
-    };   
-    </script>
-    <script>
+    };
+</script>
+<script>
 
-    $(document).ready(function(){
-  $("#certificatesForm").hide();
-});
-        $("#hasTopic").change(function () {
-            toggleCertificates();
-        });
-
-        function toggleCertificates() {
-            if ($("#hasTopic").is(":checked")) {
-                $("#certificatesForm").show();
-            }
-            else {
-                $("#certificatesForm").hide();
-            }
-        }
+    $(document).ready(function () {
+        $("#certificatesForm").hide();
     });
+    $("#hasTopic").change(function () {
+        toggleCertificates();
+    });
+
+    function toggleCertificates() {
+        if ($("#hasTopic").is(":checked")) {
+            $("#certificatesForm").show();
+        }
+        else {
+            $("#certificatesForm").hide();
+        }
+    }
+        });
 </script>
 
 
-     
-    @for (var i = 0; i < 4; i++)
-    {
+
+@for (var i = 0; i < 4; i++)
+{
     <script>
 
         ClassicEditor
-            .create(document.querySelector('#ans@(i+1)'), {
+            .create(document.querySelector('#ans@(i + 1)'), {
                 ckbox: {
-                            tokenUrl: 'https://95153.cke-cs.com/token/dev/1e8402a0dff517a45e22cf007ffc706f9aa641e0bf6807fe94d694ff4598?limit=10',
+                    tokenUrl: 'https://95153.cke-cs.com/token/dev/1e8402a0dff517a45e22cf007ffc706f9aa641e0bf6807fe94d694ff4598?limit=10',
                 },
                 toolbar: [
                     'ckbox', 'imageUpload', '|', 'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
@@ -153,19 +152,19 @@
                 console.error(error);
             });
     </script>
-    }
-        
+}
 
-        <script>
-            function handleCheckboxClick(clickedCheckbox) {
-                var checkboxes = document.getElementsByName("Correct");
-                for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i] !== clickedCheckbox) {
-                        checkboxes[i].checked = false;
-                    }
-                }
+
+<script>
+    function handleCheckboxClick(clickedCheckbox) {
+        var checkboxes = document.getElementsByName("Correct");
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] !== clickedCheckbox) {
+                checkboxes[i].checked = false;
             }
-        </script>
+        }
+    }
+</script>
 
 
 @section Scripts {

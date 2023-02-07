@@ -9,9 +9,9 @@ namespace WebApp.MainServices
             
         }
 
-        public QuestionView InitializeQuestionView()
+        public CreateQuestionView InitializeQuestionView()
         {
-            var questionView = new QuestionView();
+            var questionView = new CreateQuestionView();
 
 
             return questionView;

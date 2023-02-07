@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MyDatabase.Models;
 
-namespace MyDatabase.Models
+namespace WebApp.DTO_Models.Candidates
 {
-    public class Candidate
+    public class CandidateDTO
     {
         public int CandidateId { get; set; }
         public string FirstName { get; set; }
@@ -19,9 +18,5 @@ namespace MyDatabase.Models
         public string PhotoIdType { get; set; }
         public string PhotoIdNumber { get; set; }
         public DateTime PhotoIdIssueDate { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
-        public virtual ICollection<CandidateExam> CandidateExams { get; set; }
-
     }
 }
-
