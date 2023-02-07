@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<MyDatabase.Models.QuestionPossibleAnswer>
 
-<table class="table table-hover">
-    <thead>
+<table class="table table-hover width=50% table-light" style="text-align: center">
+    <thead class="table-primary">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.PossibleAnswer)
             </th>
-            <th></th>
+            <th>Answer Tag</th>
+            <th>Edit Answer</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +21,7 @@
                     @Html.Raw(item.IsCorrect)
                 </td>
                 <td>
-                    <a asp-action="EditSelectedAnswer" asp-route-id="@item.QuestionPossibleAnswerId">Edit</a> |
+                    <a class="btn btn-outline-success" asp-action="EditSelectedAnswer" asp-route-id="@item.QuestionPossibleAnswerId">Edit</a>
 @*                    <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>*@
                 </td>

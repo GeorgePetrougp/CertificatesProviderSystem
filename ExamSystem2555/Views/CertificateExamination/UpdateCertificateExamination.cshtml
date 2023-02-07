@@ -1,6 +1,7 @@
 ﻿@model WebApp.DTO_Models.Final.ExaminationDTO
 
-<p>Update Examination</p>
+<h2 class="ce">Update Examination</h2>
+<h4><small class="text-muted">Please select the required questions</small></h4>
 
 <form asp-action="UpdateCertificateExamination">
     <input type="hidden" asp-for="CertificateId" />
@@ -8,10 +9,15 @@
 
     @foreach (var item in Model.Questions)
     {
-            <div>
+        <div style="border: 1px solid black; border-radius: 10px; padding: 10px;">
                 <p>@item.QuestionDisplay</p>
-                <input type="checkbox" name="selectedQuestions" value="@item.QuestionId" checked="@item.IsSelected" />
-            </div>
+                <input class="form-check-input" type="checkbox" name="selectedQuestions" value="@item.QuestionId" checked="@item.IsSelected" />
+        </div>
     }
-    <button type="submit">Submit</button>
 </form>
+<br />
+<button type="button" class="btn btn-primary btn-lg">Submit</button>
+
+<div>
+    <a asp-action="CertificateExaminationsIndex">Back to List</a>
+</div>

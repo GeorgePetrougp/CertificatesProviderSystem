@@ -5,20 +5,19 @@
 }
 
 <h1>Edit Topics</h1>
-<h1>@Model.QuestionId</h1>
+<h1>Question @Model.QuestionId</h1>
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <input type="hidden" asp-for="QuestionId" />
 
-<p>
-    <a asp-action="AddQuestionTopic" asp-route-id="@Model.QuestionId">Add Topic</a>
-</p>
-<table class="table">
-    <thead>
+<div>
+    <a class="btn btn-primary btn-lg" asp-action="AddQuestionTopic" asp-route-id="@Model.QuestionId">Add Topic</a>
+</div>
+<table class="table table-hover width=50% table-light" style="text-align: center">
+    <thead class="table-primary">
         <tr>
-            <th>
-                Topic
-            </th>
-            <th></th>
+            <th>Topic</th>
+            <th>Description</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -32,7 +31,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@item.TopicId">Delete</a>
+                    <a class= "btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.TopicId">Delete</a>
                 </td>
             </tr>
         }

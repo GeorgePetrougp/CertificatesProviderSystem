@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<WebApp.DTO_Models.Final.CertificateExaminationView>
+@using static WebApp.DTO_Models.Final.AssignExamForMarkingView
+
 
 
 <p>
@@ -14,6 +16,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CertificateTitle)
             </th>
+            <th>Actions</th>
+            <th>Assign Marker</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -34,21 +39,17 @@
                     <a class="btn btn-link" asp-action="EditQuestionCertificatesIndex" asp-route-id="@item.QuestionId">Edit Certificate</a>
                 </td>*@
                 <td>
-                    <a class="btn btn-outline-warning" asp-action="CertificateExaminationDetails" asp-route-id="@item.ExaminationId">Details</a>
-                </td>
-                <td>
-                <a class="btn btn-outline-danger" asp-action="UpdateCertificateExamination" asp-route-id="@item.ExaminationId">Edit</a>
-                </td>
-                <td>
+                    <a class="btn btn-outline-info" asp-action="CertificateExaminationDetails" asp-route-id="@item.ExaminationId">Details</a>&nbsp;
+
+                    <a class="btn btn-outline-success" asp-action="UpdateCertificateExamination" asp-route-id="@item.ExaminationId">Edit</a>&nbsp;
+
                     <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ExaminationId">Delete</a>
                 </td>
-                    <td>
-                    <a class="btn btn-outline-danger" asp-action="AssignExaminationForMarking" asp-route-id="@item.ExaminationId">Assign For Marking</a>
-                    </td>
+                <td>
+                    <a button type="button" class="btn btn-primary" asp-action="AssignExaminationForMarking" asp-route-id="@item.ExaminationId">Assign For Marking</a>                
+                </td>
             </tr>
         }
     </tbody>
 </table>
-<p>
-    <a type="button" class="btn btn-primary btn-lg" asp-action="Create">Add New Question</a>
-</p>
+
