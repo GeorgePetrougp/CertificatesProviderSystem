@@ -3,9 +3,7 @@
 
 
 @{
-
     ViewData["Title"] = "Application Roles";
-
 }
 
 <h1>Roles</h1>
@@ -14,26 +12,25 @@
     <a type="button" class="btn btn-primary btn-lg" asp-action="Create">Add New Role</a>
 </p>
 
-<table class="table">
-    <thead>
+<table class="table table-hover width=80% table-light" style="text-align: center">
+    <thead class ="table-primary">
         <tr>
-            <th>@Html.DisplayNameFor(model=>model.Id)</th>
-        
             <th>@Html.DisplayNameFor(model=>model.Name)</th>
+        
+            <th>@Html.DisplayNameFor(model=>model.Id)</th>
 
-
-        <th></th>
+            <th>Delete</th>        
         </tr>
     </thead>
     <tbody>
         @foreach(var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem=>item.Id)</td>
                 <td>@Html.DisplayFor(modelItem=>item.Name)</td>
-                    <td>
-                    <a class="btn btn-link" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                <td>@Html.DisplayFor(modelItem=>item.Id)</td>
+                <td>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
             </tr>
         }
     </tbody>

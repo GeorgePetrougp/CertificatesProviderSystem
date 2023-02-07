@@ -260,7 +260,7 @@ namespace WebApp.Controllers
 
             return View(myAnswers);
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditSelectedAnswer(int? id)
         {
             if (id == null || _service.QuestionService == null)
