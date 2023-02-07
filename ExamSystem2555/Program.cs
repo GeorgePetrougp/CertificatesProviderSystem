@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.MainServices;
 using AutoMapper;
 using WebApp.DTO_Models;
+using WebApp.Models;
 
 namespace WebApp
 {
@@ -22,7 +23,8 @@ namespace WebApp
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddRazorPages();

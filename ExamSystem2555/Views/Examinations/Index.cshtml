@@ -1,29 +1,30 @@
-﻿@model IEnumerable<MyDatabase.Models.Question>
+﻿@model IEnumerable<WebApp.DTO_Models.Final.ExaminationControllerView>
 
-@{
+    @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Welcome</h1>
-@if (User.IsInRole("Administrator"))
-{
-<p>
-    <a type="button" class="btn btn-primary btn-lg" asp-action="Create">Add New Question</a>
-</p>
-    
-}
+
 
 <table class="table table-hover width=80% table-light" style = "text-align: center">
     <thead class="table-primary">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Display)
+                @Html.DisplayNameFor(model => model.ExamCode)
             </th>
-            @if (User.IsInRole("Administrator")){<th>Edit Actions</th>}
-            <th>Details</th>
-            @if (User.IsInRole("Administrator")){<th>Delete</th>}
-            
-
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResultIssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResultLabel)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -31,29 +32,36 @@
         {
                 <tr>
                     <td>
-                    @Html.Raw(item.Display)
+                    @Html.Raw(item.ExamCode)
                     </td>
-                @if (User.IsInRole("Administrator"))
-                {
-                    
-                    <td >
+                    <td>
+                    @Html.Raw(item.Candidate.LastName)
+                    </td>
+                    <td>
+                    @Html.Raw(item.ExamDate)
+                    </td>
+                    <td>
+                    @Html.Raw(item.ResultIssueDate)
+                    </td>
+                    <td>
+                    @Html.Raw(item.ResultLabel)
+                    </td>
+                    @*<td >
                         <a class="btn btn-link" asp-action="Edit" asp-route-id="@item.QuestionId">Edit Display</a> |
                         <a class="btn btn-link" asp-action="EditAnswersIndex" asp-route-id="@item.QuestionId">Edit Answers</a> |
                         <a class="btn btn-link" asp-action="EditQuestionTopicsIndex" asp-route-id="@item.QuestionId">Edit Topics</a> |
                         <a class="btn btn-link" asp-action="EditQuestionCertificatesIndex" asp-route-id="@item.QuestionId">Edit Certificate</a>
-                    </td>
-                }
-                    <td>
+                    </td>*@
+                    @*<td>
                         <a class="btn btn-outline-warning" asp-action="Details" asp-route-id="@item.QuestionId">Details</a> 
                     </td>
-                @if (User.IsInRole("Administrator"))
-                {
-                    
                     <td>
                         <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
-                    </td>
-                }
+                    </td>*@
                 </tr>
         }
     </tbody>
 </table>
+@*<p>
+    <a type="button" class="btn btn-primary btn-lg" asp-action="Create">Add New Question</a>
+</p*@

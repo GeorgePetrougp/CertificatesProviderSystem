@@ -12,6 +12,7 @@ namespace WebApp.MainServices
         public ITopicQuestionService TopicQuestionService { get; }
         public ICertificateTopicService CertificateTopicService { get; }
         public IQuestionService QuestionService { get; }
+        public IMarkerAssignedExamService MarkerAssignedExamService { get; }
         Task LoadCertificates(Examination exam);
         Task CertificateTopicQuestionLoad(CertificateTopicQuestion ctq);
         Task LoadCTQ(ExaminationQuestion examQuestion);
