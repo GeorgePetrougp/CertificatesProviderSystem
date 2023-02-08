@@ -24,97 +24,55 @@ namespace WebApp.Controllers
             _mapper = mapper;
         }
 
-        // GET: Certificates
         public async Task<IActionResult> CertificatesIndex()
         {
-            var certificates = await _service.CertificateService.GetAllCertificatesAsync();
+            var certificates = await _service.CreateCertificateDTOs();
             return View(certificates);
         }
 
-        // GET: Certificates/Details/5
         public async Task<IActionResult> CertificateDetails(int? id)
         {
-            if (id == null || _service.CertificateService.GetAllCertificatesAsync() == null)
+            if (await _service.NullValidation(id))
             {
                 return NotFound();
             }
 
-            var certificate = await _service.CertificateService.GetCertificateByIdAsync(id);
-            await _service.LoadLevel(certificate);
+            var certificate = await _service.CreateCertificateDTO(id);
 
-            if (certificate == null)
-            {
-                return NotFound();
-            }
-
-
-            var model = new CertificateDetailsView
-            {
-                Certificate = _mapper.Map<CertificateDTO>(certificate),
-                LevelTitle = certificate.Level.Title
-            };
-
-            return View(model);
+            return View(certificate);
         }
 
-        // GET: Certificates/Create
         public async Task<IActionResult> CreateCertificate()
         {
-            var levelsList = await _service.LevelService.GetAllLevelsAsync();
-
-            var model = new CreateCertificateView
-            {
-                CertificateLevelsList = new SelectList(levelsList, "LevelId", "Title")
-            };
-            return View(model);
+            var createCertificateView = await _service.CreateCertificateView();
+            return View(createCertificateView);
         }
 
-        // POST: Certificates/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCertificate(CreateCertificateView certificate)
         {
-            var level = await _service.LevelService.GetLevelByIdAsync(certificate.SelectedLevelId);
-
-            var newCertificate = _mapper.Map<Certificate>(certificate.CertificateDTO);
-            newCertificate.Level = level;
+            var newCertificate = await _service.TBD(certificate);
 
             if (ModelState.IsValid)
             {
-                await _service.CertificateService.AddCertificateAsync(newCertificate);
-                await _service.SaveChangesAsync();
+                await _service.AddCertificate(newCertificate);
+                
                 return RedirectToAction("CertificatesIndex");
             }
-            return View(certificate);
+            return RedirectToAction("CreateCertificate");
         }
 
         // GET: Certificates/Edit/5
         public async Task<IActionResult> EditCertificate(int? id)
         {
-            if (id == null || await _service.CertificateService.GetAllCertificatesAsync() == null)
+            if (await _service.NullValidation(id))
             {
                 return NotFound();
             }
 
-            var certificate = await _service.CertificateService.GetCertificateByIdAsync(id);
-
-            if (certificate == null)
-            {
-                return NotFound();
-            }
-
-            var levelsList = await _service.LevelService.GetAllLevelsAsync();
-
-
-            var editCertificateView = new CreateCertificateView
-            {
-                CertificateDTO = _mapper.Map<CertificateDTO>(certificate),
-                CertificateLevelsList = new SelectList(levelsList, "LevelId", "Title")
-            };
-
-
+            var editCertificateView = await _service.CreateCertificateView(id);
+            
             return View(editCertificateView);
         }
 
@@ -123,32 +81,32 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CertificateEdit(CreateCertificateView certificate)
+        public async Task<IActionResult> EditCertificate(CreateCertificateView certificate)
         {
-            var editedCertificate = _mapper.Map<Certificate>(certificate.CertificateDTO);
-            editedCertificate.Level = await _service.LevelService.GetLevelByIdAsync(certificate.SelectedLevelId);
+            var editedCertificate = await _service.TBD(certificate);
+            
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _service.CertificateService.UpdateCertificateAsync(editedCertificate);
-                    await _service.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await CertificateExistsAsync(certificate.CertificateDTO.CertificateId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                //try
+                //{
+                    await _service.UpdateCertificate(editedCertificate);
+                //}
+
+                //catch (DbUpdateConcurrencyException)
+                //{
+                //    if (!await CertificateExistsAsync(certificate.CertificateDTO.CertificateId))
+                //    {
+                //        return NotFound();
+                //    }
+                //    else
+                //    {
+                //        throw;
+                //    }
+                //}
                 return RedirectToAction("CertificatesIndex");
             }
-            return View(certificate);
+            return RedirectToAction("EditCertificate",certificate.CertificateDTO.CertificateId);
         }
 
         // GET: Certificates/Delete/5

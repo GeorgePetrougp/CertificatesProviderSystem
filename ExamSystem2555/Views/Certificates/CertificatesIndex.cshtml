@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyDatabase.Models.Certificate>
+﻿@model IEnumerable<WebApp.DTO_Models.Certificates.CertificateDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.FullTitle)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
@@ -31,7 +31,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.FullTitle)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
