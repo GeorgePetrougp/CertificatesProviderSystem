@@ -10,7 +10,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ExamDate"></label>
-                <input asp-for="ExamDate" type="date" value="@DateTime.Now"/>
+                <input asp-for="ExamDate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now"/>
                 <span asp-validation-for="ExamDate" class="text-danger"></span>
             </div>
 
