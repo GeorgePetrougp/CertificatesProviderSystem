@@ -1,4 +1,4 @@
-﻿@model WebApp.DTO_Models.Certificates.CertificateDetailsView
+﻿@model WebApp.DTO_Models.Certificates.CertificateDTO
 
 @{
     ViewData["Title"] = "Details";
@@ -11,33 +11,35 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Certificate.Title)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Certificate.Title)
+            @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Certificate.Description)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Certificate.Description)
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Certificate.Status)
+            @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Certificate.Status)
+            @Html.DisplayFor(model => model.Status)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Certificate.PassMark)
+            @Html.DisplayNameFor(model => model.PassMark)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Certificate.PassMark)
+            @Html.DisplayFor(model => model.PassMark)
         </dd>
     </dl>
-    <p>Level: @Model.LevelTitle</p>
+    <p>Level: @Model.Level.Title</p>
 </div>
 <div>
+
     <a asp-action="EditCertificate" asp-route-id="@Model.Certificate.CertificateId">Edit</a> |
     <a asp-action="CertificatesIndex">Back to List</a>
+
 </div>

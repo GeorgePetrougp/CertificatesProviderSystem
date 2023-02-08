@@ -10,6 +10,10 @@ namespace WebApp.AutoMapper
         {
             CreateMap<Certificate,CertificateDTO>();
             CreateMap<CertificateDTO, Certificate>();
+
+            CreateMap<Level, CertificateLevelDTO>();
+            CreateMap<CertificateLevelDTO, Level>();
+
         }
     }
 }
