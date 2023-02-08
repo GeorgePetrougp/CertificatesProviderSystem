@@ -147,7 +147,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<bool> CertificateExistsAsync(int id)
+        private async Task<bool> CertificateExistsAsync()
         {
             return true;
         }
