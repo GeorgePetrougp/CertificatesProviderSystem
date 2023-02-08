@@ -33,7 +33,7 @@
                 <span asp-validation-for="@Model.CertificateDTO.PassMark" class="text-danger"></span>
             </div>
             <div class="form-group form-label mt-4" id="topicSelect">
-                <label asp-for="SelectedLevelId"></label>
+                <label asp-for="SelectedLevelId"></label><br />
                 <select asp-for="SelectedLevelId" asp-items="Model.CertificateLevelsList"></select>
                 <span asp-validation-for="SelectedLevelId" class="text-danger"></span>
             </div>
