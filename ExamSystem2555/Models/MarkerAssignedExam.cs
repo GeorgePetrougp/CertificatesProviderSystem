@@ -5,7 +5,7 @@ namespace WebApp.Models
     public class MarkerAssignedExam
     {
         public int MarkerAssignedExamId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
-        public Examination Examination { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual Examination Examination { get; set; }
     }
 }

@@ -9,14 +9,27 @@ namespace WebApp.MainServices
         private readonly ApplicationDbContext _context;
         private readonly ICandidateService _candidateService;
         private readonly IAddressService _addressService;
-        public CandidateManagerService(ApplicationDbContext context, ICandidateService candidateService, IAddressService addressService)
+        private readonly ICertificateService _certificateService;
+        private readonly IExaminationService _examService;
+        private readonly ICandidateExamService _candidateExamService;
+        private readonly IUserCandidateService _userCandidateService;
+
+        public CandidateManagerService(ApplicationDbContext context, ICandidateService candidateService, IAddressService addressService, ICertificateService certificateService, IExaminationService examService, ICandidateExamService candidateExamService, IUserCandidateService userCandidateService)
         {
             _context = context;
             _candidateService = candidateService;
             _addressService = addressService;
+            _certificateService = certificateService;
+            _examService = examService;
+            _candidateExamService= candidateExamService;
+            _userCandidateService = userCandidateService;
         }
         public ICandidateService CandidateService { get => _candidateService; }
         public IAddressService AddressService { get => _addressService; }
+        public ICertificateService CertificateService { get => _certificateService; }
+        public IExaminationService ExaminationService { get => _examService; }
+        public ICandidateExamService CandidateExamService { get => _candidateExamService; }
+        public IUserCandidateService UserCandidateService { get => _userCandidateService; }
 
 
         public async Task LoadCandidateAddress(Candidate candidate)

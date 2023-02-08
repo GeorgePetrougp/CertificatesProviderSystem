@@ -1,21 +1,32 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
+using System.Security.Claims;
+using System.Text;
+using WebApp.DTO_Models;
 using WebApp.DTO_Models.Candidates;
 using WebApp.MainServices;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class CandidatesController : Controller
     {
         private readonly ICandidateManagerService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public CandidatesController(ICandidateManagerService service, IMapper mapper)
+        public CandidatesController(ICandidateManagerService service, IMapper mapper,UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _service = service;
             _mapper = mapper;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
         // GET: CandidatesController
         public async Task<IActionResult> CandidatesIndex()
@@ -42,11 +53,17 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveCandidate(CandidateDTO candidate)
         {
+            var x = (ClaimsIdentity)User.Identity;
+            var y = x.FindFirst(ClaimTypes.NameIdentifier);
+            var z = y.Value;
             var newCandidate = _mapper.Map<Candidate>(candidate);
-
+            newCandidate.UserCandidateId = z;
+            var user = await _userManager.FindByIdAsync(z);
+            var role = await _roleManager.FindByNameAsync("Candidate");
             if (ModelState.IsValid)
             {
                 await _service.CandidateService.AddCandidateAsync(newCandidate);
+                var result = await _userManager.AddToRoleAsync(user, role.NormalizedName);
                 await _service.SaveChangesAsync();
                 return RedirectToAction("CandidatesIndex");
             }
@@ -134,5 +151,71 @@ namespace WebApp.Controllers
                 return View();
             }
         }
+
+
+
+        public async Task<IActionResult> SelectCertificate(int candidateId)
+        {
+            var certificatesList = await _service.CertificateService.GetAllCertificatesAsync();
+            var model = new LoginView
+            {
+                CandidateId = candidateId,
+                CertificatesList = new SelectList(certificatesList, "CertificateId", "Title")
+            };
+            //model.CertificatesList = new SelectList(certificates, "CertificateId", "Title");
+            return View(model);
+        }
+
+
+        
+
+        [HttpPost]
+        public async Task<IActionResult> SelectCertificate([FromForm] LoginView model, int? candidateId)
+        {
+            var exams = (await _service.ExaminationService.GetAllExaminationsAsync()).ToList();
+            var certificate = await _service.CertificateService.GetCertificateByIdAsync(model.SelectedId);
+            var myExamInts = exams.Where(c => c.Certificate == certificate).Select(e=>e.ExaminationId).ToList();
+
+            Random random = new Random();
+            int randomIndex = random.Next(myExamInts[0], myExamInts.Count() - 1);
+            var myExam = await _service.ExaminationService.GetExaminationByIdAsync(randomIndex);
+
+            var candidate = await _service.CandidateService.GetCandidateByIdAsync(1);
+
+            //duplicate check
+            Random random2 = new Random();
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < 3; i++)
+            {
+                char letter = (char)random2.Next(65, 91);
+                sb.Append(letter);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                int number = random2.Next(0, 10);
+                sb.Append(number);
+            }
+
+            string generatedString = sb.ToString();
+
+            //TO DO RANDOM GENERATOR FOR EXAMCODE
+            var newCandidateExam = new CandidateExam()
+            {
+                Candidate = candidate,
+                ExamCode = generatedString,
+                ExamDate = model.ExamDate,
+                Examination = myExam
+            };
+
+
+            await _service.CandidateExamService.AddCandidateExamAsync(newCandidateExam);
+            await _service.SaveChangesAsync();
+
+            return RedirectToAction("Index", "ExaminationView", new { candidateExamId = newCandidateExam.CandidateExamId });
+        }
+
+        
     }
 }

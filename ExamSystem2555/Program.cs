@@ -23,8 +23,9 @@ namespace WebApp
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>().AddDefaultUI()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddRazorPages();
@@ -42,12 +43,14 @@ namespace WebApp
             builder.Services.AddScoped<IAsyncGenericRepository<ExamCandidateAnswer>, ExamCandidateAnswerRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<ExaminationQuestion>, ExaminationQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Level>, LevelRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<MarkerAssignedExam>, MarkerAssignedExamRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Question>, QuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<QuestionDifficulty>, QuestionDifficultyRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<QuestionPossibleAnswer>, QuestionPossibleAnswerRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Topic>, TopicRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<TopicQuestion>, TopicQuestionRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<MarkerAssignedExam>, MarkerAssignedExamRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<UserCandidate>, UserCandidateRepository>();
+
 
 
             builder.Services.AddScoped<IAddressService, AddressService>();
@@ -66,7 +69,9 @@ namespace WebApp
             builder.Services.AddScoped<IQuestionPossibleAnswerService, QuestionPossibleAnswerService>();
             builder.Services.AddScoped<ITopicService, TopicService>();
             builder.Services.AddScoped<ITopicQuestionService, TopicQuestionService>();
-            
+            builder.Services.AddScoped<IUserCandidateService, UserCandidateService>();
+
+
             builder.Services.AddScoped<IQuestionViewService, QuestionViewService>();
             builder.Services.AddScoped<ICertificateExaminationService, CertificateExaminationService>();
             builder.Services.AddScoped<IMarkerAssignedExamService, MarkerAssignedExamService>();

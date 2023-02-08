@@ -14,6 +14,6 @@ namespace MyDatabase.Models
         public virtual Candidate? Candidate { get; set; }
         public virtual Examination? Examination { get; set; }
         public virtual ICollection<ExamCandidateAnswer> ExamCandidateAnswers { get; set; }
-        public virtual CandidateExamResults CandidateExamResults { get; set; }
+        public virtual CandidateExamResults? CandidateExamResults { get; set; }
     }
 }

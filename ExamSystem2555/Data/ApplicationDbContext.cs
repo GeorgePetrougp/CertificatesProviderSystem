@@ -15,6 +15,7 @@ namespace WebApp.Data
 
         }
 
+        public virtual DbSet<UserCandidate> UserCandidates { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<MarkerAssignedExam> MarkerAssignedExams { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
