@@ -1,33 +1,25 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyDatabase.Models;
-using System.Data;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
 
 namespace WebApp.Controllers
 {
-    public class ExaminationViewController : Controller
+    public class ExaminationSystemController : Controller
     {
-        private readonly IExamManagerService _service;
+        private readonly IExaminationManagerService _service;
 
-        public ExaminationViewController(IExamManagerService service)
+        public ExaminationSystemController(IExaminationManagerService service)
         {
             _service = service;
         }
-
-        // GET: ExaminationViewController
-        
-        public async Task<ActionResult> Index(int candidateExamId)
+        public async Task<IActionResult> ExaminationSystemIndex(int? candidateExamId)
         {
-            var myExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
-            
-
-            return View(myExam);
+            var model = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
+            return View(model);
         }
 
-        // GET: ExaminationViewController/Create
+
         public async Task<ActionResult> StartExamination(int candidateExamId)
         {
             var ce = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
@@ -35,7 +27,7 @@ namespace WebApp.Controllers
             var myExam = await _service.ExaminationService.GetExaminationByIdAsync(ce.Examination.ExaminationId);
 
 
-            var selectedExaminationQuestions = (await _service.ExamQuestionService.GetAllExaminationQuestionsAsync()).Where(e => e.Examination == myExam).ToList();
+            var selectedExaminationQuestions = (await _service.ExaminationQuestionService.GetAllExaminationQuestionsAsync()).Where(e => e.Examination == myExam).ToList();
             await _service.ExaminationQuestionLoad(selectedExaminationQuestions);
             selectedExaminationQuestions.Select(x => x.CertificateTopicQuestion.TopicQuestion.Question).ToList();
             var selectedQuestions = new List<Question>();
@@ -45,7 +37,7 @@ namespace WebApp.Controllers
 
             foreach (var item in selectedQuestions)
             {
-                var myAnswers = (await _service.AnswerService.GetAllAnswersAsync()).Where(a => a.Question == item);
+                var myAnswers = (await _service.QuestionPossibleAnswerService.GetAllAnswersAsync()).Where(a => a.Question == item);
                 possibleAnswers.AddRange(myAnswers);
 
                 List<QuestionPossibleAnswersDTO> possibleAnswersDTOs = new List<QuestionPossibleAnswersDTO>();
@@ -91,18 +83,18 @@ namespace WebApp.Controllers
                     var answers = new ExamCandidateAnswer
                     {
                         CandidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(newModel.CandidateExamId),
-                        SelectedAnswer = (await _service.AnswerService.GetAnswerByIdAsync(SelectedAnswerId)).QuestionPossibleAnswerId,
+                        SelectedAnswer = (await _service.QuestionPossibleAnswerService.GetAnswerByIdAsync(SelectedAnswerId)).QuestionPossibleAnswerId,
                         CorrectAnswer = 1,
                         CertificateTopicQuestion = myCertTopicQuestion
 
                     };
-                    await _service.CandidateAnswerService.AddExamCandidateAnswerAsync(answers);
+                    await _service.ExamCandidateAnswerService.AddExamCandidateAnswerAsync(answers);
                     await _service.SaveChangesAsync();
                 }
                 newModel.CurrentIndex++;
                 if (newModel.CurrentIndex >= newModel.Questions.Count)
                 {
-                    return RedirectToAction("GetResults",new{ candidateExamId = newModel.CandidateExamId});
+                    return RedirectToAction("GetResults", new { candidateExamId = newModel.CandidateExamId });
                 }
 
             }
@@ -112,17 +104,17 @@ namespace WebApp.Controllers
         }
         public async Task<ActionResult> GetResults(int candidateExamId)
         {
-            var x = await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync();
+            var x = await _service.ExamCandidateAnswerService.GetAllExamCandidateAnswersAsync();
             await _service.CandidateAnswerExamLoad(x);
-            var examCandidateAnswer=x.Where(x => x.CandidateExam.CandidateExamId == candidateExamId);
-            
+            var examCandidateAnswer = x.Where(x => x.CandidateExam.CandidateExamId == candidateExamId);
+
             await _service.CandidateAnswerExamLoad(x);
             var totalQuestions = x.Count();
             var correctAnswers = 0;
             string result = "";
             foreach (var item in x)
             {
-                if(item.SelectedAnswer==item.CorrectAnswer)
+                if (item.SelectedAnswer == item.CorrectAnswer)
                 {
                     correctAnswers++;
                 }
@@ -146,12 +138,11 @@ namespace WebApp.Controllers
                 CandidateTotalScore = correctAnswers
 
             };
-            
+
             await _service.CandidateExamResultsService.AddCandidateExamResultsAsync(examResults);
             await _service.SaveChangesAsync();
             return View(examResults);
         }
-        
 
     }
 }

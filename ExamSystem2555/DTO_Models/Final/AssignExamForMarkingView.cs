@@ -5,7 +5,7 @@ namespace WebApp.DTO_Models.Final
 {
     public class AssignExamForMarkingView
     {
-        public int ExaminationId { get; set; }
+        public int CandidateExaminationId { get; set; }
         public SelectList? Markers { get; set; }
         public string SelectedMarkerId { get; set; }
     }

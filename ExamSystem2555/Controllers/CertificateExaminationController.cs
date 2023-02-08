@@ -260,37 +260,7 @@ namespace WebApp.Controllers
 
         }
 
-        public async Task<IActionResult> AssignExaminationForMarking(int id)
-        {
-            var markers = await _userManager.GetUsersInRoleAsync("Marker");
-            var model = new AssignExamForMarkingView
-            {
-                ExaminationId = id,
-                Markers = new SelectList(markers,"Id", "LastName"),
-
-            };
-
-            return View(model);
-            
-  
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AssignExaminationForMarking(AssignExamForMarkingView model)
-        {
-            var examination = await _service.ExaminationService.GetExaminationByIdAsync(model.ExaminationId);
-            var user = await _userManager.FindByIdAsync(model.SelectedMarkerId);
-            var result = new MarkerAssignedExam
-            {
-                ApplicationUser = user,
-                Examination = examination
-            };
-
-            await _service.MarkerAssignedExamService.AddMarkerAssignedExamAsync(result);
-            await _service.SaveChanges();
-
-            return RedirectToAction("CertificateExaminationsIndex");
-        }
+        
 
 
     }

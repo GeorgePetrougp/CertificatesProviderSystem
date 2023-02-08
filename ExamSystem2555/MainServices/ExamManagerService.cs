@@ -110,6 +110,24 @@ namespace WebApp.MainServices
 
         }
 
+        public async Task CandidateExamLoad(IEnumerable<CandidateExam> candidateExam)
+        {
+            foreach (var item in candidateExam)
+            {
+
+                await _context.Entry(item).Reference(c => c.Candidate).LoadAsync();
+                await _context.Entry(item).Reference(c => c.Examination).Query().Include(c=>c.Certificate).LoadAsync();
+            }
+        }
+
+        public async Task CandidateExamLoad(CandidateExam candidateExam)
+        {
+            await _context.Entry(candidateExam).Reference(c => c.Candidate).LoadAsync();
+            await _context.Entry(candidateExam).Reference(c => c.CandidateExamResults).LoadAsync();
+            await _context.Entry(candidateExam).Reference(c => c.Examination).Query().Include(c => c.Certificate).LoadAsync();
+        }
+
+
 
     }
 }

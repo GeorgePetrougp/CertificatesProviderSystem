@@ -38,13 +38,13 @@ namespace WebApp.Controllers
             var y = x.FindFirst(ClaimTypes.NameIdentifier);
             var z = y.Value;
             var user = await _userManager.FindByIdAsync(z);
-            var exams = (await _service.MarkerAssignedExamService.GetAllMarkerAssignedExamsAsync()).Where(m=>m.ApplicationUser == user).Select(ap=>ap.Examination);
+            var candidateExams = (await _service.MarkerAssignedExamService.GetAllMarkerAssignedExamsAsync()).Where(m=>m.ApplicationUser == user).Select(ap=>ap.CandidateExam);
             var candExam = new List<CandidateExam>();
             foreach (var item in await _service.CandidateExamService.GetAllCandidateExamAsync())
             {
-                foreach (var exam in exams)
+                foreach (var exam in candidateExams)
                 {
-                    if(item.Examination == exam)
+                    if(item == exam)
                     {
                         candExam.Add(item);
                     }

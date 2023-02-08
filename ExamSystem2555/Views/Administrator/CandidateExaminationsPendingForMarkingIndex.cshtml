@@ -1,0 +1,73 @@
+﻿@using WebApp.Models;
+@inject SignInManager<ApplicationUser> signInManager;
+@model IEnumerable<WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Examination.Certificate.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateExamResults.ResultIssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateExamResults.CandidateTotalScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateExamResults.ResultLabel)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Candidate.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Candidate.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Examination.Certificate.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateExamResults.ResultIssueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateExamResults.CandidateTotalScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateExamResults.ResultLabel)
+                </td>
+                <td>
+
+                    <a asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExamId">Assign Exam To Marker</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
