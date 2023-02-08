@@ -10,6 +10,7 @@ namespace WebApp.MainServices
         ICertificateService CertificateService { get; }
         IExaminationService ExaminationService { get; }
         ICandidateExamService CandidateExamService { get; }
+        IUserCandidateService UserCandidateService { get; }
         Task LoadCandidateAddress(Candidate candidate);
         Task SaveChangesAsync();
 
