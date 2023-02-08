@@ -12,8 +12,8 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230206152311_MarkerAssignedExamsCreate")]
-    partial class MarkerAssignedExamsCreate
+    [Migration("20230208163022_UserCandidateIdAdd")]
+    partial class UserCandidateIdAdd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -248,7 +248,14 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserCandidateId")
+                        .HasColumnType("int");
+
                     b.HasKey("CandidateId");
+
+                    b.HasIndex("UserCandidateId")
+                        .IsUnique()
+                        .HasFilter("[UserCandidateId] IS NOT NULL");
 
                     b.ToTable("Candidates");
                 });
@@ -685,6 +692,25 @@ namespace WebApp.Migrations
                     b.ToTable("MarkerAssignedExams");
                 });
 
+            modelBuilder.Entity("WebApp.Models.UserCandidate", b =>
+                {
+                    b.Property<int>("UserCandidateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserCandidateId"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserCandidateId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("UserCandidates");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -747,10 +773,17 @@ namespace WebApp.Migrations
                     b.Navigation("Candidate");
                 });
 
+            modelBuilder.Entity("MyDatabase.Models.Candidate", b =>
+                {
+                    b.HasOne("WebApp.Models.UserCandidate", null)
+                        .WithOne("Candidate")
+                        .HasForeignKey("MyDatabase.Models.Candidate", "UserCandidateId");
+                });
+
             modelBuilder.Entity("MyDatabase.Models.CandidateExam", b =>
                 {
                     b.HasOne("MyDatabase.Models.Candidate", "Candidate")
-                        .WithMany()
+                        .WithMany("CandidateExams")
                         .HasForeignKey("CandidateId");
 
                     b.HasOne("MyDatabase.Models.Examination", "Examination")
@@ -917,15 +950,27 @@ namespace WebApp.Migrations
                     b.Navigation("Examination");
                 });
 
+            modelBuilder.Entity("WebApp.Models.UserCandidate", b =>
+                {
+                    b.HasOne("WebApp.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("MyDatabase.Models.Candidate", b =>
                 {
                     b.Navigation("Addresses");
+
+                    b.Navigation("CandidateExams");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExam", b =>
                 {
-                    b.Navigation("CandidateExamResults")
-                        .IsRequired();
+                    b.Navigation("CandidateExamResults");
 
                     b.Navigation("ExamCandidateAnswers");
                 });
@@ -983,6 +1028,12 @@ namespace WebApp.Migrations
             modelBuilder.Entity("MyDatabase.Models.TopicQuestion", b =>
                 {
                     b.Navigation("CertificateTopicQuestions");
+                });
+
+            modelBuilder.Entity("WebApp.Models.UserCandidate", b =>
+                {
+                    b.Navigation("Candidate")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

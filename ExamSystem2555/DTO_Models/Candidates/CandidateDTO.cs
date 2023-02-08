@@ -5,6 +5,7 @@ namespace WebApp.DTO_Models.Candidates
     public class CandidateDTO
     {
         public int CandidateId { get; set; }
+        public string? UserCandidateId { get; set; }
         public string FirstName { get; set; }
         public string? MiddleName { get; set; }
         public string LastName { get; set; }

@@ -38,17 +38,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-action="Index" asp-controller="ExaminationView">Exam</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Login" asp-controller="LoginViews">Candidate Login</a>
-                            </li>
+                           
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
                             </li>
                         }
                         else if (signInManager.IsSignedIn(User) && User.IsInRole("Marker"))
@@ -58,6 +50,19 @@
                                 <a class="nav-link text-dark" asp-action="GetExams" asp-controller="Marking">Marking</a>
                             </li>
                         }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
+                            </li>
+                        
+                            
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-action="CertificatesIndex" asp-controller="Certificates">Our Certifications</a>
+                        </li>
+                        
+
                         @*-----Drop Down Menu for Navbar:-----*@
                         @*<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>

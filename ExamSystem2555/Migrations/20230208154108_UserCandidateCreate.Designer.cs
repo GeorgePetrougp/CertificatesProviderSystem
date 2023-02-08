@@ -12,8 +12,8 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230205171635_ApplicationUserCreate")]
-    partial class ApplicationUserCreate
+    [Migration("20230208154108_UserCandidateCreate")]
+    partial class UserCandidateCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,12 +104,10 @@ namespace WebApp.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -146,12 +144,10 @@ namespace WebApp.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -665,6 +661,54 @@ namespace WebApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("WebApp.Models.MarkerAssignedExam", b =>
+                {
+                    b.Property<int>("MarkerAssignedExamId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarkerAssignedExamId"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ExaminationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MarkerAssignedExamId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ExaminationId");
+
+                    b.ToTable("MarkerAssignedExams");
+                });
+
+            modelBuilder.Entity("WebApp.Models.UserCandidate", b =>
+                {
+                    b.Property<int>("UserCandidateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserCandidateId"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserCandidateId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CandidateId");
+
+                    b.ToTable("UserCandidates");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -730,7 +774,7 @@ namespace WebApp.Migrations
             modelBuilder.Entity("MyDatabase.Models.CandidateExam", b =>
                 {
                     b.HasOne("MyDatabase.Models.Candidate", "Candidate")
-                        .WithMany()
+                        .WithMany("CandidateExams")
                         .HasForeignKey("CandidateId");
 
                     b.HasOne("MyDatabase.Models.Examination", "Examination")
@@ -878,15 +922,54 @@ namespace WebApp.Migrations
                     b.Navigation("Topic");
                 });
 
+            modelBuilder.Entity("WebApp.Models.MarkerAssignedExam", b =>
+                {
+                    b.HasOne("WebApp.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyDatabase.Models.Examination", "Examination")
+                        .WithMany()
+                        .HasForeignKey("ExaminationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Examination");
+                });
+
+            modelBuilder.Entity("WebApp.Models.UserCandidate", b =>
+                {
+                    b.HasOne("WebApp.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyDatabase.Models.Candidate", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Candidate");
+                });
+
             modelBuilder.Entity("MyDatabase.Models.Candidate", b =>
                 {
                     b.Navigation("Addresses");
+
+                    b.Navigation("CandidateExams");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExam", b =>
                 {
-                    b.Navigation("CandidateExamResults")
-                        .IsRequired();
+                    b.Navigation("CandidateExamResults");
 
                     b.Navigation("ExamCandidateAnswers");
                 });

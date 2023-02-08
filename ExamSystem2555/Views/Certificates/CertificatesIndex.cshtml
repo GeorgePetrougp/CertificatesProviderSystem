@@ -1,4 +1,8 @@
-﻿@model IEnumerable<WebApp.DTO_Models.Certificates.CertificateDTO>
+﻿@using WebApp.Models;
+@inject SignInManager<ApplicationUser> signInManager;
+
+@model IEnumerable<MyDatabase.Models.Certificate>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +10,13 @@
 
 <h1>Index</h1>
 
+@if (User.IsInRole("Administrator"))
+{
+    
 <p>
     <a asp-action="CreateCertificate">Create Certificate</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -43,9 +51,17 @@
                 @Html.DisplayFor(modelItem => item.PassMark)
             </td>
             <td>
-                <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a> |
-                <a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a> |
+                <a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
+                    
+                        <a asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId">Buy</a>
+                        
+                    
+                    @if(User.IsInRole("Administrator")){
+
+                
+                <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a> 
                 <a asp-action="DeleteCertificate" asp-route-id="@item.CertificateId">Delete</a>
+                    }
             </td>
         </tr>
 }

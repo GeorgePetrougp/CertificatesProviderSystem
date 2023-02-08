@@ -246,6 +246,9 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserCandidateId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CandidateId");
 
                     b.ToTable("Candidates");
@@ -683,6 +686,30 @@ namespace WebApp.Migrations
                     b.ToTable("MarkerAssignedExams");
                 });
 
+            modelBuilder.Entity("WebApp.Models.UserCandidate", b =>
+                {
+                    b.Property<int>("UserCandidateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserCandidateId"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserCandidateId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CandidateId");
+
+                    b.ToTable("UserCandidates");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -748,7 +775,7 @@ namespace WebApp.Migrations
             modelBuilder.Entity("MyDatabase.Models.CandidateExam", b =>
                 {
                     b.HasOne("MyDatabase.Models.Candidate", "Candidate")
-                        .WithMany()
+                        .WithMany("CandidateExams")
                         .HasForeignKey("CandidateId");
 
                     b.HasOne("MyDatabase.Models.Examination", "Examination")
@@ -915,15 +942,35 @@ namespace WebApp.Migrations
                     b.Navigation("Examination");
                 });
 
+            modelBuilder.Entity("WebApp.Models.UserCandidate", b =>
+                {
+                    b.HasOne("WebApp.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyDatabase.Models.Candidate", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Candidate");
+                });
+
             modelBuilder.Entity("MyDatabase.Models.Candidate", b =>
                 {
                     b.Navigation("Addresses");
+
+                    b.Navigation("CandidateExams");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExam", b =>
                 {
-                    b.Navigation("CandidateExamResults")
-                        .IsRequired();
+                    b.Navigation("CandidateExamResults");
 
                     b.Navigation("ExamCandidateAnswers");
                 });
