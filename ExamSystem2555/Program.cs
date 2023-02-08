@@ -50,6 +50,8 @@ namespace WebApp
             builder.Services.AddScoped<IAsyncGenericRepository<Topic>, TopicRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<TopicQuestion>, TopicQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<UserCandidate>, UserCandidateRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExamResults>, CandidateExamResultsRepository>();
+
 
 
 
@@ -70,6 +72,8 @@ namespace WebApp
             builder.Services.AddScoped<ITopicService, TopicService>();
             builder.Services.AddScoped<ITopicQuestionService, TopicQuestionService>();
             builder.Services.AddScoped<IUserCandidateService, UserCandidateService>();
+            builder.Services.AddScoped<ICandidateExamResultsService, CandidateExamResultsService>();
+
 
 
             builder.Services.AddScoped<IQuestionViewService, QuestionViewService>();
@@ -80,6 +84,16 @@ namespace WebApp
             builder.Services.AddScoped<ICertificateManagerService, CertificateManagerService>();
             builder.Services.AddScoped<IExamManagerService, ExamManagerService>();
             builder.Services.AddScoped<IQuestionManagerService, QuestionManagerService>();
+
+            builder.Services.AddScoped<IAdministratorService, AdministratorService>();
+            builder.Services.AddScoped<IExaminationManagerService, ExaminationManagerService>();
+
+            builder.Services.AddScoped<IEShopService, EShopService>();
+
+            
+
+
+
 
 
 

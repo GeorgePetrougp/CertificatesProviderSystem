@@ -1,0 +1,63 @@
+﻿@model WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO
+
+<div>
+    <h4>Certificate</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ExamCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExamCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Candidate.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Candidate.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Candidate.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Candidate.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Examination.Certificate.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Examination.Certificate.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ExamDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExamDate)
+        </dd>
+        <dt class="col-sm-2">
+    </dl>
+    <dl class="row">
+        <dt>
+        @Html.DisplayNameFor(model => model.CandidateExamResults.ResultIssueDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CandidateExamResults.ResultIssueDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CandidateExamResults.CandidateTotalScore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CandidateExamResults.CandidateTotalScore)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CandidateExamResults.ResultLabel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CandidateExamResults.ResultLabel)
+        </dd>
+    </dl>
+
+    <a asp-action="CertificateExaminationsIndex">Back to List</a>
+
+
+</div>

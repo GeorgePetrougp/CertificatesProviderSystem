@@ -6,6 +6,6 @@ namespace WebApp.Models
     {
         public int MarkerAssignedExamId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual Examination Examination { get; set; }
+        public virtual CandidateExam CandidateExam { get; set; }
     }
 }

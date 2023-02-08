@@ -8,11 +8,11 @@ using WebApp.Services;
 
 namespace WebApp.Controllers
 {
-    public class ExaminationsController : Controller
+    public class TDBController : Controller
     {
         private readonly IExamManagerService _service;
 
-        public ExaminationsController(IExamManagerService examService)
+        public TDBController(IExamManagerService examService)
         {
             _service = examService;
         }

@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MyDatabase.Models;
-using WebApp.Data;
 using WebApp.DTO_Models.Certificates;
 using WebApp.MainServices;
 
@@ -32,7 +24,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> CertificateDetails(int? id)
         {
-        
+
             if (await _service.NullValidation(id))
             {
                 return NotFound();
@@ -58,7 +50,7 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _service.AddCertificate(newCertificate);
-                
+
                 return RedirectToAction("CertificatesIndex");
             }
             return RedirectToAction("CreateCertificate");
@@ -73,7 +65,7 @@ namespace WebApp.Controllers
             }
 
             var editCertificateView = await _service.CreateCertificateView(id);
-            
+
             return View(editCertificateView);
         }
 
@@ -85,13 +77,13 @@ namespace WebApp.Controllers
         public async Task<IActionResult> EditCertificate(CreateCertificateView certificate)
         {
             var editedCertificate = await _service.TBD(certificate);
-            
+
 
             if (ModelState.IsValid)
             {
                 //try
                 //{
-                    await _service.UpdateCertificate(editedCertificate);
+                await _service.UpdateCertificate(editedCertificate);
                 //}
 
                 //catch (DbUpdateConcurrencyException)
@@ -107,7 +99,7 @@ namespace WebApp.Controllers
                 //}
                 return RedirectToAction("CertificatesIndex");
             }
-            return RedirectToAction("EditCertificate",certificate.CertificateDTO.CertificateId);
+            return RedirectToAction("EditCertificate", certificate.CertificateDTO.CertificateId);
         }
 
         // GET: Certificates/Delete/5

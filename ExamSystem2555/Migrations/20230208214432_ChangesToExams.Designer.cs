@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Data;
 
@@ -11,9 +12,10 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230208214432_ChangesToExams")]
+    partial class ChangesToExams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -674,14 +676,14 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CandidateExamId")
+                    b.Property<int>("CandidateExaminationCandidateExamId")
                         .HasColumnType("int");
 
                     b.HasKey("MarkerAssignedExamId");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("CandidateExamId");
+                    b.HasIndex("CandidateExaminationCandidateExamId");
 
                     b.ToTable("MarkerAssignedExams");
                 });
@@ -931,15 +933,15 @@ namespace WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyDatabase.Models.CandidateExam", "CandidateExam")
+                    b.HasOne("MyDatabase.Models.CandidateExam", "CandidateExamination")
                         .WithMany()
-                        .HasForeignKey("CandidateExamId")
+                        .HasForeignKey("CandidateExaminationCandidateExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
 
-                    b.Navigation("CandidateExam");
+                    b.Navigation("CandidateExamination");
                 });
 
             modelBuilder.Entity("WebApp.Models.UserCandidate", b =>

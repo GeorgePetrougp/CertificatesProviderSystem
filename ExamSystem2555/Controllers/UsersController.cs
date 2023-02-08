@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MyDatabase.Models;
 using System.Data;
 using System.Security.Claims;
+using System.Text;
+using WebApp.DTO_Models;
+using WebApp.MainServices;
 using WebApp.Models;
 using WebApp.Services;
 
@@ -11,20 +16,18 @@ namespace WebApp.Controllers
     public class UsersController : Controller
     {
 
-        private readonly ICandidateService _candidateService;
+        private readonly IEShopService _service;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public UsersController(ICandidateService candidateService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public UsersController(IEShopService service, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
-            _candidateService = candidateService;
+            _service= service;
             _signInManager = signInManager;
             _userManager = userManager;
         }
 
-
-        // GET: UsersController
         public async Task<ActionResult> CandidateRegistration(int? id)
         {
             if (_signInManager.IsSignedIn(User))
@@ -36,82 +39,78 @@ namespace WebApp.Controllers
                 var userRoles = await _userManager.GetRolesAsync(user);
                 if (!userRoles.Contains("Candidate"))
                 {
-
                     return View();
                 }
-                return RedirectToAction("SelectCertificate","Candidates");
+                return RedirectToAction("SelectCertificate");
             }
             return Redirect("/Identity/Account/Login");
 
         }
 
-        // GET: UsersController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> SelectCertificate(int candidateId)
         {
-            return View();
+            var certificatesList = await _service.CertificateService.GetAllCertificatesAsync();
+            var model = new LoginView
+            {
+                CandidateId = candidateId,
+                CertificatesList = new SelectList(certificatesList, "CertificateId", "Title")
+            };
+            //model.CertificatesList = new SelectList(certificates, "CertificateId", "Title");
+            return View(model);
         }
 
-        // GET: UsersController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: UsersController/Create
+
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> SelectCertificate([FromForm] LoginView model, int? candidateId)
         {
-            try
+            var exams = (await _service.ExaminationService.GetAllExaminationsAsync()).ToList();
+            var certificate = await _service.CertificateService.GetCertificateByIdAsync(model.SelectedId);
+            var myExamInts = exams.Where(c => c.Certificate == certificate).Select(e => e.ExaminationId).ToList();
+
+            Random random = new Random();
+            int randomIndex = random.Next(myExamInts[0], myExamInts.Count() - 1);
+            var myExam = await _service.ExaminationService.GetExaminationByIdAsync(randomIndex);
+
+            var candidate = await _service.CandidateService.GetCandidateByIdAsync(1);
+
+            //duplicate check
+            Random random2 = new Random();
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < 3; i++)
             {
-                return RedirectToAction(nameof(Index));
+                char letter = (char)random2.Next(65, 91);
+                sb.Append(letter);
             }
-            catch
+
+            for (int i = 0; i < 5; i++)
             {
-                return View();
+                int number = random2.Next(0, 10);
+                sb.Append(number);
             }
+
+            string generatedString = sb.ToString();
+
+            //TO DO RANDOM GENERATOR FOR EXAMCODE
+            var newCandidateExam = new CandidateExam()
+            {
+                Candidate = candidate,
+                ExamCode = generatedString,
+                ExamDate = model.ExamDate,
+                Examination = myExam
+            };
+
+
+            await _service.CandidateExamService.AddCandidateExamAsync(newCandidateExam);
+            await _service.SaveChangesAsync();
+
+            return RedirectToAction("ExaminationSystemIndex", "ExaminationSystem", new { candidateExamId = newCandidateExam.CandidateExamId });
         }
 
-        // GET: UsersController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: UsersController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UsersController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UsersController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        // GET: UsersController
+            
     }
 }
