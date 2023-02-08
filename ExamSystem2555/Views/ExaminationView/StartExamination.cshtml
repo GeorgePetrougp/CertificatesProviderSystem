@@ -5,7 +5,7 @@
     <h1 style="margin:0 auto;width:50%">ExamSystem</h1>
 
 
-    <h2>@Model.Questions[Model.CurrentIndex].QuestionDisplay</h2>
+    <h2>@Html.Raw(Model.Questions[Model.CurrentIndex].QuestionDisplay)</h2>
     <form method="post" asp-action="StartExamination">
         <input type="hidden" name="myModel" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
 
@@ -14,7 +14,7 @@
             {
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="SelectedAnswerId" value="@answer.QuestionPossibleAnswerId") />
-                    <label class="form-check-label">@answer.QuestionPossibleAnswer</label>
+                    <label class="form-check-label">@Html.Raw(answer.QuestionPossibleAnswer)</label>
                 </div>
             }
         </div>

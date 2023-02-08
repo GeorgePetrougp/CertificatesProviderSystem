@@ -113,7 +113,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                //SqlException: Cannot insert explicit value for identity column in table 'QuestionDifficulties' when IDENTITY_INSERT is set 
+                
                 var newQuestion = _mapper.Map<Question>(question);
                 newQuestion.QuestionDifficulty = _mapper.Map<QuestionDifficulty>(question);
                 newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
@@ -131,13 +131,7 @@ namespace WebApp.Controllers
 
 
 
-                    //foreach (var item in ct)
-                    //{
-                    //    if (item.Certificate == selectedCertificates && item.Topic ==null)
-                    //    {
-                    //        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(item,newTopicQuestion);
-                    //    }
-                    //}
+                    
                     selectedCertificates.ForEach(sc => _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sc, Topic = null }, newTopicQuestion));
                 }
                 else
@@ -314,7 +308,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
         
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrator")]
         private bool QuestionExists(int id)
         {
             return _service.QuestionService.GetQuestionByIdAsync(id) != null;

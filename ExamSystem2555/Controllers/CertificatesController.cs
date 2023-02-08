@@ -32,6 +32,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> CertificateDetails(int? id)
         {
+        
             if (await _service.NullValidation(id))
             {
                 return NotFound();
