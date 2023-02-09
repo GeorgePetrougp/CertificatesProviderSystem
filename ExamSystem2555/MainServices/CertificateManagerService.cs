@@ -4,6 +4,7 @@ using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.DTO_Models;
 using WebApp.DTO_Models.Certificates;
+using WebApp.MainServices.Interfaces;
 using WebApp.Services;
 
 namespace WebApp.MainServices
@@ -119,9 +120,9 @@ namespace WebApp.MainServices
         }
 
         //helpers
-        public async Task<SelectList> CreateSelectList(IEnumerable<Level> levels)
+        public async Task<SelectList> CreateSelectList(IEnumerable<CertificateLevel> levels)
         {
-            var levelDTOList = await Task.Run(() => _mapper.Map<List<Level>>(levels));
+            var levelDTOList = await Task.Run(() => _mapper.Map<List<CertificateLevel>>(levels));
 
             return new SelectList(levelDTOList, "LevelId", "Title");
         }

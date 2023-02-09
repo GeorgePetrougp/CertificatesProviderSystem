@@ -1,11 +1,11 @@
 ﻿using MyDatabase.Models;
 using WebApp.Services;
 
-namespace WebApp.MainServices
+namespace WebApp.MainServices.Interfaces
 {
-    public interface IExamManagerService
+    public interface ICandidateExaminationManagerService
     {
-         
+
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get; }
         public IQuestionService QuestionService { get; }
         public IQuestionPossibleAnswerService AnswerService { get; }
@@ -15,15 +15,15 @@ namespace WebApp.MainServices
         public ICandidateExamService CandidateExamService { get; }
         public ICandidateExamResultsService CandidateExamResultsService { get; }
         public IMarkerAssignedExamService MarkerAssignedExamService { get; }
-        public Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers);
+        public Task CandidateAnswerExamLoad(IEnumerable<CandidateExaminationAnswer> examCandidateAnswers);
         Task CertificateTopicsLoad(CertificateTopicQuestion ctq);
         Task ExaminationQuestionLoad(IEnumerable<ExaminationQuestion> eq);
-        Task CandidateExaminationLoad(CandidateExam c);
+        Task CandidateExaminationLoad(CandidateExamination c);
+        Task CandidateExaminationLoad(IEnumerable<CandidateExamination> c);
+
         Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList);
-        Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer);
-        Task CandidateResultsLoad(CandidateExam c);
-        Task CandidateExamLoad(IEnumerable<CandidateExam> candidateExam);
-        Task CandidateExamLoad(CandidateExam candidateExam);
+        Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer);
+        Task CandidateResultsLoad(CandidateExamination c);
         Task SaveChangesAsync();
 
 

@@ -4,11 +4,11 @@ namespace WebApp.Services
 {
     public interface IExamCandidateAnswerService
     {
-        Task<ExamCandidateAnswer> GetExamCandidateAnswerByIdAsync(int? id);
-        Task<IEnumerable<ExamCandidateAnswer>> GetAllExamCandidateAnswersAsync();
-        Task<ExamCandidateAnswer> AddExamCandidateAnswerAsync(ExamCandidateAnswer entity);
-        Task<ExamCandidateAnswer> UpdateExamCandidateAnswerAsync(ExamCandidateAnswer entity);
+        Task<CandidateExaminationAnswer> GetExamCandidateAnswerByIdAsync(int? id);
+        Task<IEnumerable<CandidateExaminationAnswer>> GetAllExamCandidateAnswersAsync();
+        Task<CandidateExaminationAnswer> AddExamCandidateAnswerAsync(CandidateExaminationAnswer entity);
+        Task<CandidateExaminationAnswer> UpdateExamCandidateAnswerAsync(CandidateExaminationAnswer entity);
         Task DeleteExamCandidateAnswerAsync(int? id);
-        string CheckNull(ExamCandidateAnswer entity);
+        string CheckNull(CandidateExaminationAnswer entity);
     }
 }

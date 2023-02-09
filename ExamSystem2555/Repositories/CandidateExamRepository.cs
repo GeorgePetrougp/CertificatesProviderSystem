@@ -4,7 +4,7 @@ using MyDatabase.Models;
 
 namespace WebApp.Repositories
 {
-    public class CandidateExamRepository : IAsyncGenericRepository<CandidateExam>
+    public class CandidateExamRepository : IAsyncGenericRepository<CandidateExamination>
     {
         private readonly ApplicationDbContext _context;
 
@@ -13,13 +13,13 @@ namespace WebApp.Repositories
             _context = context;
         }
 
-        public async Task<CandidateExam> AddAsync(CandidateExam candidateExam)
+        public async Task<CandidateExamination> AddAsync(CandidateExamination candidateExam)
         {
-            await _context.Set<CandidateExam>().AddAsync(candidateExam);
+            await _context.Set<CandidateExamination>().AddAsync(candidateExam);
             return candidateExam;
         }
 
-        public async Task<CandidateExam> UpdateAsync(CandidateExam candidateExam)
+        public async Task<CandidateExamination> UpdateAsync(CandidateExamination candidateExam)
         {
             _context.CandidateExams.Attach(candidateExam);
             _context.Entry(candidateExam).State = EntityState.Modified;
@@ -33,20 +33,20 @@ namespace WebApp.Repositories
             _context.CandidateExams.Remove(candidateExamToDelete);
         }
         //public async Task<Question> GetByIdAsync(int? id) => await _context.Questions.FindAsync(id);
-        public async Task<CandidateExam> GetByIdAsync(int? id)
+        public async Task<CandidateExamination> GetByIdAsync(int? id)
         {
             return await _context.CandidateExams.FindAsync(id);
 
         }
         //public async Task<IEnumerable<Question>> GetAllAsync() =>await _context.Questions.ToListAsync();
 
-        public async Task<IEnumerable<CandidateExam>> GetAllAsync()
+        public async Task<IEnumerable<CandidateExamination>> GetAllAsync()
         {
 
             return await _context.CandidateExams.ToListAsync();
         }
 
-        public Task<IEnumerable<CandidateExam>> AddRangeAsync(IEnumerable<CandidateExam> entities)
+        public Task<IEnumerable<CandidateExamination>> AddRangeAsync(IEnumerable<CandidateExamination> entities)
         {
             throw new NotImplementedException();
         }

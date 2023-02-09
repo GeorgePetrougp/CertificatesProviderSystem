@@ -6,29 +6,29 @@ namespace WebApp.Services
     public class LevelService : ILevelService
     {
 
-        private IAsyncGenericRepository<Level> _levelRepository;
+        private IAsyncGenericRepository<CertificateLevel> _levelRepository;
 
-        public LevelService(IAsyncGenericRepository<Level> levelRepository)
+        public LevelService(IAsyncGenericRepository<CertificateLevel> levelRepository)
         {
             _levelRepository = levelRepository;
         }
 
-        public async Task<Level> GetLevelByIdAsync(int? id)
+        public async Task<CertificateLevel> GetLevelByIdAsync(int? id)
         {
             return await _levelRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Level>> GetAllLevelsAsync()
+        public async Task<IEnumerable<CertificateLevel>> GetAllLevelsAsync()
         {
             return await _levelRepository.GetAllAsync();
         }
 
-        public async Task<Level> AddLevelAsync(Level level)
+        public async Task<CertificateLevel> AddLevelAsync(CertificateLevel level)
         {
             return await _levelRepository.AddAsync(level);
         }
 
-        public async Task<Level> UpdateLevelAsync(Level level)
+        public async Task<CertificateLevel> UpdateLevelAsync(CertificateLevel level)
         {
             return await (_levelRepository.UpdateAsync(level));
         }
@@ -38,7 +38,7 @@ namespace WebApp.Services
             await _levelRepository.DeleteAsync(id);
         }
 
-        public string CheckNull(Level level)
+        public string CheckNull(CertificateLevel level)
         {
             if (level != null)
             {

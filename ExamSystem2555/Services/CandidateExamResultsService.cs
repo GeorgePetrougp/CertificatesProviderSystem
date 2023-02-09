@@ -5,29 +5,29 @@ namespace WebApp.Services
 {
     public class CandidateExamResultsService: ICandidateExamResultsService
     {
-        private IAsyncGenericRepository<CandidateExamResults> _candidateExamResultsRepository;
+        private IAsyncGenericRepository<CandidateExaminationResult> _candidateExamResultsRepository;
 
-        public CandidateExamResultsService(IAsyncGenericRepository<CandidateExamResults> candidateExamResultsRepository)
+        public CandidateExamResultsService(IAsyncGenericRepository<CandidateExaminationResult> candidateExamResultsRepository)
         {
             _candidateExamResultsRepository = candidateExamResultsRepository;
         }
 
-        public async Task<CandidateExamResults> GetCandidateExamResultByIdAsync(int? id)
+        public async Task<CandidateExaminationResult> GetCandidateExamResultByIdAsync(int? id)
         {
             return await _candidateExamResultsRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<CandidateExamResults>> GetAllCandidateExamResultsAsync()
+        public async Task<IEnumerable<CandidateExaminationResult>> GetAllCandidateExamResultsAsync()
         {
             return await _candidateExamResultsRepository.GetAllAsync();
         }
 
-        public async Task<CandidateExamResults> AddCandidateExamResultsAsync(CandidateExamResults candidateExamResults)
+        public async Task<CandidateExaminationResult> AddCandidateExamResultsAsync(CandidateExaminationResult candidateExamResults)
         {
             return await _candidateExamResultsRepository.AddAsync(candidateExamResults);
         }
 
-        public async Task<CandidateExamResults> UpdateCandidateExamResultsAsync(CandidateExamResults candidateExamResults)
+        public async Task<CandidateExaminationResult> UpdateCandidateExamResultsAsync(CandidateExaminationResult candidateExamResults)
         {
             return await (_candidateExamResultsRepository.UpdateAsync(candidateExamResults));
         }
@@ -37,7 +37,7 @@ namespace WebApp.Services
             await _candidateExamResultsRepository.DeleteAsync(id);
         }
 
-        public string CheckNull(CandidateExamResults candidateExamResults)
+        public string CheckNull(CandidateExaminationResult candidateExamResults)
         {
             if (candidateExamResults != null)
             {

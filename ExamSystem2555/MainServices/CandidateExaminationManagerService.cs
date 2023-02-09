@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
 using WebApp.Data;
+using WebApp.MainServices.Interfaces;
 using WebApp.Services;
 
 namespace WebApp.MainServices
 {
-    public class ExamManagerService : IExamManagerService
+    public class CandidateExaminationManagerService : ICandidateExaminationManagerService
     {
         private readonly ApplicationDbContext _context;
         private readonly IQuestionService _questionService;
@@ -21,7 +22,7 @@ namespace WebApp.MainServices
 
 
 
-        public ExamManagerService(ApplicationDbContext context, ICandidateExamResultsService candidateExamResultsService, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService, IMarkerAssignedExamService markerAssignedExamService)
+        public CandidateExaminationManagerService(ApplicationDbContext context, ICandidateExamResultsService candidateExamResultsService, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService, IMarkerAssignedExamService markerAssignedExamService)
         {
             _context = context;
             _questionService = questionService;
@@ -71,7 +72,7 @@ namespace WebApp.MainServices
 
         }
 
-        public async Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer)
+        public async Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer)
         {
             await _context.Entry(examAnswer).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(tq => tq.Question).ThenInclude(q=>q.QuestionPossibleAnswers).LoadAsync();
 
@@ -89,7 +90,7 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers)
+        public async Task CandidateAnswerExamLoad(IEnumerable<CandidateExaminationAnswer> examCandidateAnswers)
         {
             foreach (var item in examCandidateAnswers)
             {
@@ -98,19 +99,19 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task CandidateExaminationLoad(CandidateExam c)
-        {
-            await _context.Entry(c).Reference(e=>e.Examination).LoadAsync();
-        }
+        //public async Task CandidateExaminationLoad(CandidateExamination c)
+        //{
+        //    await _context.Entry(c).Reference(e=>e.Examination).LoadAsync();
+        //}
 
-        public async Task CandidateResultsLoad(CandidateExam c)
+        public async Task CandidateResultsLoad(CandidateExamination c)
         {
             await _context.Entry(c).Reference(e => e.CandidateExamResults).LoadAsync();
             await _context.Entry(c).Reference(e => e.Candidate).LoadAsync();
 
         }
 
-        public async Task CandidateExamLoad(IEnumerable<CandidateExam> candidateExam)
+        public async Task CandidateExaminationLoad(IEnumerable<CandidateExamination> candidateExam)
         {
             foreach (var item in candidateExam)
             {
@@ -120,7 +121,7 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task CandidateExamLoad(CandidateExam candidateExam)
+        public async Task CandidateExaminationLoad(CandidateExamination candidateExam)
         {
             await _context.Entry(candidateExam).Reference(c => c.Candidate).LoadAsync();
             await _context.Entry(candidateExam).Reference(c => c.CandidateExamResults).LoadAsync();

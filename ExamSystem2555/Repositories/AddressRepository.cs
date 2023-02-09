@@ -5,7 +5,7 @@ using MyDatabase.Models;
 namespace WebApp.Repositories
 {
 
-    public class AddressRepository : IAsyncGenericRepository<Address>
+    public class AddressRepository : IAsyncGenericRepository<CandidateAddress>
     {
         private readonly ApplicationDbContext _context;
         public AddressRepository(ApplicationDbContext context)
@@ -13,13 +13,13 @@ namespace WebApp.Repositories
             _context = context;
         }
 
-        public async Task<Address> AddAsync(Address address)
+        public async Task<CandidateAddress> AddAsync(CandidateAddress address)
         {
             await _context.Addresses.AddAsync(address);
             return address;
         }
 
-        public async Task<Address> UpdateAsync(Address address)
+        public async Task<CandidateAddress> UpdateAsync(CandidateAddress address)
         {
             _context.Addresses.Attach(address);
             _context.Entry(address).State = EntityState.Modified;
@@ -31,10 +31,10 @@ namespace WebApp.Repositories
             var addressToDelete = await GetByIdAsync(id);
             _context.Addresses.Remove(addressToDelete);
         }
-        public async Task<Address> GetByIdAsync(int? id) => await _context.Addresses.FindAsync(id);
-        public async Task<IEnumerable<Address>> GetAllAsync() => await _context.Addresses.ToListAsync();
+        public async Task<CandidateAddress> GetByIdAsync(int? id) => await _context.Addresses.FindAsync(id);
+        public async Task<IEnumerable<CandidateAddress>> GetAllAsync() => await _context.Addresses.ToListAsync();
 
-        public Task<IEnumerable<Address>> AddRangeAsync(IEnumerable<Address> entities)
+        public Task<IEnumerable<CandidateAddress>> AddRangeAsync(IEnumerable<CandidateAddress> entities)
         {
             throw new NotImplementedException();
         }

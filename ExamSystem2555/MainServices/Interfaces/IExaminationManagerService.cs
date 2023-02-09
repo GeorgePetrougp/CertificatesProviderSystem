@@ -1,7 +1,7 @@
 ﻿using MyDatabase.Models;
 using WebApp.Services;
 
-namespace WebApp.MainServices
+namespace WebApp.MainServices.Interfaces
 {
     public interface IExaminationManagerService
     {
@@ -11,14 +11,14 @@ namespace WebApp.MainServices
         public IQuestionPossibleAnswerService QuestionPossibleAnswerService { get; }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get; }
         public IExamCandidateAnswerService ExamCandidateAnswerService { get; }
-        public ICandidateExamResultsService CandidateExamResultsService { get; }    
-        public Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers);
+        public ICandidateExamResultsService CandidateExamResultsService { get; }
+        public Task CandidateAnswerExamLoad(IEnumerable<CandidateExaminationAnswer> examCandidateAnswers);
         Task CertificateTopicsLoad(CertificateTopicQuestion ctq);
         Task ExaminationQuestionLoad(IEnumerable<ExaminationQuestion> eq);
-        Task CandidateExaminationLoad(CandidateExam c);
+        Task CandidateExaminationLoad(CandidateExamination c);
         Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList);
-        Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer);
-        Task CandidateResultsLoad(CandidateExam c);
+        Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer);
+        Task CandidateResultsLoad(CandidateExamination c);
         public Task SaveChangesAsync();
 
         //public IAnswers CandidateExamService { get; }

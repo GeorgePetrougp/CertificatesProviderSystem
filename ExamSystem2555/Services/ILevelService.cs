@@ -4,11 +4,11 @@ namespace WebApp.Services
 {
     public interface ILevelService
     {
-        Task<Level> GetLevelByIdAsync(int? id);
-        Task<IEnumerable<Level>> GetAllLevelsAsync();
-        Task<Level> AddLevelAsync(Level level);
-        Task<Level> UpdateLevelAsync(Level level);
+        Task<CertificateLevel> GetLevelByIdAsync(int? id);
+        Task<IEnumerable<CertificateLevel>> GetAllLevelsAsync();
+        Task<CertificateLevel> AddLevelAsync(CertificateLevel level);
+        Task<CertificateLevel> UpdateLevelAsync(CertificateLevel level);
         Task DeleteLevelAsync(int? id);
-        string CheckNull(Level entity);
+        string CheckNull(CertificateLevel entity);
     }
 }

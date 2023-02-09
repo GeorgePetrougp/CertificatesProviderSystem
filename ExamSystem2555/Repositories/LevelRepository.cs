@@ -4,7 +4,7 @@ using MyDatabase.Models;
 
 namespace WebApp.Repositories
 {
-    public class LevelRepository : IAsyncGenericRepository<Level>
+    public class LevelRepository : IAsyncGenericRepository<CertificateLevel>
     {
         private readonly ApplicationDbContext _context;
 
@@ -13,13 +13,13 @@ namespace WebApp.Repositories
             _context = context;
         }
 
-        public async Task<Level> AddAsync(Level level)
+        public async Task<CertificateLevel> AddAsync(CertificateLevel level)
         {
-            await _context.Set<Level>().AddAsync(level);
+            await _context.Set<CertificateLevel>().AddAsync(level);
             return level;
         }
 
-        public async Task<Level> UpdateAsync(Level level)
+        public async Task<CertificateLevel> UpdateAsync(CertificateLevel level)
         {
             _context.Levels.Attach(level);
             _context.Entry(level).State = EntityState.Modified;
@@ -33,20 +33,20 @@ namespace WebApp.Repositories
             _context.Levels.Remove(levelToDelete);
         }
         //public async Task<Question> GetByIdAsync(int? id) => await _context.Questions.FindAsync(id);
-        public async Task<Level> GetByIdAsync(int? id)
+        public async Task<CertificateLevel> GetByIdAsync(int? id)
         {
             return await _context.Levels.FindAsync(id);
 
         }
         //public async Task<IEnumerable<Question>> GetAllAsync() =>await _context.Questions.ToListAsync();
 
-        public async Task<IEnumerable<Level>> GetAllAsync()
+        public async Task<IEnumerable<CertificateLevel>> GetAllAsync()
         {
             
             return await _context.Levels.ToListAsync();
         }
 
-        public Task<IEnumerable<Level>> AddRangeAsync(IEnumerable<Level> entities)
+        public Task<IEnumerable<CertificateLevel>> AddRangeAsync(IEnumerable<CertificateLevel> entities)
         {
             throw new NotImplementedException();
         }

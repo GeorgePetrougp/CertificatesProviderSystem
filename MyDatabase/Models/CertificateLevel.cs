@@ -1,6 +1,6 @@
 ﻿namespace MyDatabase.Models
 {
-    public class Level
+    public class CertificateLevel
     {
         public int LevelId { get; set; }
         public string Title { get; set; }

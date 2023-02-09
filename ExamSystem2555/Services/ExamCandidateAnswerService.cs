@@ -5,29 +5,29 @@ namespace WebApp.Services
 {
     public class ExamCandidateAnswerService : IExamCandidateAnswerService
     {
-        private IAsyncGenericRepository<ExamCandidateAnswer> _examCandidateAnswerRepository;
+        private IAsyncGenericRepository<CandidateExaminationAnswer> _examCandidateAnswerRepository;
 
-        public ExamCandidateAnswerService(IAsyncGenericRepository<ExamCandidateAnswer> examCandidateAnswerRepository)
+        public ExamCandidateAnswerService(IAsyncGenericRepository<CandidateExaminationAnswer> examCandidateAnswerRepository)
         {
             _examCandidateAnswerRepository = examCandidateAnswerRepository;
         }
 
-        public async Task<ExamCandidateAnswer> GetExamCandidateAnswerByIdAsync(int? id)
+        public async Task<CandidateExaminationAnswer> GetExamCandidateAnswerByIdAsync(int? id)
         {
             return await _examCandidateAnswerRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<ExamCandidateAnswer>> GetAllExamCandidateAnswersAsync()
+        public async Task<IEnumerable<CandidateExaminationAnswer>> GetAllExamCandidateAnswersAsync()
         {
             return await _examCandidateAnswerRepository.GetAllAsync();
         }
 
-        public async Task<ExamCandidateAnswer> AddExamCandidateAnswerAsync(ExamCandidateAnswer examCandidateAnswer)
+        public async Task<CandidateExaminationAnswer> AddExamCandidateAnswerAsync(CandidateExaminationAnswer examCandidateAnswer)
         {
             return await _examCandidateAnswerRepository.AddAsync(examCandidateAnswer);
         }
 
-        public async Task<ExamCandidateAnswer> UpdateExamCandidateAnswerAsync(ExamCandidateAnswer examCandidateAnswer)
+        public async Task<CandidateExaminationAnswer> UpdateExamCandidateAnswerAsync(CandidateExaminationAnswer examCandidateAnswer)
         {
             return await (_examCandidateAnswerRepository.UpdateAsync(examCandidateAnswer));
         }
@@ -37,7 +37,7 @@ namespace WebApp.Services
             await _examCandidateAnswerRepository.DeleteAsync(id);
         }
 
-        public string CheckNull(ExamCandidateAnswer examCandidateAnswer)
+        public string CheckNull(CandidateExaminationAnswer examCandidateAnswer)
         {
             if (examCandidateAnswer != null)
             {

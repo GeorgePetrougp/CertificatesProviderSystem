@@ -4,7 +4,7 @@ using WebApp.Data;
 
 namespace WebApp.Repositories
 {
-    public class CandidateExamResultsRepository: IAsyncGenericRepository<CandidateExamResults>
+    public class CandidateExamResultsRepository: IAsyncGenericRepository<CandidateExaminationResult>
     {
 
         private readonly ApplicationDbContext _context;
@@ -14,13 +14,13 @@ namespace WebApp.Repositories
             _context = context;
         }
 
-        public async Task<CandidateExamResults> AddAsync(CandidateExamResults candidateExamResult)
+        public async Task<CandidateExaminationResult> AddAsync(CandidateExaminationResult candidateExamResult)
         {
-            await _context.Set<CandidateExamResults>().AddAsync(candidateExamResult);
+            await _context.Set<CandidateExaminationResult>().AddAsync(candidateExamResult);
             return candidateExamResult;
         }
 
-        public async Task<CandidateExamResults> UpdateAsync(CandidateExamResults candidateExamResult)
+        public async Task<CandidateExaminationResult> UpdateAsync(CandidateExaminationResult candidateExamResult)
         {
             _context.CandidateExamResults.Attach(candidateExamResult);
             _context.Entry(candidateExamResult).State = EntityState.Modified;
@@ -34,20 +34,20 @@ namespace WebApp.Repositories
             _context.CandidateExamResults.Remove(candidateExamResultToDelete);
         }
         //public async Task<Question> GetByIdAsync(int? id) => await _context.Questions.FindAsync(id);
-        public async Task<CandidateExamResults> GetByIdAsync(int? id)
+        public async Task<CandidateExaminationResult> GetByIdAsync(int? id)
         {
             return await _context.CandidateExamResults.FindAsync(id);
 
         }
         //public async Task<IEnumerable<Question>> GetAllAsync() =>await _context.Questions.ToListAsync();
 
-        public async Task<IEnumerable<CandidateExamResults>> GetAllAsync()
+        public async Task<IEnumerable<CandidateExaminationResult>> GetAllAsync()
         {
 
             return await _context.CandidateExamResults.ToListAsync();
         }
 
-        public Task<IEnumerable<CandidateExamResults>> AddRangeAsync(IEnumerable<CandidateExamResults> entities)
+        public Task<IEnumerable<CandidateExaminationResult>> AddRangeAsync(IEnumerable<CandidateExaminationResult> entities)
         {
             throw new NotImplementedException();
         }

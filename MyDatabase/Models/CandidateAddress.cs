@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyDatabase.Models
 {
-    public class Address
+    public class CandidateAddress
     {
         public int AddressId { get; set; }
         public string AddressLine { get; set; }

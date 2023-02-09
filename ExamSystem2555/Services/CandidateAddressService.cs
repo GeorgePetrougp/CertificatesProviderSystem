@@ -4,31 +4,31 @@ using System.Net;
 
 namespace WebApp.Services
 {
-    public class AddressService : IAddressService
+    public class CandidateAddressService : ICandidateAddressService
     {
-        private IAsyncGenericRepository<Address> _addressRepository;
+        private IAsyncGenericRepository<CandidateAddress> _addressRepository;
 
-        public AddressService(IAsyncGenericRepository<Address> addressRepository)
+        public CandidateAddressService(IAsyncGenericRepository<CandidateAddress> addressRepository)
         {
             _addressRepository = addressRepository;
         }
 
-        public async Task<Address> GetAddressByIdAsync(int? id)
+        public async Task<CandidateAddress> GetAddressByIdAsync(int? id)
         {
             return await _addressRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Address>> GetAllAddressesAsync()
+        public async Task<IEnumerable<CandidateAddress>> GetAllAddressesAsync()
         {
             return await _addressRepository.GetAllAsync();
         }
 
-        public async Task<Address> AddAddressAsync(Address address)
+        public async Task<CandidateAddress> AddAddressAsync(CandidateAddress address)
         {
             return await _addressRepository.AddAsync(address);
         }
 
-        public async Task<Address> UpdateAddressAsync(Address address)
+        public async Task<CandidateAddress> UpdateAddressAsync(CandidateAddress address)
         {
             return await (_addressRepository.UpdateAsync(address));
         }
@@ -38,7 +38,7 @@ namespace WebApp.Services
             await _addressRepository.DeleteAsync(id);
         }
 
-        public string CheckNull(Address address)
+        public string CheckNull(CandidateAddress address)
         {
             if (address != null)
             {

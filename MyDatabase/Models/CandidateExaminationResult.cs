@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyDatabase.Models
 {
-    public class CandidateExamResults
+    public class CandidateExaminationResult
     {
         public int CandidateExamResultsId { get; set; }
         public DateTime ResultIssueDate { get; set; }
@@ -14,6 +14,6 @@ namespace MyDatabase.Models
 
         public int CandidateTotalScore { get; set; }
         public int CandidateExamId { get; set; }
-        public virtual CandidateExam CandidateExam { get; set; }
+        public virtual CandidateExamination CandidateExam { get; set; }
     }
 }

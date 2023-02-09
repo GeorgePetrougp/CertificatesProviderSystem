@@ -8,8 +8,8 @@ namespace WebApp.AutoMapper
     {
         public CandidateExaminationsProfile()
         {
-            CreateMap<CandidateExam,CandidateExaminationsDTO>().ReverseMap();
-            CreateMap<CandidateExamResults, CandidateExaminationResultsDTO>().ReverseMap();
+            CreateMap<CandidateExamination,CandidateExaminationsDTO>().ReverseMap();
+            CreateMap<CandidateExaminationResult, CandidateExaminationResultsDTO>().ReverseMap();
 
         }
     }

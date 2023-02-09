@@ -1,12 +1,12 @@
 ﻿using MyDatabase.Models;
 using WebApp.Services;
 
-namespace WebApp.MainServices
+namespace WebApp.MainServices.Interfaces
 {
     public interface ICandidateManagerService
     {
         ICandidateService CandidateService { get; }
-        IAddressService AddressService { get; }
+        ICandidateAddressService AddressService { get; }
         ICertificateService CertificateService { get; }
         IExaminationService ExaminationService { get; }
         ICandidateExamService CandidateExamService { get; }

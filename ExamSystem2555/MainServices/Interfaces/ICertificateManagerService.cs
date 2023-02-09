@@ -4,7 +4,7 @@ using WebApp.Data;
 using WebApp.DTO_Models.Certificates;
 using WebApp.Services;
 
-namespace WebApp.MainServices
+namespace WebApp.MainServices.Interfaces
 {
     public interface ICertificateManagerService
     {
@@ -18,7 +18,7 @@ namespace WebApp.MainServices
         Task<bool> NullValidation(int? id);
         Task<CreateCertificateView> CreateCertificateView();
         Task<CreateCertificateView> CreateCertificateView(int? id);
-        Task<SelectList> CreateSelectList(IEnumerable<Level> levels);
+        Task<SelectList> CreateSelectList(IEnumerable<CertificateLevel> levels);
         Task<Certificate> TBD(CreateCertificateView model);
         Task<Certificate> AddCertificate(Certificate certificate);
         Task<Certificate> UpdateCertificate(Certificate certificate);

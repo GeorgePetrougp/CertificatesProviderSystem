@@ -5,29 +5,29 @@ namespace WebApp.Services
 {
     public class CandidateExamService : ICandidateExamService
     {
-        private IAsyncGenericRepository<CandidateExam> _candidateExamRepository;
+        private IAsyncGenericRepository<CandidateExamination> _candidateExamRepository;
 
-        public CandidateExamService(IAsyncGenericRepository<CandidateExam> candidateExamRepository)
+        public CandidateExamService(IAsyncGenericRepository<CandidateExamination> candidateExamRepository)
         {
             _candidateExamRepository = candidateExamRepository;
         }
 
-        public async Task<CandidateExam> GetCandidateExamByIdAsync(int? id)
+        public async Task<CandidateExamination> GetCandidateExamByIdAsync(int? id)
         {
             return await _candidateExamRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<CandidateExam>> GetAllCandidateExamAsync()
+        public async Task<IEnumerable<CandidateExamination>> GetAllCandidateExamAsync()
         {
             return await _candidateExamRepository.GetAllAsync();
         }
 
-        public async Task<CandidateExam> AddCandidateExamAsync(CandidateExam candidateExam)
+        public async Task<CandidateExamination> AddCandidateExamAsync(CandidateExamination candidateExam)
         {
             return await _candidateExamRepository.AddAsync(candidateExam);
         }
 
-        public async Task<CandidateExam> UpdateCandidateExamAsync(CandidateExam candidateExam)
+        public async Task<CandidateExamination> UpdateCandidateExamAsync(CandidateExamination candidateExam)
         {
             return await (_candidateExamRepository.UpdateAsync(candidateExam));
         }
@@ -37,7 +37,7 @@ namespace WebApp.Services
             await _candidateExamRepository.DeleteAsync(id);
         }
 
-        public string CheckNull(CandidateExam candidateExam)
+        public string CheckNull(CandidateExamination candidateExam)
         {
             if (candidateExam != null)
             {

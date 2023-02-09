@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
 using WebApp.Data;
+using WebApp.MainServices.Interfaces;
 using WebApp.Services;
 
 namespace WebApp.MainServices
@@ -30,7 +31,7 @@ namespace WebApp.MainServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task CandidateExamLoad(IEnumerable<CandidateExam> candidateExam)
+        public async Task CandidateExamLoad(IEnumerable<CandidateExamination> candidateExam)
         {
             foreach (var item in candidateExam)
             {
@@ -40,13 +41,13 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task CandidateExamLoad(CandidateExam candidateExam)
+        public async Task CandidateExamLoad(CandidateExamination candidateExam)
         {
             await _context.Entry(candidateExam).Reference(c => c.Candidate).LoadAsync();
             await _context.Entry(candidateExam).Reference(c => c.CandidateExamResults).LoadAsync();
             await _context.Entry(candidateExam).Reference(c => c.Examination).Query().Include(c => c.Certificate).LoadAsync();
         }
-        public async Task CandidateExamResultsLoad(IEnumerable<CandidateExamResults> candidateExamResults)
+        public async Task CandidateExamResultsLoad(IEnumerable<CandidateExaminationResult> candidateExamResults)
         {
             foreach (var item in candidateExamResults)
             {

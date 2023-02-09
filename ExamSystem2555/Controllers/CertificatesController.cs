@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.DTO_Models.Certificates;
-using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 
 namespace WebApp.Controllers
 {

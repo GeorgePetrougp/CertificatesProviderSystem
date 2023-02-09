@@ -11,9 +11,9 @@ namespace MyDatabase.Data
     public class AppDBContext : DbContext
     {
         public virtual DbSet<Candidate> Candidates { get; set; }
-        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<CandidateAddress> CandidateAddresses { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
-        public virtual DbSet<Level> Levels { get; set; }
+        public virtual DbSet<CertificateLevel> Levels { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionDifficulty> QuestionDifficulties { get; set; }
@@ -22,9 +22,9 @@ namespace MyDatabase.Data
         public virtual DbSet<CertificateTopic> CertificateTopics { get; set; }
         public virtual DbSet<CertificateTopicQuestion> CertificateTopicQuestions { get; set; }
         public virtual DbSet<Examination> Examinations { get; set; }
-        public virtual DbSet<CandidateExam> CandidateExams { get; set; }
-        public virtual DbSet<ExamCandidateAnswer> ExamCandidateAnswers { get; set; }
-        public virtual DbSet<ExaminationQuestion> ExamQuestions { get; set; }
+        public virtual DbSet<CandidateExamination> CandidateExaminations { get; set; }
+        public virtual DbSet<CandidateExaminationAnswer> CandidateExaminationAnswers { get; set; }
+        public virtual DbSet<ExaminationQuestion> ExaminationQuestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

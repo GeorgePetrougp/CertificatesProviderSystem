@@ -9,8 +9,8 @@ namespace WebApp.AutoMapper
     {
         public AddressProfile()
         {
-            CreateMap<Address, AddressDTO>();
-            CreateMap<AddressDTO, Address>();
+            CreateMap<CandidateAddress, AddressDTO>();
+            CreateMap<AddressDTO, CandidateAddress>();
 
         }
     }

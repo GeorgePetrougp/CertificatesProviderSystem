@@ -1,7 +1,7 @@
 ﻿using MyDatabase.Models;
 using WebApp.Services;
 
-namespace WebApp.MainServices
+namespace WebApp.MainServices.Interfaces
 {
     public interface ICertificateExaminationService
     {

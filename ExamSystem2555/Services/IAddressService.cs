@@ -2,13 +2,13 @@
 
 namespace WebApp.Services
 {
-    public interface IAddressService
+    public interface ICandidateAddressService
     {
-        Task<Address> GetAddressByIdAsync(int? id);
-        Task<IEnumerable<Address>> GetAllAddressesAsync();
-        Task<Address> AddAddressAsync(Address entity);
-        Task<Address> UpdateAddressAsync(Address entity);
+        Task<CandidateAddress> GetAddressByIdAsync(int? id);
+        Task<IEnumerable<CandidateAddress>> GetAllAddressesAsync();
+        Task<CandidateAddress> AddAddressAsync(CandidateAddress entity);
+        Task<CandidateAddress> UpdateAddressAsync(CandidateAddress entity);
         Task DeleteAddressAsync(int? id);
-        string CheckNull(Address entity);
+        string CheckNull(CandidateAddress entity);
     }
 }

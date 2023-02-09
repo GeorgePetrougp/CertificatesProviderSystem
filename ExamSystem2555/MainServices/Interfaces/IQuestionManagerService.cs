@@ -4,7 +4,7 @@ using WebApp.Services;
 using MyDatabase.Models;
 using AutoMapper;
 
-namespace WebApp.MainServices
+namespace WebApp.MainServices.Interfaces
 {
     public interface IQuestionManagerService
     {

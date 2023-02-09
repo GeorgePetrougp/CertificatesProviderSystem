@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
 using WebApp.Data;
+using WebApp.MainServices.Interfaces;
 using WebApp.Services;
 
 namespace WebApp.MainServices
@@ -59,7 +60,7 @@ namespace WebApp.MainServices
 
         }
 
-        public async Task CertificateTopicsQuestionLoad(ExamCandidateAnswer examAnswer)
+        public async Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer)
         {
             await _context.Entry(examAnswer).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(tq => tq.Question).ThenInclude(q => q.QuestionPossibleAnswers).LoadAsync();
 
@@ -77,7 +78,7 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task CandidateAnswerExamLoad(IEnumerable<ExamCandidateAnswer> examCandidateAnswers)
+        public async Task CandidateAnswerExamLoad(IEnumerable<CandidateExaminationAnswer> examCandidateAnswers)
         {
             foreach (var item in examCandidateAnswers)
             {
@@ -86,12 +87,12 @@ namespace WebApp.MainServices
             }
         }
 
-        public async Task CandidateExaminationLoad(CandidateExam c)
+        public async Task CandidateExaminationLoad(CandidateExamination c)
         {
             await _context.Entry(c).Reference(e => e.Examination).LoadAsync();
         }
 
-        public async Task CandidateResultsLoad(CandidateExam c)
+        public async Task CandidateResultsLoad(CandidateExamination c)
         {
             await _context.Entry(c).Reference(e => e.CandidateExamResults).LoadAsync();
             await _context.Entry(c).Reference(e => e.Candidate).LoadAsync();
