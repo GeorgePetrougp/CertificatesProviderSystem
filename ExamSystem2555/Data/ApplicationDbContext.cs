@@ -68,7 +68,7 @@ namespace WebApp.Data
             modelBuilder.Entity<CandidateExamination>()
         .HasOne(a => a.CandidateExamResults)
         .WithOne(b => b.CandidateExam)
-        .HasForeignKey<CandidateExaminationResult>(b => b.CandidateExamId);
+        .HasForeignKey<CandidateExaminationResult>(b => b.CandidateExaminationId);
 
 
 

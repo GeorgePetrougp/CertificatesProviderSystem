@@ -4,26 +4,34 @@
 <h1 style="margin:0 auto;width:50%">ExamSystem</h1>
 <h4>@Html.Raw(Model.Question.QuestionDisplay)</h4>
 
-
-<ul>
-    @foreach (var item in Model.Question.PossibleAnswers)
-    {
-        <p>Answer Id: @item.QuestionPossibleAnswerId</p>
-        <li>@Html.Raw(item.QuestionPossibleAnswer)</li>
-    }
-</ul>
-
 <p>Correct Answer: @Model.CorrectAnswer</p>
+
 
 <form method="post" asp-action="EditExamAnswers">
 
     <input type="hidden" name="id" asp-for="@Model.CandidateAnswerId" />
+    <input type="hidden" name="candidateExamId" asp-for="@Model.CandidateExaminationId" />
+
 
     <div class="form-group">
-        <label asp-for="SelectedAnswer" class="control-label"></label>
-        <input asp-for="@Model.SelectedAnswer" class="form-control" value="@Model.SelectedAnswer" />
+        <label asp-for="SelectedAnswer" class="control-label">Candidate Selected Answer</label>
+        @foreach (var answer in Model.Question.PossibleAnswers)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="SelectedAnswer" value="@answer.QuestionPossibleAnswerId"
+                   @if (answer.QuestionPossibleAnswerId == Model.SelectedAnswer)
+                   {
+            <text> checked </text>
+            }
+            />
+                <label class="form-check-label" for="SelectedAnswer">@answer.QuestionPossibleAnswer</label>
+            </div>
+        }
         <span asp-validation-for="@Model.SelectedAnswer" class="text-danger"></span>
     </div>
 
     <button type="submit" name="action" value="Next">Next</button>
 </form>
+
+
+

@@ -5,6 +5,7 @@
         public int QuestionPossibleAnswerId { get; set; }
         public string QuestionPossibleAnswer { get; set;}
         public bool IsAnswerCorrect { get; set;}
+        public bool IsSelectedAnswer { get; set;}
  
     }
 }

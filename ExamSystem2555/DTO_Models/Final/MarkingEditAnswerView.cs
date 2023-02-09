@@ -2,6 +2,7 @@
 {
     public class MarkingEditAnswerView
     {
+        public int CandidateExaminationId { get; set; }
         public int? CandidateAnswerId { get; set; }
         public int SelectedAnswer { get; set; }
         public int CorrectAnswer { get; set; }
