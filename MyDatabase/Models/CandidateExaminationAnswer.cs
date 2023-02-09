@@ -8,7 +8,7 @@ namespace MyDatabase.Models
 {
     public class CandidateExaminationAnswer
     {
-        public int ExamCandidateAnswerId { get; set; }
+        public int CandidateExaminationAnswerId { get; set; }
         public int SelectedAnswer { get; set; }
         public int CorrectAnswer { get; set; }
         public virtual CandidateExamination? CandidateExam { get; set; }

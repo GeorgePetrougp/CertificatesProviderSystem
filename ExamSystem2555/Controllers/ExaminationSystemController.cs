@@ -55,8 +55,6 @@ namespace WebApp.Controllers
                 CandidateExamId = candidateExamId
             };
 
-
-
             return View(myExamView);
 
         }
@@ -92,6 +90,7 @@ namespace WebApp.Controllers
                     await _service.SaveChangesAsync();
                 }
                 newModel.CurrentIndex++;
+                
                 if (newModel.CurrentIndex >= newModel.Questions.Count)
                 {
                     return RedirectToAction("GetResults", new { candidateExamId = newModel.CandidateExamId });
@@ -106,7 +105,7 @@ namespace WebApp.Controllers
         {
             var x = await _service.ExamCandidateAnswerService.GetAllExamCandidateAnswersAsync();
             await _service.CandidateAnswerExamLoad(x);
-            var examCandidateAnswer = x.Where(x => x.CandidateExam.CandidateExamId == candidateExamId);
+            var examCandidateAnswer = x.Where(x => x.CandidateExam.CandidateExaminationId == candidateExamId);
 
             await _service.CandidateAnswerExamLoad(x);
             var totalQuestions = x.Count();

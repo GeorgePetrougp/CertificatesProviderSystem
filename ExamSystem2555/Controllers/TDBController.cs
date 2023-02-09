@@ -31,7 +31,7 @@ namespace WebApp.Controllers
                 
                 var y = new ExaminationControllerView
                 {
-                    CandidateExamId = item.CandidateExamId,
+                    CandidateExamId = item.CandidateExaminationId,
                     Candidate = item.Candidate,
                     ExamCode = item.ExamCode,
                     ExamDate = item.ExamDate,

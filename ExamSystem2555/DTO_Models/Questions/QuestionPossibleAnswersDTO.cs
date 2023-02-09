@@ -1,4 +1,4 @@
-﻿namespace WebApp.DTO_Models.Final
+﻿namespace WebApp.DTO_Models.Questions
 {
     public class QuestionPossibleAnswersDTO
     {

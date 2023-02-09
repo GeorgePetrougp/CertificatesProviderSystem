@@ -8,7 +8,7 @@ namespace MyDatabase.Models
 {
     public class CandidateExaminationResult
     {
-        public int CandidateExamResultsId { get; set; }
+        public int CandidateExaminationResultId { get; set; }
         public DateTime ResultIssueDate { get; set; }
         public string ResultLabel { get; set; }
 

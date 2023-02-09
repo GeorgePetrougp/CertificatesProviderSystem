@@ -1,12 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Construction;
 using MyDatabase.Models;
 using System.Security.Claims;
+using WebApp.DTO_Models.CandidateExaminations;
 using WebApp.DTO_Models.Final;
+using WebApp.DTO_Models.Marking;
 using WebApp.MainServices;
 using WebApp.MainServices.Interfaces;
 using WebApp.Models;
+using WebApp.DTO_Models.Questions;
+using QuestionPossibleAnswersDTO = WebApp.DTO_Models.Final.QuestionPossibleAnswersDTO;
 
 namespace WebApp.Controllers
 {
@@ -28,7 +33,7 @@ namespace WebApp.Controllers
         // GET: Marking
         public async Task<IActionResult> GetExams()
         {
-            var x = (ClaimsIdentity)User.Identity;
+            var x = User.Identity as ClaimsIdentity;
             var y = x.FindFirst(ClaimTypes.NameIdentifier);
             var z = y.Value;
             var user = await _userManager.FindByIdAsync(z);
@@ -57,48 +62,68 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var candidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(id);
-            var examDetails = (await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync()).Where(a => a.CandidateExam == candidateExam);
+            var candidateAnswers = (await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync()).Where(a => a.CandidateExam == candidateExam);
 
-            foreach (var item in examDetails)
+            foreach (var answer in candidateAnswers)
             {
-                await _service.CertificateTopicsQuestionLoad(item);
+                await _service.CertificateTopicsQuestionLoad(answer);
             }
-
-
 
             if (candidateExam == null)
             {
                 return NotFound();
             }
-            return View(examDetails);
+
+            return View(candidateAnswers);
         }
 
 
         public async Task<IActionResult> EditExamAnswers(int? id)
         {
-            var myExamAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
-            await _service.CertificateTopicsQuestionLoad(myExamAnswer);
-            var answers = (myExamAnswer.CertificateTopicQuestion.TopicQuestion.Question.QuestionPossibleAnswers).ToList();
-            var question = myExamAnswer.CertificateTopicQuestion.TopicQuestion.Question;
-            var correctAnswer = myExamAnswer.CorrectAnswer;
-            var selectedAnswer = myExamAnswer.SelectedAnswer;
+            var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
+            await _service.CertificateTopicsQuestionLoad(candidateAnswer);
+            
+            var question = candidateAnswer.CertificateTopicQuestion.TopicQuestion.Question;
+            var questionPossibleAnswers = (candidateAnswer.CertificateTopicQuestion.TopicQuestion.Question.QuestionPossibleAnswers).ToList();
 
+            
 
+            var correctAnswerId = candidateAnswer.CorrectAnswer;
+            var selectedAnswerId = candidateAnswer.SelectedAnswer;
+
+            //var markingView = new MarkingView();
             var model = new MarkingEditAnswerView
             {
                 CandidateAnswerId = id,
-                Question = new QuestionDTO
+                Question = new DTO_Models.Final.QuestionDTO
                 {
 
                     QuestionId = question.QuestionId,
-                    PossibleAnswers = _mapper.Map<List<QuestionPossibleAnswersDTO>>(answers),
+                    PossibleAnswers = _mapper.Map<List<QuestionPossibleAnswersDTO>>(questionPossibleAnswers),
                     QuestionDisplay = question.Display
 
                 },
-                CorrectAnswer = correctAnswer,
-                SelectedAnswer = selectedAnswer,
+                CorrectAnswer = correctAnswerId,
+                SelectedAnswer = selectedAnswerId
 
             };
+
+            foreach (var qpa in questionPossibleAnswers)
+            {
+                if (qpa.QuestionPossibleAnswerId == selectedAnswerId)
+                {
+                    model.IsSelectedAnswer= true;
+                }
+
+            }
+
+
+
+
+            
+
+            var markingView = new MarkingView();
+            
             return View(model);
 
         }
@@ -114,42 +139,6 @@ namespace WebApp.Controllers
             await _service.SaveChangesAsync();
 
             return RedirectToAction("GetExamQuestions", "Marking", new { id = id });
-        }
-
-        // GET: Marking/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _service.CandidateExamService == null)
-            {
-                return NotFound();
-            }
-
-            var candidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(id);
-            if (candidateExam == null)
-            {
-                return NotFound();
-            }
-
-            return View(candidateExam);
-        }
-
-        // POST: Marking/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_service.CandidateExamService == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.CandidateExams'  is null.");
-            }
-            var candidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(id);
-            if (candidateExam != null)
-            {
-                await _service.CandidateExamService.DeleteCandidateExamAsync(id);
-            }
-
-            await _service.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool CandidateExamExists(int id)

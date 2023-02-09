@@ -2,9 +2,6 @@
 
 
 <h1 style="margin:0 auto;width:50%">ExamSystem</h1>
-
-
-
 <h4>@Html.Raw(Model.Question.QuestionDisplay)</h4>
 
 
@@ -24,11 +21,9 @@
 
     <div class="form-group">
         <label asp-for="SelectedAnswer" class="control-label"></label>
-        <input asp-for="@Model.SelectedAnswer" class="form-control" value="@Model.SelectedAnswer"/>
+        <input asp-for="@Model.SelectedAnswer" class="form-control" value="@Model.SelectedAnswer" />
         <span asp-validation-for="@Model.SelectedAnswer" class="text-danger"></span>
     </div>
-        
-                    
-        
-        <button type="submit" name="action" value="Next">Next</button>
-    </form>
+
+    <button type="submit" name="action" value="Next">Next</button>
+</form>

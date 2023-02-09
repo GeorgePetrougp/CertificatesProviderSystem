@@ -8,7 +8,7 @@ namespace MyDatabase.Models
 {
     public class CandidateAddress
     {
-        public int AddressId { get; set; }
+        public int CandidateAddressId { get; set; }
         public string AddressLine { get; set; }
         public string? State { get; set; }
         public string? Province { get; set; }

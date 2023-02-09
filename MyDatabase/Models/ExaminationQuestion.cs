@@ -8,7 +8,7 @@ namespace MyDatabase.Models
 {
     public class ExaminationQuestion
     {
-        public int ExamQuestionId { get; set; }
+        public int ExaminationQuestionId { get; set; }
         public virtual Examination Examination { get; set; }
         public virtual CertificateTopicQuestion CertificateTopicQuestion { get; set; }
 

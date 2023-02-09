@@ -40,7 +40,7 @@ namespace WebApp.Data
         {
 
             modelBuilder.Entity<ExaminationQuestion>()
-                .HasKey(e => e.ExamQuestionId);
+                .HasKey(e => e.ExaminationQuestionId);
 
             modelBuilder.Entity<Examination>()
                 .HasMany(e => e.ExamQuestions)

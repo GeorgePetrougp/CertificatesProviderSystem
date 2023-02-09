@@ -8,7 +8,7 @@ namespace MyDatabase.Models
 {
     public class CandidateExamination
     {
-        public int CandidateExamId { get; set; }
+        public int CandidateExaminationId { get; set; }
         public string ExamCode { get; set; }
         public DateTime ExamDate { get; set; }
         public virtual Candidate? Candidate { get; set; }

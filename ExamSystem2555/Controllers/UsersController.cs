@@ -70,7 +70,7 @@ namespace WebApp.Controllers
             var myExamInts = exams.Where(c => c.Certificate == certificate).Select(e => e.ExaminationId).ToList();
 
             Random random = new Random();
-            int randomIndex = random.Next(myExamInts[0], myExamInts.Count() - 1);
+            int randomIndex = random.Next(myExamInts[0], myExamInts.Count - 1);
             var myExam = await _service.ExaminationService.GetExaminationByIdAsync(randomIndex);
 
             var candidate = await _service.CandidateService.GetCandidateByIdAsync(1);
@@ -106,7 +106,7 @@ namespace WebApp.Controllers
             await _service.CandidateExamService.AddCandidateExamAsync(newCandidateExam);
             await _service.SaveChangesAsync();
 
-            return RedirectToAction("ExaminationSystemIndex", "ExaminationSystem", new { candidateExamId = newCandidateExam.CandidateExamId });
+            return RedirectToAction("ExaminationSystemIndex", "ExaminationSystem", new { candidateExamId = newCandidateExam.CandidateExaminationId });
         }
 
 
