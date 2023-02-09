@@ -13,7 +13,7 @@ namespace MyDatabase.Models
         public string ResultLabel { get; set; }
 
         public int CandidateTotalScore { get; set; }
-        public int CandidateExamId { get; set; }
+        public int CandidateExaminationId { get; set; }
         public virtual CandidateExamination CandidateExam { get; set; }
     }
 }

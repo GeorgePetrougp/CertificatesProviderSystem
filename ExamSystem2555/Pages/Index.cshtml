@@ -1,10 +1,24 @@
 ﻿@page
+@using WebApp.Models;
+@inject SignInManager<ApplicationUser> signInManager;
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="col-6 d-flex flex-column align-items-center mx-auto text-center">
+    <h1 class="display-4 mb-3">Welcome</h1>
+        @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+        {
+            <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
+            <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
+        }
+        else if (signInManager.IsSignedIn(User) && User.IsInRole("Marker"))
+        {
+            <a type="button" class="btn btn-primary w-25 my-2" asp-action="GetExams" asp-controller="Marking">Marking</a>
+        }
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Our Certifications</a>
 </div>

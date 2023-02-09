@@ -78,7 +78,7 @@ namespace WebApp.Controllers
         }
 
 
-        public async Task<IActionResult> EditExamAnswers(int? id)
+        public async Task<IActionResult> EditExamAnswers(int? id, int candidateExamId)
         {
             var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
             await _service.CertificateTopicsQuestionLoad(candidateAnswer);
@@ -86,14 +86,12 @@ namespace WebApp.Controllers
             var question = candidateAnswer.CertificateTopicQuestion.TopicQuestion.Question;
             var questionPossibleAnswers = (candidateAnswer.CertificateTopicQuestion.TopicQuestion.Question.QuestionPossibleAnswers).ToList();
 
-            
-
             var correctAnswerId = candidateAnswer.CorrectAnswer;
             var selectedAnswerId = candidateAnswer.SelectedAnswer;
 
-            //var markingView = new MarkingView();
             var model = new MarkingEditAnswerView
             {
+                CandidateExaminationId = candidateExamId,
                 CandidateAnswerId = id,
                 Question = new DTO_Models.Final.QuestionDTO
                 {
@@ -114,16 +112,8 @@ namespace WebApp.Controllers
                 {
                     model.IsSelectedAnswer= true;
                 }
-
             }
 
-
-
-
-            
-
-            var markingView = new MarkingView();
-            
             return View(model);
 
         }
@@ -131,14 +121,48 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditExamAnswers(int id, int selectedAnswer)
+        public async Task<IActionResult> EditExamAnswers(int id, int candidateExamId, int selectedAnswer)
         {
 
             var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
             candidateAnswer.SelectedAnswer = selectedAnswer;
             await _service.SaveChangesAsync();
 
-            return RedirectToAction("GetExamQuestions", "Marking", new { id = id });
+            var x = await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync();
+            await _service.CandidateAnswerExamLoad(x);
+            var examCandidateAnswer = x.Where(x => x.CandidateExam.CandidateExaminationId == candidateExamId);
+
+            await _service.CandidateAnswerExamLoad(x);
+            var totalQuestions = x.Count();
+            var correctAnswers = 0;
+            string result = "";
+            foreach (var item in x)
+            {
+                if (item.SelectedAnswer == item.CorrectAnswer)
+                {
+                    correctAnswers++;
+                }
+
+            }
+
+            if (correctAnswers > 2)
+            {
+                result = "PASS";
+            }
+            else
+            {
+                result = "FAIL";
+            }
+
+            var examResults = (await _service.CandidateExamResultsService.GetAllCandidateExamResultsAsync()).Where(cer=>cer.CandidateExaminationId == candidateExamId).First();
+
+            examResults.ResultLabel = result;
+            examResults.CandidateTotalScore = correctAnswers;
+
+            await _service.CandidateExamResultsService.UpdateCandidateExamResultsAsync(examResults);
+            await _service.SaveChangesAsync();
+
+            return RedirectToAction("GetExamQuestions", "Marking", new { id = candidateExamId });
         }
 
         private bool CandidateExamExists(int id)

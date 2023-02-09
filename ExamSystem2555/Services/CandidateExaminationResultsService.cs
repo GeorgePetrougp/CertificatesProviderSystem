@@ -30,7 +30,7 @@ namespace WebApp.Services
 
         public async Task<CandidateExaminationResult> UpdateCandidateExamResultsAsync(CandidateExaminationResult candidateExamResults)
         {
-            return await (_candidateExamResultsRepository.UpdateAsync(candidateExamResults));
+            return await _candidateExamResultsRepository.UpdateAsync(candidateExamResults);
         }
 
         public async Task DeleteCandidateExamResultAsync(int? id)

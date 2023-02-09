@@ -4,6 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/QuestionDetails.css" asp-append-version="true" />
+</head>
+
 <h1>Welcome</h1>
 @if (User.IsInRole("Administrator"))
 {
@@ -13,7 +17,7 @@
     
 }
 
-<table class="table table-hover width=80% table-light" style = "text-align: center">
+<table class="table table-hover width=80% table-light questions-index" style = "text-align: center">
     <thead class="table-primary">
         <tr>
             <th>

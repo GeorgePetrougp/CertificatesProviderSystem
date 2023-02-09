@@ -131,7 +131,7 @@ namespace WebApp.Controllers
 
             var examResults = new CandidateExaminationResult
             {
-                CandidateExamId = candidateExamId,
+                CandidateExaminationId = candidateExamId,
                 ResultIssueDate = DateTime.Now,
                 ResultLabel = result,
                 CandidateTotalScore = correctAnswers
