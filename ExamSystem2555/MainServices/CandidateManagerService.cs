@@ -1,7 +1,7 @@
 ﻿using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.MainServices.Interfaces;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {
@@ -12,10 +12,10 @@ namespace WebApp.MainServices
         private readonly ICandidateAddressService _addressService;
         private readonly ICertificateService _certificateService;
         private readonly IExaminationService _examService;
-        private readonly ICandidateExamService _candidateExamService;
+        private readonly ICandidateExaminationService _candidateExamService;
         private readonly IUserCandidateService _userCandidateService;
 
-        public CandidateManagerService(ApplicationDbContext context, ICandidateService candidateService, ICandidateAddressService addressService, ICertificateService certificateService, IExaminationService examService, ICandidateExamService candidateExamService, IUserCandidateService userCandidateService)
+        public CandidateManagerService(ApplicationDbContext context, ICandidateService candidateService, ICandidateAddressService addressService, ICertificateService certificateService, IExaminationService examService, ICandidateExaminationService candidateExamService, IUserCandidateService userCandidateService)
         {
             _context = context;
             _candidateService = candidateService;
@@ -29,7 +29,7 @@ namespace WebApp.MainServices
         public ICandidateAddressService AddressService { get => _addressService; }
         public ICertificateService CertificateService { get => _certificateService; }
         public IExaminationService ExaminationService { get => _examService; }
-        public ICandidateExamService CandidateExamService { get => _candidateExamService; }
+        public ICandidateExaminationService CandidateExamService { get => _candidateExamService; }
         public IUserCandidateService UserCandidateService { get => _userCandidateService; }
 
 

@@ -1,12 +1,12 @@
 ﻿using MyDatabase.Models;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {
     public interface IAdministratorService
     {
-        public ICandidateExamService CandidateExamService { get; }
-        public ICandidateExamResultsService CandidateExamResultsService { get; }
+        public ICandidateExaminationService CandidateExamService { get; }
+        public ICandidateExaminationResultsService CandidateExamResultsService { get; }
         public IMarkerAssignedExamService MarkerAssignedExamService { get; }
         public Task CandidateExamLoad(IEnumerable<CandidateExamination> candidateExam);
         public Task CandidateExamLoad(CandidateExamination candidateExam);

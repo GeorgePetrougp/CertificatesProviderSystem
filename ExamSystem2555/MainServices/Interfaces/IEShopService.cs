@@ -1,4 +1,4 @@
-﻿using WebApp.Services;
+﻿using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {
@@ -8,7 +8,7 @@ namespace WebApp.MainServices.Interfaces
 
         public ICertificateService CertificateService { get; }
 
-        public ICandidateExamService CandidateExamService { get; }
+        public ICandidateExaminationService CandidateExamService { get; }
 
         public IExaminationService ExaminationService { get; }
         Task SaveChangesAsync();

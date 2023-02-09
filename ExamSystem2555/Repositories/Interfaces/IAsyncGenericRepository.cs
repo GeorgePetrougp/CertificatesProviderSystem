@@ -1,7 +1,7 @@
 ﻿using WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApp.Repositories
+namespace WebApp.Repositories.Interfaces
 {
     public interface IAsyncGenericRepository<T> where T : class
     {
@@ -11,7 +11,7 @@ namespace WebApp.Repositories
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(int? id);
         Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
-      
+
     }
 }
 

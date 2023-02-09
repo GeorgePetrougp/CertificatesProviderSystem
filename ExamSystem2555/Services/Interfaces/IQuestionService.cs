@@ -1,8 +1,8 @@
 ﻿using MyDatabase.Models;
 
-namespace WebApp.Services
+namespace WebApp.Services.Interfaces
 {
-    public interface IQuestionService 
+    public interface IQuestionService
     {
         Task<Question> GetQuestionByIdAsync(int? id);
         Task<IEnumerable<Question>> GetAllQuestionsAsync();

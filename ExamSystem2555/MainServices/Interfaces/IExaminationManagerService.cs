@@ -1,17 +1,17 @@
 ﻿using MyDatabase.Models;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {
     public interface IExaminationManagerService
     {
-        public ICandidateExamService CandidateExamService { get; }
+        public ICandidateExaminationService CandidateExamService { get; }
         public IExaminationQuestionService ExaminationQuestionService { get; }
         public IExaminationService ExaminationService { get; }
         public IQuestionPossibleAnswerService QuestionPossibleAnswerService { get; }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get; }
-        public IExamCandidateAnswerService ExamCandidateAnswerService { get; }
-        public ICandidateExamResultsService CandidateExamResultsService { get; }
+        public ICandidateExaminationAnswerService ExamCandidateAnswerService { get; }
+        public ICandidateExaminationResultsService CandidateExamResultsService { get; }
         public Task CandidateAnswerExamLoad(IEnumerable<CandidateExaminationAnswer> examCandidateAnswers);
         Task CertificateTopicsLoad(CertificateTopicQuestion ctq);
         Task ExaminationQuestionLoad(IEnumerable<ExaminationQuestion> eq);

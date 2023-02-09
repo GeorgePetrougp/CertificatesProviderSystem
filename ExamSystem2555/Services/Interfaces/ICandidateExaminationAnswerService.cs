@@ -1,8 +1,8 @@
 ﻿using MyDatabase.Models;
 
-namespace WebApp.Services
+namespace WebApp.Services.Interfaces
 {
-    public interface IExamCandidateAnswerService
+    public interface ICandidateExaminationAnswerService
     {
         Task<CandidateExaminationAnswer> GetExamCandidateAnswerByIdAsync(int? id);
         Task<IEnumerable<CandidateExaminationAnswer>> GetAllExamCandidateAnswersAsync();

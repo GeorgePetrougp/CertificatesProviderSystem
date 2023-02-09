@@ -1,14 +1,15 @@
 ﻿using WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Repositories
 {
-    public class LevelRepository : IAsyncGenericRepository<CertificateLevel>
+    public class CertificateLevelRepository : IAsyncGenericRepository<CertificateLevel>
     {
         private readonly ApplicationDbContext _context;
 
-        public LevelRepository(ApplicationDbContext context)
+        public CertificateLevelRepository(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -1,5 +1,5 @@
 ﻿using MyDatabase.Models;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {

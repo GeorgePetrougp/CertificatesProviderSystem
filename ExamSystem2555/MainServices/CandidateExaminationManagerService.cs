@@ -2,7 +2,7 @@
 using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.MainServices.Interfaces;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {
@@ -12,17 +12,17 @@ namespace WebApp.MainServices
         private readonly IQuestionService _questionService;
         private readonly IQuestionPossibleAnswerService _answerService;
         private readonly ITopicQuestionService _topicQuestionService;
-        private readonly IExamCandidateAnswerService _candidateAnswerService;
+        private readonly ICandidateExaminationAnswerService _candidateAnswerService;
         private readonly IExaminationQuestionService _examQuestionService;
         private readonly IExaminationService _examService;
         private readonly ICertificateTopicQuestionService _certificateTopicQuestionService;
-        private readonly ICandidateExamService _candidateExamService;
-        private readonly ICandidateExamResultsService _candidateExamResultsService;
+        private readonly ICandidateExaminationService _candidateExamService;
+        private readonly ICandidateExaminationResultsService _candidateExamResultsService;
         private readonly IMarkerAssignedExamService _markerAssignedExamService;
 
 
 
-        public CandidateExaminationManagerService(ApplicationDbContext context, ICandidateExamResultsService candidateExamResultsService, ICandidateExamService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, IExamCandidateAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService, IMarkerAssignedExamService markerAssignedExamService)
+        public CandidateExaminationManagerService(ApplicationDbContext context, ICandidateExaminationResultsService candidateExamResultsService, ICandidateExaminationService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, ICandidateExaminationAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService, IMarkerAssignedExamService markerAssignedExamService)
         {
             _context = context;
             _questionService = questionService;
@@ -40,12 +40,12 @@ namespace WebApp.MainServices
         public IQuestionService QuestionService { get { return _questionService; } }
         public IQuestionPossibleAnswerService AnswerService { get { return _answerService; } }
         public IExaminationService ExaminationService { get { return _examService; } }
-        public IExamCandidateAnswerService CandidateAnswerService { get { return _candidateAnswerService; } }
+        public ICandidateExaminationAnswerService CandidateAnswerService { get { return _candidateAnswerService; } }
         public IExaminationQuestionService ExamQuestionService { get { return _examQuestionService; } }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService; } }
         public ITopicQuestionService TopicQuestionService { get { return _topicQuestionService; } }
-        public ICandidateExamService CandidateExamService { get { return _candidateExamService;} }
-        public ICandidateExamResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
+        public ICandidateExaminationService CandidateExamService { get { return _candidateExamService;} }
+        public ICandidateExaminationResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
         public IMarkerAssignedExamService MarkerAssignedExamService { get { return _markerAssignedExamService; } }
 
 

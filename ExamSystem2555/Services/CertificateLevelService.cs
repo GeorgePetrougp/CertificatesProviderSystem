@@ -1,14 +1,15 @@
-﻿using WebApp.Repositories;
-using MyDatabase.Models;
+﻿using MyDatabase.Models;
+using WebApp.Services.Interfaces;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Services
 {
-    public class LevelService : ILevelService
+    public class CertificateLevelService : ICertificateLevelService
     {
 
         private IAsyncGenericRepository<CertificateLevel> _levelRepository;
 
-        public LevelService(IAsyncGenericRepository<CertificateLevel> levelRepository)
+        public CertificateLevelService(IAsyncGenericRepository<CertificateLevel> levelRepository)
         {
             _levelRepository = levelRepository;
         }

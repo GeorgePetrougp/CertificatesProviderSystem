@@ -1,8 +1,8 @@
 ﻿using WebApp.Data;
 using WebApp.DTO_Models;
-using WebApp.Services;
 using MyDatabase.Models;
 using AutoMapper;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {

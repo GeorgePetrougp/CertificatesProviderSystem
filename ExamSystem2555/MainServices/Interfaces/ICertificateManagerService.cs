@@ -2,7 +2,7 @@
 using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.DTO_Models.Certificates;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {
@@ -10,7 +10,7 @@ namespace WebApp.MainServices.Interfaces
     {
         public ICertificateService CertificateService { get; }
         public ICertificateTopicService CertificateTopicService { get; }
-        public ILevelService LevelService { get; }
+        public ICertificateLevelService LevelService { get; }
         Task<IEnumerable<CertificateDTO>> CreateCertificateDTOs();
         Task<CertificateDTO> CreateCertificateDTO(int? id);
         Task LoadTopics(Certificate certificate);

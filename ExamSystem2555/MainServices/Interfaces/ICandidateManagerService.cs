@@ -1,5 +1,5 @@
 ﻿using MyDatabase.Models;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {
@@ -9,7 +9,7 @@ namespace WebApp.MainServices.Interfaces
         ICandidateAddressService AddressService { get; }
         ICertificateService CertificateService { get; }
         IExaminationService ExaminationService { get; }
-        ICandidateExamService CandidateExamService { get; }
+        ICandidateExaminationService CandidateExamService { get; }
         IUserCandidateService UserCandidateService { get; }
         Task LoadCandidateAddress(Candidate candidate);
         Task SaveChangesAsync();

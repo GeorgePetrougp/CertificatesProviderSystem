@@ -2,18 +2,18 @@
 using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.MainServices.Interfaces;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {
     public class AdministratorService : IAdministratorService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ICandidateExamService _candidateExamService;
+        private readonly ICandidateExaminationService _candidateExamService;
         private readonly IMarkerAssignedExamService _markerAssignedExamService;
-        private readonly ICandidateExamResultsService _candidateExamResultsService;
+        private readonly ICandidateExaminationResultsService _candidateExamResultsService;
 
-        public AdministratorService(ApplicationDbContext context, ICandidateExamService candidateExamService, IMarkerAssignedExamService markerAssignedExamService, ICandidateExamResultsService candidateExamResultsService)
+        public AdministratorService(ApplicationDbContext context, ICandidateExaminationService candidateExamService, IMarkerAssignedExamService markerAssignedExamService, ICandidateExaminationResultsService candidateExamResultsService)
         {
             _candidateExamService = candidateExamService;
             _markerAssignedExamService = markerAssignedExamService;
@@ -21,9 +21,9 @@ namespace WebApp.MainServices
             _candidateExamResultsService = candidateExamResultsService;
         }
 
-        public ICandidateExamService CandidateExamService { get => _candidateExamService; }
+        public ICandidateExaminationService CandidateExamService { get => _candidateExamService; }
         public IMarkerAssignedExamService MarkerAssignedExamService { get => _markerAssignedExamService; }
-        public ICandidateExamResultsService CandidateExamResultsService { get => _candidateExamResultsService; }
+        public ICandidateExaminationResultsService CandidateExamResultsService { get => _candidateExamResultsService; }
 
 
         public async Task SaveChangesAsync()

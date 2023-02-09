@@ -1,8 +1,8 @@
 ﻿using MyDatabase.Models;
 
-namespace WebApp.Services
+namespace WebApp.Services.Interfaces
 {
-    public interface ILevelService
+    public interface ICertificateLevelService
     {
         Task<CertificateLevel> GetLevelByIdAsync(int? id);
         Task<IEnumerable<CertificateLevel>> GetAllLevelsAsync();

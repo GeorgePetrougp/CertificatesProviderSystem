@@ -1,14 +1,15 @@
 ﻿using WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Repositories
 {
 
-    public class AddressRepository : IAsyncGenericRepository<CandidateAddress>
+    public class CandidateAddressRepository : IAsyncGenericRepository<CandidateAddress>
     {
         private readonly ApplicationDbContext _context;
-        public AddressRepository(ApplicationDbContext context)
+        public CandidateAddressRepository(ApplicationDbContext context)
         {
             _context = context;
         }

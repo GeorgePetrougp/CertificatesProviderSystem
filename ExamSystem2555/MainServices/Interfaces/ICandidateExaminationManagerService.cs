@@ -1,5 +1,5 @@
 ﻿using MyDatabase.Models;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices.Interfaces
 {
@@ -9,11 +9,11 @@ namespace WebApp.MainServices.Interfaces
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get; }
         public IQuestionService QuestionService { get; }
         public IQuestionPossibleAnswerService AnswerService { get; }
-        public IExamCandidateAnswerService CandidateAnswerService { get; }
+        public ICandidateExaminationAnswerService CandidateAnswerService { get; }
         public IExaminationService ExaminationService { get; }
         public IExaminationQuestionService ExamQuestionService { get; }
-        public ICandidateExamService CandidateExamService { get; }
-        public ICandidateExamResultsService CandidateExamResultsService { get; }
+        public ICandidateExaminationService CandidateExamService { get; }
+        public ICandidateExaminationResultsService CandidateExamResultsService { get; }
         public IMarkerAssignedExamService MarkerAssignedExamService { get; }
         public Task CandidateAnswerExamLoad(IEnumerable<CandidateExaminationAnswer> examCandidateAnswers);
         Task CertificateTopicsLoad(CertificateTopicQuestion ctq);

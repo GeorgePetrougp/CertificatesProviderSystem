@@ -9,6 +9,8 @@ using AutoMapper;
 using WebApp.DTO_Models;
 using WebApp.Models;
 using WebApp.MainServices.Interfaces;
+using WebApp.Services.Interfaces;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp
 {
@@ -33,17 +35,17 @@ namespace WebApp
             builder.Services.AddMvc();
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IAsyncGenericRepository<CandidateAddress>, AddressRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateAddress>, CandidateAddressRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Candidate>, CandidateRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExamination>, CandidateExamRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExaminationResult>, CandidateExamResultsRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExamination>, CandidateExaminationRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExaminationResult>, CandidateExaminationResultsRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Certificate>, CertificateRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopic>, CertificateTopicRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<CertificateTopicQuestion>, CertificateTopicQuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Examination>, ExaminationRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExaminationAnswer>, ExamCandidateAnswerRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CandidateExaminationAnswer>, CandidateExaminationAnswerRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<ExaminationQuestion>, ExaminationQuestionRepository>();
-            builder.Services.AddScoped<IAsyncGenericRepository<CertificateLevel>, LevelRepository>();
+            builder.Services.AddScoped<IAsyncGenericRepository<CertificateLevel>, CertificateLevelRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<MarkerAssignedExam>, MarkerAssignedExamRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<Question>, QuestionRepository>();
             builder.Services.AddScoped<IAsyncGenericRepository<QuestionDifficulty>, QuestionDifficultyRepository>();
@@ -56,15 +58,15 @@ namespace WebApp
 
             builder.Services.AddScoped<ICandidateAddressService, CandidateAddressService>();
             builder.Services.AddScoped<ICandidateService, CandidateService>();
-            builder.Services.AddScoped<ICandidateExamService, CandidateExamService>();
-            builder.Services.AddScoped<ICandidateExamResultsService, CandidateExamResultsService>();
+            builder.Services.AddScoped<ICandidateExaminationService, CandidateExaminationService>();
+            builder.Services.AddScoped<ICandidateExaminationResultsService, CandidateExaminationResultsService>();
             builder.Services.AddScoped<ICertificateService, CertificateService>();
             builder.Services.AddScoped<ICertificateTopicService, CertificateTopicService>();
             builder.Services.AddScoped<ICertificateTopicQuestionService, CertificateTopicQuestionService>();
             builder.Services.AddScoped<IExaminationService, ExaminationService>();
-            builder.Services.AddScoped<IExamCandidateAnswerService, ExamCandidateAnswerService>();
+            builder.Services.AddScoped<ICandidateExaminationAnswerService, CandidateExaminationAnswerService>();
             builder.Services.AddScoped<IExaminationQuestionService, ExaminationQuestionService>();
-            builder.Services.AddScoped<ILevelService, LevelService>();
+            builder.Services.AddScoped<ICertificateLevelService, CertificateLevelService>();
             builder.Services.AddScoped<IQuestionService, QuestionService>();
             builder.Services.AddScoped<IQuestionDifficultyService, QuestionDifficultyService>();
             builder.Services.AddScoped<IQuestionPossibleAnswerService, QuestionPossibleAnswerService>();

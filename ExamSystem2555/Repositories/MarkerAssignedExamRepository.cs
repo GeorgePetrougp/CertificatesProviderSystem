@@ -2,6 +2,7 @@
 using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.Models;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Repositories
 {

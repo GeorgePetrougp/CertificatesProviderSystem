@@ -2,22 +2,22 @@
 using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.MainServices.Interfaces;
-using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {
     public class ExaminationManagerService:IExaminationManagerService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ICandidateExamService _candidateExamService;
+        private readonly ICandidateExaminationService _candidateExamService;
         private readonly IExaminationQuestionService _examinationQuestionService;
         private readonly IExaminationService _examinationService;
         private readonly IQuestionPossibleAnswerService _questionPossibleAnswerService;
         private readonly ICertificateTopicQuestionService _certificateTopicQuestionService;
-        private readonly IExamCandidateAnswerService _examCandidateAnswerService;
-        private readonly ICandidateExamResultsService _candidateExamResultsService;
+        private readonly ICandidateExaminationAnswerService _examCandidateAnswerService;
+        private readonly ICandidateExaminationResultsService _candidateExamResultsService;
 
-        public ExaminationManagerService(ApplicationDbContext context, ICandidateExamService candidateExamService, IExaminationQuestionService examinationQuestionService, IExaminationService examinationService, IQuestionPossibleAnswerService questionPossibleAnswerService, ICertificateTopicQuestionService certificateTopicQuestionService, IExamCandidateAnswerService examCandidateAnswerService, ICandidateExamResultsService candidateExamResultsService)
+        public ExaminationManagerService(ApplicationDbContext context, ICandidateExaminationService candidateExamService, IExaminationQuestionService examinationQuestionService, IExaminationService examinationService, IQuestionPossibleAnswerService questionPossibleAnswerService, ICertificateTopicQuestionService certificateTopicQuestionService, ICandidateExaminationAnswerService examCandidateAnswerService, ICandidateExaminationResultsService candidateExamResultsService)
         {
             _context = context;
             _candidateExamService = candidateExamService;
@@ -29,13 +29,13 @@ namespace WebApp.MainServices
             _candidateExamResultsService = candidateExamResultsService;
         }
 
-        public ICandidateExamService CandidateExamService { get { return _candidateExamService;} }
+        public ICandidateExaminationService CandidateExamService { get { return _candidateExamService;} }
         public IExaminationQuestionService ExaminationQuestionService { get { return _examinationQuestionService;} }
         public IExaminationService ExaminationService { get { return _examinationService;} }
         public IQuestionPossibleAnswerService QuestionPossibleAnswerService { get { return _questionPossibleAnswerService;} }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService;} }
-        public IExamCandidateAnswerService ExamCandidateAnswerService { get { return _examCandidateAnswerService;} }
-        public ICandidateExamResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
+        public ICandidateExaminationAnswerService ExamCandidateAnswerService { get { return _examCandidateAnswerService;} }
+        public ICandidateExaminationResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
 
         public async Task SaveChangesAsync()
         {

@@ -1,6 +1,7 @@
-﻿using WebApp.Repositories;
-using MyDatabase.Models;
+﻿using MyDatabase.Models;
 using System.Net;
+using WebApp.Services.Interfaces;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Services
 {

@@ -1,13 +1,14 @@
-﻿using WebApp.Repositories;
-using MyDatabase.Models;
+﻿using MyDatabase.Models;
+using WebApp.Services.Interfaces;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Services
 {
-    public class CandidateExamService : ICandidateExamService
+    public class CandidateExaminationService : ICandidateExaminationService
     {
         private IAsyncGenericRepository<CandidateExamination> _candidateExamRepository;
 
-        public CandidateExamService(IAsyncGenericRepository<CandidateExamination> candidateExamRepository)
+        public CandidateExaminationService(IAsyncGenericRepository<CandidateExamination> candidateExamRepository)
         {
             _candidateExamRepository = candidateExamRepository;
         }
