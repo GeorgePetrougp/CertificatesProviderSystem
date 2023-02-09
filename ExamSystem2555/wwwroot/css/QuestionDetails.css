@@ -3,6 +3,10 @@ table {
     border-collapse: collapse;
 }
 
+img {
+    max-width: 250px;
+}
+
 tr {
     border: solid 1px;
 }
@@ -12,4 +16,10 @@ td {
     border-left: solid 1px;
     border-top: solid 1px;
     border-bottom: solid 1px;
+    vertical-align: middle;
+}
+
+table.questions-index tbody p {
+    display: flex;
+    flex-direction: column-reverse;
 }

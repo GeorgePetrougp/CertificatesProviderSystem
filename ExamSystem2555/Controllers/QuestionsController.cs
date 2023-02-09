@@ -113,9 +113,10 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                var qd = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
                 var newQuestion = _mapper.Map<Question>(question);
-                newQuestion.QuestionDifficulty = _mapper.Map<QuestionDifficulty>(question);
+                //newQuestion.QuestionDifficulty = _mapper.Map<QuestionDifficulty>(question.Difficulty);
+                newQuestion.QuestionDifficulty = qd;
                 newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
 
                 var topicIds = question.TopicView.SelectedTopicIds;
@@ -320,12 +321,15 @@ namespace WebApp.Controllers
             EditQuestionTopicView model = new EditQuestionTopicView();
             List<Topic> topics = new List<Topic>();
 
-            var allTopicQuestions = await _service.TopicQuestionService.GetAllTopicQuestionsAsync();
+            var allTopicQuestions = (await _service.TopicQuestionService.GetAllTopicQuestionsAsync()).ToList();
             foreach (var tq in allTopicQuestions)
             {
                 await _service.TopicQuestionLoad(tq);
             }
+            var x = allTopicQuestions[0].Question;
+            var z = allTopicQuestions;
             var topicQuestions = allTopicQuestions.Where(tq => tq.Question.QuestionId == id);
+
             foreach (var topicQuestion in topicQuestions)
             {
                 topics.Add(topicQuestion.Topic);
@@ -369,6 +373,7 @@ namespace WebApp.Controllers
             }
 
             model.TopicsList = new MultiSelectList(final, "TopicId", "Title");
+            model.QuestionId = id;
             return View(model);
         }
         
@@ -378,7 +383,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AddQuestionTopicPost(int? id, [FromForm] EditQuestionTopicView model)
         {
 
-            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+            var question = await _service.QuestionService.GetQuestionByIdAsync(model.QuestionId);
             var selectedTopics = model.SelectedTopicIds.ToList();
             List<Topic> sortedTopics = new List<Topic>();
 
@@ -411,7 +416,7 @@ namespace WebApp.Controllers
 
             await _service.SaveChanges();
 
-            return RedirectToAction("EditQuestionTopicsIndex", "Questions", new { id = id });
+            return RedirectToAction("EditQuestionTopicsIndex", "Questions", new { id = model.QuestionId });
 
 
 
@@ -446,7 +451,7 @@ namespace WebApp.Controllers
             }
 
 
-            model.Certificates = certificates;
+            model.Certificates = certificates.Distinct().ToList();
             model.QuestionId = id;
 
             return View(model);
@@ -489,6 +494,8 @@ namespace WebApp.Controllers
             }
 
             model.CertificatesList = new MultiSelectList(sortedCertificates, "CertificateId", "Title");
+            model.QuestionId = id;
+            
             return View(model);
         }
         
@@ -558,7 +565,7 @@ namespace WebApp.Controllers
 
             await _service.SaveChanges();
 
-            return RedirectToAction("EditQuestionCertificatesIndex", "Questions", new { id = id });
+            return RedirectToAction("EditQuestionCertificatesIndex", "Questions", new { id = model.QuestionId });
 
 
 

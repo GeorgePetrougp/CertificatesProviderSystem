@@ -86,12 +86,9 @@ namespace WebApp.Controllers
             var question = candidateAnswer.CertificateTopicQuestion.TopicQuestion.Question;
             var questionPossibleAnswers = (candidateAnswer.CertificateTopicQuestion.TopicQuestion.Question.QuestionPossibleAnswers).ToList();
 
-            
-
             var correctAnswerId = candidateAnswer.CorrectAnswer;
             var selectedAnswerId = candidateAnswer.SelectedAnswer;
 
-            //var markingView = new MarkingView();
             var model = new MarkingEditAnswerView
             {
                 CandidateExaminationId = candidateExamId,
@@ -117,8 +114,6 @@ namespace WebApp.Controllers
                 }
             }
 
-            var markingView = new MarkingView();
-            
             return View(model);
 
         }
