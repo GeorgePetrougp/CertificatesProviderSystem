@@ -1,5 +1,6 @@
 ﻿using MyDatabase.Models;
-using WebApp.Repositories;
+using WebApp.Repositories.Interfaces;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.Services
 {

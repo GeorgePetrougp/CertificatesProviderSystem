@@ -28,7 +28,7 @@ namespace MyDatabase
                     PhotoIdType = "National ID",
                     PhotoIdNumber = "AB 102938",
                     PhotoIdIssueDate = new DateTime(2005, 10, 08),
-                    Addresses = new List<Address>() { new Address { State = "Attiki", City = "Athens", AddressLine = "Nafpliou 22", PostalCode = 15231 } }
+                    Addresses = new List<CandidateAddress>() { new CandidateAddress { State = "Attiki", City = "Athens", AddressLine = "Nafpliou 22", PostalCode = 15231 } }
                 },
                 new Candidate
                 {
@@ -45,7 +45,7 @@ namespace MyDatabase
                     PhotoIdType = "Passport",
                     PhotoIdNumber = "HHH - 001 - 829371",
                     PhotoIdIssueDate = new DateTime(2011, 04, 19),
-                    Addresses = new List<Address>() { new Address { State = "", City = "Copenghagen", AddressLine = "Olaf Street 22", PostalCode = 40085 } }
+                    Addresses = new List<CandidateAddress>() { new CandidateAddress { State = "", City = "Copenghagen", AddressLine = "Olaf Street 22", PostalCode = 40085 } }
                 },
                 new Candidate
                 {
@@ -62,10 +62,10 @@ namespace MyDatabase
                     PhotoIdType = "Passport",
                     PhotoIdNumber = "DDD - 002 - 824657",
                     PhotoIdIssueDate = new DateTime(2007, 12, 11),
-                    Addresses = new List<Address>()
+                    Addresses = new List<CandidateAddress>()
                     {
-                        new Address { State = "", City = "Madrid", AddressLine = "Calle de France 12", PostalCode = 100523 },
-                        new Address { State = "", City = "Barcelona", AddressLine = "Calle de Angel 34", PostalCode = 120098 }
+                        new CandidateAddress { State = "", City = "Madrid", AddressLine = "Calle de France 12", PostalCode = 100523 },
+                        new CandidateAddress { State = "", City = "Barcelona", AddressLine = "Calle de Angel 34", PostalCode = 120098 }
                     }
                 },
                 new Candidate
@@ -83,10 +83,10 @@ namespace MyDatabase
                     PhotoIdType = "National ID",
                     PhotoIdNumber = "CBA 552734",
                     PhotoIdIssueDate = new DateTime(2015, 04, 19),
-                    Addresses = new List<Address>()
+                    Addresses = new List<CandidateAddress>()
                     {
-                        new Address { State = "California", City = "San Diego", AddressLine = "Hoover Avenue 125", PostalCode = 783512 },
-                        new Address { State = "Texas", City = "Austin", AddressLine = "Forest Street 56", PostalCode = 501238 }
+                        new CandidateAddress { State = "California", City = "San Diego", AddressLine = "Hoover Avenue 125", PostalCode = 783512 },
+                        new CandidateAddress { State = "Texas", City = "Austin", AddressLine = "Forest Street 56", PostalCode = 501238 }
                     }
                 },
                 new Candidate
@@ -104,7 +104,7 @@ namespace MyDatabase
                     PhotoIdType = "National Id",
                     PhotoIdNumber = "XX-01 15978",
                     PhotoIdIssueDate = new DateTime(2015, 12, 08),
-                    Addresses = new List<Address>() { new Address { State = "", City = "Warsaw", AddressLine = "Small Street 22", PostalCode = 90078 } }
+                    Addresses = new List<CandidateAddress>() { new CandidateAddress { State = "", City = "Warsaw", AddressLine = "Small Street 22", PostalCode = 90078 } }
                 },
                 new Candidate
                 {
@@ -121,19 +121,19 @@ namespace MyDatabase
                     PhotoIdType = "National Id",
                     PhotoIdNumber = "DAS 851245",
                     PhotoIdIssueDate = new DateTime(2010, 01, 09),
-                    Addresses = new List<Address>() { new Address { State = "Ile de France", City = "Paris", AddressLine = "Rue Lepic 178", PostalCode = 102385 } }
+                    Addresses = new List<CandidateAddress>() { new CandidateAddress { State = "Ile de France", City = "Paris", AddressLine = "Rue Lepic 178", PostalCode = 102385 } }
                 }
             };
 
             context.Candidates.AddRange(dummyCandidates);
             context.SaveChanges();
 
-            IList<Level> levels = new List<Level>()
+            IList<CertificateLevel> levels = new List<CertificateLevel>()
             {
-                new Level {Title="Foundation"},
-                new Level {Title="Advanced"},
-                new Level {Title="Practitioner"},
-                new Level {Title="Expert"}
+                new CertificateLevel {Title="Foundation"},
+                new CertificateLevel {Title="Advanced"},
+                new CertificateLevel {Title="Practitioner"},
+                new CertificateLevel {Title="Expert"}
             };
 
             context.Levels.AddRange(levels);
@@ -443,15 +443,15 @@ namespace MyDatabase
             context.Examinations.AddRange(examinations);
             context.SaveChanges();
 
-            IList<CandidateExam> candidateExams = new List<CandidateExam>
+            IList<CandidateExamination> candidateExams = new List<CandidateExamination>
             {
-                new CandidateExam
+                new CandidateExamination
                 {
                     ExamCode="A001",
                     ExamDate=new DateTime(2001-1-1),
                     Candidate=context.Candidates.Find(2),
                     Examination=context.Examinations.Find(1),
-                    CandidateExamResults =new CandidateExamResults
+                    CandidateExamResults =new CandidateExaminationResult
                     {
 
                             ResultIssueDate=new DateTime(2001-1-2),
@@ -463,7 +463,7 @@ namespace MyDatabase
                 }
             };
 
-            context.CandidateExams.AddRange(candidateExams);
+            context.CandidateExaminations.AddRange(candidateExams);
             context.SaveChanges();
 
 
@@ -520,36 +520,36 @@ namespace MyDatabase
                 }
             };
 
-            context.ExamQuestions.AddRange(examQuestions);
+            context.ExaminationQuestions.AddRange(examQuestions);
             context.SaveChanges();
 
-            IList<ExamCandidateAnswer> examCandidateAnswers = new List<ExamCandidateAnswer>()
+            IList<CandidateExaminationAnswer> examCandidateAnswers = new List<CandidateExaminationAnswer>()
             {
-                new ExamCandidateAnswer
+                new CandidateExaminationAnswer
                 {
                     SelectedAnswer=1,
                     CorrectAnswer=4,
-                    CandidateExam=context.CandidateExams.Find(1),
+                    CandidateExam=context.CandidateExaminations.Find(1),
                     CertificateTopicQuestion=context.CertificateTopicQuestions.Find(1)
                 },
-                new ExamCandidateAnswer
+                new CandidateExaminationAnswer
                 {
                     SelectedAnswer=3,
                     CorrectAnswer=4,
-                    CandidateExam=context.CandidateExams.Find(1),
+                    CandidateExam=context.CandidateExaminations.Find(1),
                     CertificateTopicQuestion=context.CertificateTopicQuestions.Find(2)
                 },
-                new ExamCandidateAnswer
+                new CandidateExaminationAnswer
                 {
                     SelectedAnswer=1,
                     CorrectAnswer=2,
-                    CandidateExam=context.CandidateExams.Find(1),
+                    CandidateExam=context.CandidateExaminations.Find(1),
                     CertificateTopicQuestion=context.CertificateTopicQuestions.Find(3)
                 }
 
             };
 
-            context.ExamCandidateAnswers.AddRange(examCandidateAnswers);
+            context.CandidateExaminationAnswers.AddRange(examCandidateAnswers);
             context.SaveChanges();
 
         }

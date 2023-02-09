@@ -1,13 +1,14 @@
 ﻿using WebApp.Data;
 using WebApp.DTO_Models;
 using WebApp.Repositories;
-using WebApp.Services;
 using MyDatabase.Models;
 using NuGet.Packaging;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.AccessControl;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using WebApp.MainServices.Interfaces;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.DTO_Models.CandidateExaminations;
 using WebApp.DTO_Models.Final;
-using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers

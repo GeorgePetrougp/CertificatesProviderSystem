@@ -7,7 +7,7 @@ using System.Data;
 using System.Security.Claims;
 using System.Text;
 using WebApp.DTO_Models;
-using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 using WebApp.Models;
 using WebApp.Services;
 
@@ -94,7 +94,7 @@ namespace WebApp.Controllers
             string generatedString = sb.ToString();
 
             //TO DO RANDOM GENERATOR FOR EXAMCODE
-            var newCandidateExam = new CandidateExam()
+            var newCandidateExam = new CandidateExamination()
             {
                 Candidate = candidate,
                 ExamCode = generatedString,

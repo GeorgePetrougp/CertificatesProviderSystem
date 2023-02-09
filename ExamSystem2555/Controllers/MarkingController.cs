@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
-using WebApp.Data;
+using System.Security.Claims;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class MarkingController : Controller
     {
-        private readonly IExamManagerService _service;
+        private readonly ICandidateExaminationManagerService _service;
         private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly IMapper _mapper;
 
-        public MarkingController(IExamManagerService service, IMapper mapper,UserManager<ApplicationUser> userManager)
+        public MarkingController(ICandidateExaminationManagerService service, IMapper mapper, UserManager<ApplicationUser> userManager)
 
         {
-            _service= service;
+            _service = service;
             _mapper = mapper;
-            _userManager= userManager;
+            _userManager = userManager;
         }
 
         // GET: Marking
@@ -38,23 +32,23 @@ namespace WebApp.Controllers
             var y = x.FindFirst(ClaimTypes.NameIdentifier);
             var z = y.Value;
             var user = await _userManager.FindByIdAsync(z);
-            var candidateExams = (await _service.MarkerAssignedExamService.GetAllMarkerAssignedExamsAsync()).Where(m=>m.ApplicationUser == user).Select(ap=>ap.CandidateExam);
-            var candExam = new List<CandidateExam>();
+            var exams = (await _service.MarkerAssignedExamService.GetAllMarkerAssignedExamsAsync()).Where(m => m.ApplicationUser == user).Select(ap => ap.CandidateExam);
+            var candExam = new List<CandidateExamination>();
             foreach (var item in await _service.CandidateExamService.GetAllCandidateExamAsync())
             {
-                foreach (var exam in candidateExams)
+                foreach (var exam in exams)
                 {
-                    if(item == exam)
+                    if (item == exam)
                     {
                         candExam.Add(item);
                     }
                 }
             }
 
-              return View(candExam);
+            return View(candExam);
         }
 
-        
+
 
         public async Task<IActionResult> GetExamQuestions(int? id)
         {
@@ -63,7 +57,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             var candidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(id);
-            var examDetails = (await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync()).Where(a=>a.CandidateExam == candidateExam);
+            var examDetails = (await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync()).Where(a => a.CandidateExam == candidateExam);
 
             foreach (var item in examDetails)
             {
@@ -92,34 +86,34 @@ namespace WebApp.Controllers
 
             var model = new MarkingEditAnswerView
             {
-                CandidateAnswerId =id ,
-                 Question = new QuestionDTO
-                 {
-                     
-                     QuestionId=question.QuestionId,
-                     PossibleAnswers=_mapper.Map<List<QuestionPossibleAnswersDTO>>(answers),
-                     QuestionDisplay=question.Display
-                     
-                 },
-                 CorrectAnswer = correctAnswer,
-                 SelectedAnswer = selectedAnswer,
+                CandidateAnswerId = id,
+                Question = new QuestionDTO
+                {
+
+                    QuestionId = question.QuestionId,
+                    PossibleAnswers = _mapper.Map<List<QuestionPossibleAnswersDTO>>(answers),
+                    QuestionDisplay = question.Display
+
+                },
+                CorrectAnswer = correctAnswer,
+                SelectedAnswer = selectedAnswer,
 
             };
             return View(model);
 
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditExamAnswers(int id,int selectedAnswer)
+        public async Task<IActionResult> EditExamAnswers(int id, int selectedAnswer)
         {
 
             var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
             candidateAnswer.SelectedAnswer = selectedAnswer;
             await _service.SaveChangesAsync();
-            
-            return RedirectToAction("GetExamQuestions", "Marking", new {id=id});
+
+            return RedirectToAction("GetExamQuestions", "Marking", new { id = id });
         }
 
         // GET: Marking/Delete/5
@@ -153,14 +147,14 @@ namespace WebApp.Controllers
             {
                 await _service.CandidateExamService.DeleteCandidateExamAsync(id);
             }
-            
+
             await _service.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CandidateExamExists(int id)
         {
-          return _service.CandidateExamService.GetCandidateExamByIdAsync(id) != null;
+            return _service.CandidateExamService.GetCandidateExamByIdAsync(id) != null;
         }
     }
 }

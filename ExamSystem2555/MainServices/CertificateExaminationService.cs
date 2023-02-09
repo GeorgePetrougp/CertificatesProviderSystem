@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
 using WebApp.Data;
-using WebApp.Services;
+using WebApp.MainServices.Interfaces;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {

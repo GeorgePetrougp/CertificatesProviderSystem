@@ -20,8 +20,8 @@ namespace MyDatabase.Models
         public string PhotoIdType { get; set; }
         public string PhotoIdNumber { get; set; }
         public DateTime PhotoIdIssueDate { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
-        public virtual ICollection<CandidateExam> CandidateExams { get; set; }
+        public virtual ICollection<CandidateAddress> Addresses { get; set; }
+        public virtual ICollection<CandidateExamination> CandidateExams { get; set; }
 
     }
 }

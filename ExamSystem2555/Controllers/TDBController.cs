@@ -4,15 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using MyDatabase.Models;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 using WebApp.Services;
 
 namespace WebApp.Controllers
 {
     public class TDBController : Controller
     {
-        private readonly IExamManagerService _service;
+        private readonly ICandidateExaminationManagerService _service;
 
-        public TDBController(IExamManagerService examService)
+        public TDBController(ICandidateExaminationManagerService examService)
         {
             _service = examService;
         }

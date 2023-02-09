@@ -7,15 +7,16 @@ using System.Data;
 using WebApp.DTO_Models.CandidateExaminations;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 
 namespace WebApp.Controllers
 {
     public class CandidateExaminationsController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IExamManagerService _service;
+        private readonly ICandidateExaminationManagerService _service;
 
-        public CandidateExaminationsController(IMapper mapper, IExamManagerService service)
+        public CandidateExaminationsController(IMapper mapper, ICandidateExaminationManagerService service)
         {
             _mapper = mapper;
             _service = service;
@@ -24,7 +25,7 @@ namespace WebApp.Controllers
         public async Task<ActionResult> CandidateExaminationsIndex()
         {
             var candidateExaminations = await _service.CandidateExamService.GetAllCandidateExamAsync();
-            await _service.CandidateExamLoad(candidateExaminations);
+            await _service.CandidateExaminationLoad(candidateExaminations);
             var model = _mapper.Map<List<CandidateExaminationsDTO>>(candidateExaminations);
             return View(model);
         }
@@ -32,7 +33,7 @@ namespace WebApp.Controllers
         public async Task<ActionResult> CandidateExaminationDetails(int? id)
         {
             var candidateExamination = await _service.CandidateExamService.GetCandidateExamByIdAsync(id);
-            await _service.CandidateExamLoad(candidateExamination);
+            await _service.CandidateExaminationLoad(candidateExamination);
 
             var model = _mapper.Map<CandidateExaminationsDTO>(candidateExamination);
 

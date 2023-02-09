@@ -4,7 +4,8 @@ using MyDatabase.Models;
 using WebApp.Data;
 using WebApp.DTO_Models;
 using WebApp.DTO_Models.Certificates;
-using WebApp.Services;
+using WebApp.MainServices.Interfaces;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {
@@ -14,9 +15,9 @@ namespace WebApp.MainServices
         private readonly IMapper _mapper;
         private readonly ICertificateService _certificateService;
         private readonly ICertificateTopicService _certificateTopicService;
-        private readonly ILevelService _levelService;
+        private readonly ICertificateLevelService _levelService;
 
-        public CertificateManagerService(ApplicationDbContext context, IMapper mapper, ICertificateService certificateService, ICertificateTopicService certificateTopicService, ILevelService levelService)
+        public CertificateManagerService(ApplicationDbContext context, IMapper mapper, ICertificateService certificateService, ICertificateTopicService certificateTopicService, ICertificateLevelService levelService)
         {
             _context = context;
             _mapper = mapper;
@@ -26,7 +27,7 @@ namespace WebApp.MainServices
         }
         public ICertificateService CertificateService { get => _certificateService; }
         public ICertificateTopicService CertificateTopicService { get => _certificateTopicService; }
-        public ILevelService LevelService { get => _levelService; }
+        public ICertificateLevelService LevelService { get => _levelService; }
 
         public async Task LoadLevel(Certificate certificate)
         {
@@ -119,9 +120,9 @@ namespace WebApp.MainServices
         }
 
         //helpers
-        public async Task<SelectList> CreateSelectList(IEnumerable<Level> levels)
+        public async Task<SelectList> CreateSelectList(IEnumerable<CertificateLevel> levels)
         {
-            var levelDTOList = await Task.Run(() => _mapper.Map<List<Level>>(levels));
+            var levelDTOList = await Task.Run(() => _mapper.Map<List<CertificateLevel>>(levels));
 
             return new SelectList(levelDTOList, "LevelId", "Title");
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyDatabase.Models;
 using WebApp.DTO_Models.Final;
-using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 
 namespace WebApp.Controllers
 {
@@ -80,7 +80,7 @@ namespace WebApp.Controllers
                     var ctqList = await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync();
                     await _service.CertificateTopicsLoad(ctqList);
                     var myCertTopicQuestion = ctqList.First(x => x.TopicQuestion.Question.QuestionId == newModel.Questions[newModel.CurrentIndex].QuestionId);
-                    var answers = new ExamCandidateAnswer
+                    var answers = new CandidateExaminationAnswer
                     {
                         CandidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(newModel.CandidateExamId),
                         SelectedAnswer = (await _service.QuestionPossibleAnswerService.GetAnswerByIdAsync(SelectedAnswerId)).QuestionPossibleAnswerId,
@@ -130,7 +130,7 @@ namespace WebApp.Controllers
                 result = "FAIL";
             }
 
-            var examResults = new CandidateExamResults
+            var examResults = new CandidateExaminationResult
             {
                 CandidateExamId = candidateExamId,
                 ResultIssueDate = DateTime.Now,

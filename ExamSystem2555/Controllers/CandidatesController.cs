@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using WebApp.DTO_Models;
 using WebApp.DTO_Models.Candidates;
-using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -117,7 +117,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCandidateAddresses(AddressDTO address)
         {
-            var newAddress = _mapper.Map<Address>(address);
+            var newAddress = _mapper.Map<CandidateAddress>(address);
             if(ModelState.IsValid)
             {
                 await _service.AddressService.UpdateAddressAsync(newAddress);

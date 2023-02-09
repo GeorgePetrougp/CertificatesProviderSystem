@@ -1,6 +1,7 @@
-﻿using WebApp.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
+using WebApp.Services.Interfaces;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Services
 {

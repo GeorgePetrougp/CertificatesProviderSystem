@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
 using WebApp.Data;
+using WebApp.Repositories.Interfaces;
 
 namespace WebApp.Repositories
 {

@@ -8,7 +8,7 @@ using MyDatabase.Models;
 using NuGet.Packaging;
 using System.Runtime.InteropServices;
 using WebApp.DTO_Models;
-using WebApp.MainServices;
+using WebApp.MainServices.Interfaces;
 
 namespace WebApp.Controllers
 {
