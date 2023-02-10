@@ -99,7 +99,7 @@ namespace WebApp.Controllers
                 Candidate = candidate,
                 ExamCode = generatedString,
                 ExamDate = model.ExamDate,
-                Examination = myExam
+                Examination = myExam,
             };
 
 

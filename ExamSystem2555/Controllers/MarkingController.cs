@@ -80,6 +80,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> EditExamAnswers(int? id, int candidateExamId)
         {
+            
             var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
             await _service.CertificateTopicsQuestionLoad(candidateAnswer);
             
@@ -88,6 +89,8 @@ namespace WebApp.Controllers
 
             var correctAnswerId = candidateAnswer.CorrectAnswer;
             var selectedAnswerId = candidateAnswer.SelectedAnswer;
+
+
 
             var model = new MarkingEditAnswerView
             {
@@ -101,6 +104,7 @@ namespace WebApp.Controllers
                     QuestionDisplay = question.Display
 
                 },
+                pointsAssigned = candidateAnswer.PointsAssignedDuringExamination,
                 CorrectAnswer = correctAnswerId,
                 SelectedAnswer = selectedAnswerId
 
@@ -121,31 +125,31 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditExamAnswers(int id, int candidateExamId, int selectedAnswer)
+        public async Task<IActionResult> EditExamAnswers(int id, int candidateExamId, int selectedAnswer, int pointAwardedAfterMarking)
         {
 
+            var candidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
             var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
             candidateAnswer.SelectedAnswer = selectedAnswer;
+            candidateAnswer.PointsAssignedAfterMarking = pointAwardedAfterMarking;
+
+            await _service.CandidateAnswerService.UpdateExamCandidateAnswerAsync(candidateAnswer);
             await _service.SaveChangesAsync();
 
-            var x = await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync();
-            await _service.CandidateAnswerExamLoad(x);
-            var examCandidateAnswer = x.Where(x => x.CandidateExam.CandidateExaminationId == candidateExamId);
 
-            await _service.CandidateAnswerExamLoad(x);
-            var totalQuestions = x.Count();
-            var correctAnswers = 0;
+
+            var candidateExaminationAnswers = (await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync()).Where(x => x.CandidateExam == candidateExam); ;
+            await _service.CandidateAnswerExamLoad(candidateExaminationAnswers);
+
+            var totalScore = 0;
             string result = "";
-            foreach (var item in x)
-            {
-                if (item.SelectedAnswer == item.CorrectAnswer)
-                {
-                    correctAnswers++;
-                }
 
+            foreach (var item in candidateExaminationAnswers)
+            {
+                totalScore += item.PointsAssignedAfterMarking;
             }
 
-            if (correctAnswers > 2)
+            if (totalScore > 2)
             {
                 result = "PASS";
             }
@@ -154,10 +158,12 @@ namespace WebApp.Controllers
                 result = "FAIL";
             }
 
+
             var examResults = (await _service.CandidateExamResultsService.GetAllCandidateExamResultsAsync()).Where(cer=>cer.CandidateExaminationId == candidateExamId).First();
 
             examResults.ResultLabel = result;
-            examResults.CandidateTotalScore = correctAnswers;
+            examResults.CandidateTotalScore = totalScore;
+            examResults.HasBeenRemarked = "HAS BEEN REMARKED";
 
             await _service.CandidateExamResultsService.UpdateCandidateExamResultsAsync(examResults);
             await _service.SaveChangesAsync();
@@ -165,9 +171,17 @@ namespace WebApp.Controllers
             return RedirectToAction("GetExamQuestions", "Marking", new { id = candidateExamId });
         }
 
-        private bool CandidateExamExists(int id)
+        public async Task<IActionResult> CompleteCandidateExaminationRemarking(int? id)
         {
-            return _service.CandidateExamService.GetCandidateExamByIdAsync(id) != null;
+            return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteCandidateExaminationRemarking(int id)
+        {
+            var candidateExamination = _service.CandidateExamService.GetCandidateExamByIdAsync(id);
+            return View();
+        }
+
     }
 }

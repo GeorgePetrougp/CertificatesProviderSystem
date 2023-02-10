@@ -251,7 +251,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("CandidateId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("CandidateAddresses");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExamination", b =>
@@ -281,7 +281,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("ExaminationId");
 
-                    b.ToTable("CandidateExams");
+                    b.ToTable("CandidateExaminations");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExaminationAnswer", b =>
@@ -301,6 +301,12 @@ namespace WebApp.Migrations
                     b.Property<int>("CorrectAnswer")
                         .HasColumnType("int");
 
+                    b.Property<int>("PointsAssignedAfterMarking")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PointsAssignedDuringExamination")
+                        .HasColumnType("int");
+
                     b.Property<int>("SelectedAnswer")
                         .HasColumnType("int");
 
@@ -310,7 +316,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("CertificateTopicQuestionId");
 
-                    b.ToTable("ExamCandidateAnswers");
+                    b.ToTable("CandidateExaminationAnswers");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExaminationResult", b =>
@@ -326,6 +332,10 @@ namespace WebApp.Migrations
 
                     b.Property<int>("CandidateTotalScore")
                         .HasColumnType("int");
+
+                    b.Property<string>("HasBeenRemarked")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ResultIssueDate")
                         .HasColumnType("datetime2");
@@ -476,7 +486,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("ExaminationId");
 
-                    b.ToTable("ExamQuestions");
+                    b.ToTable("ExaminationQuestions");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.Question", b =>
@@ -490,6 +500,9 @@ namespace WebApp.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
 
                     b.Property<int?>("QuestionDifficultyId")
                         .HasColumnType("int");

@@ -13,10 +13,14 @@
     <input type="hidden" name="candidateExamId" asp-for="@Model.CandidateExaminationId" />
 
 
+    <input type="text" asp-for="@Model.pointsAssigned" readonly />
+    <input name="pointAwardedAfterMarking" asp-for="@Model.pointsAssignedbyMarker" value="@Model.pointsAssigned" />
+
     <div class="form-group">
         <label asp-for="SelectedAnswer" class="control-label">Candidate Selected Answer</label>
         @foreach (var answer in Model.Question.PossibleAnswers)
         {
+            
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="SelectedAnswer" value="@answer.QuestionPossibleAnswerId"
                    @if (answer.QuestionPossibleAnswerId == Model.SelectedAnswer)
