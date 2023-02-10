@@ -12,13 +12,16 @@
         {
             <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
             <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Certifications</a>
         }
-        else if (signInManager.IsSignedIn(User) && User.IsInRole("Marker"))
+        else if (User.IsInRole("Marker"))
         {
             <a type="button" class="btn btn-primary w-25 my-2" asp-action="GetExams" asp-controller="Marking">Marking</a>
         }
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Our Certifications</a>
+</div>
+<div>
+    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="GeneralHome">See Our Certificates</a>
 </div>

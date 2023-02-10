@@ -124,7 +124,7 @@ namespace WebApp.MainServices
         {
             var levelDTOList = await Task.Run(() => _mapper.Map<List<CertificateLevel>>(levels));
 
-            return new SelectList(levelDTOList, "LevelId", "Title");
+            return new SelectList(levelDTOList, "CertificateLevelId", "Title");
         }
 
         public async Task<bool> NullValidation(int? id)
