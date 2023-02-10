@@ -21,6 +21,7 @@
                 <td>
                     @Html.Raw(item.CertificateTopicQuestion.TopicQuestion.Question.Display)
                 </td>
+               
                 <td>
                     <a class="btn btn-link" asp-action="EditExamAnswers" asp-route-id="@item.CandidateExaminationAnswerId" asp-route-candidateExamId="@ViewData["candidateExamId"]">Edit Answers</a>
 
@@ -30,6 +31,9 @@
         }
     </tbody>
 </table>
+
+<a class="btn btn-link" asp-action="CompleteCandidateExaminationRemarking" asp-route-candidateExamId="@ViewData["candidateExamId"]">Edit Answers</a>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

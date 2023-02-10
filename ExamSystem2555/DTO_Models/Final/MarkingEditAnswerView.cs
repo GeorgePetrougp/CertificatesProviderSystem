@@ -7,6 +7,8 @@
         public int SelectedAnswer { get; set; }
         public int CorrectAnswer { get; set; }
         public bool IsSelectedAnswer { get; set; }
+        public int pointsAssigned { get; set; }
+        public int pointsAssignedbyMarker { get; set; }
         public QuestionDTO Question { get; set; }
     }
 }

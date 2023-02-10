@@ -11,8 +11,8 @@ namespace MyDatabase.Models
         public int CandidateExaminationResultId { get; set; }
         public DateTime ResultIssueDate { get; set; }
         public string ResultLabel { get; set; }
-
         public int CandidateTotalScore { get; set; }
+        public string HasBeenRemarked { get; set; }
         public int CandidateExaminationId { get; set; }
         public virtual CandidateExamination CandidateExam { get; set; }
     }

@@ -12,8 +12,8 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230209124010_ChangeNames")]
-    partial class ChangeNames
+    [Migration("20230210173313_marking")]
+    partial class marking
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -253,7 +253,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("CandidateId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("CandidateAddresses");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExamination", b =>
@@ -283,7 +283,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("ExaminationId");
 
-                    b.ToTable("CandidateExams");
+                    b.ToTable("CandidateExaminations");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExaminationAnswer", b =>
@@ -303,6 +303,12 @@ namespace WebApp.Migrations
                     b.Property<int>("CorrectAnswer")
                         .HasColumnType("int");
 
+                    b.Property<int>("PointsAssignedAfterMarking")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PointsAssignedDuringExamination")
+                        .HasColumnType("int");
+
                     b.Property<int>("SelectedAnswer")
                         .HasColumnType("int");
 
@@ -312,7 +318,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("CertificateTopicQuestionId");
 
-                    b.ToTable("ExamCandidateAnswers");
+                    b.ToTable("CandidateExaminationAnswers");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.CandidateExaminationResult", b =>
@@ -323,11 +329,15 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidateExaminationResultId"), 1L, 1);
 
-                    b.Property<int>("CandidateExamId")
+                    b.Property<int>("CandidateExaminationId")
                         .HasColumnType("int");
 
                     b.Property<int>("CandidateTotalScore")
                         .HasColumnType("int");
+
+                    b.Property<string>("HasBeenRemarked")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ResultIssueDate")
                         .HasColumnType("datetime2");
@@ -338,7 +348,7 @@ namespace WebApp.Migrations
 
                     b.HasKey("CandidateExaminationResultId");
 
-                    b.HasIndex("CandidateExamId")
+                    b.HasIndex("CandidateExaminationId")
                         .IsUnique();
 
                     b.ToTable("CandidateExamResults");
@@ -478,7 +488,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("ExaminationId");
 
-                    b.ToTable("ExamQuestions");
+                    b.ToTable("ExaminationQuestions");
                 });
 
             modelBuilder.Entity("MyDatabase.Models.Question", b =>
@@ -492,6 +502,9 @@ namespace WebApp.Migrations
                     b.Property<string>("Display")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
 
                     b.Property<int?>("QuestionDifficultyId")
                         .HasColumnType("int");
@@ -808,7 +821,7 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("MyDatabase.Models.CandidateExamination", "CandidateExam")
                         .WithOne("CandidateExamResults")
-                        .HasForeignKey("MyDatabase.Models.CandidateExaminationResult", "CandidateExamId")
+                        .HasForeignKey("MyDatabase.Models.CandidateExaminationResult", "CandidateExaminationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
