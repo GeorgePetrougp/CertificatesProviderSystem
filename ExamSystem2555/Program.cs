@@ -85,6 +85,7 @@ namespace WebApp
             builder.Services.AddScoped<IQuestionManagerService, QuestionManagerService>();
             builder.Services.AddScoped<IEShopService, EShopService>();
             builder.Services.AddScoped<IExaminationManagerService, ExaminationManagerService>();
+            builder.Services.AddScoped<IAdministratorService, AdministratorService>();
 
 
 

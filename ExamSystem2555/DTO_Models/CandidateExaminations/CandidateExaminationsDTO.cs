@@ -4,7 +4,7 @@ namespace WebApp.DTO_Models.CandidateExaminations
 {
     public class CandidateExaminationsDTO
     {
-        public int CandidateExamId { get; set; }
+        public int CandidateExaminationId { get; set; }
         public string ExamCode { get; set; }
         public DateTime ExamDate { get; set; }
         public Candidate? Candidate { get; set; }
