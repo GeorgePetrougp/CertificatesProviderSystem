@@ -30,6 +30,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CandidateExamResults.ResultLabel)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateExamResults.HasBeenRemarked)
+            </th>
             
             <th></th>
         </tr>
@@ -63,8 +66,14 @@
                     @Html.DisplayFor(modelItem => item.CandidateExamResults.ResultLabel)
                 </td>
                 <td>
-
-                    <a asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExamId">Assign Exam To Marker</a>
+                    @Html.DisplayFor(modelItem => item.CandidateExamResults.HasBeenRemarked)
+                </td>
+                <td>
+                    @if (item.CandidateExamResults.HasBeenRemarked == "IS NOT REMARKED")
+                    {
+                    <a asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExaminationId">Assign Exam To Marker</a>
+                        
+                    }
 
                 </td>
             </tr>

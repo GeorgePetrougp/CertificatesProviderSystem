@@ -25,6 +25,8 @@ namespace MyDatabase.Data
         public virtual DbSet<CandidateExamination> CandidateExaminations { get; set; }
         public virtual DbSet<CandidateExaminationAnswer> CandidateExaminationAnswers { get; set; }
         public virtual DbSet<ExaminationQuestion> ExaminationQuestions { get; set; }
+        public virtual DbSet<CandidateExaminationResult> CandidateExamResults { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
