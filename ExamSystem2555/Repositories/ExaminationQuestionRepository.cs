@@ -22,7 +22,7 @@ namespace WebApp.Repositories
 
         public async Task<ExaminationQuestion> UpdateAsync(ExaminationQuestion examinationQuestion)
         {
-            _context.ExamQuestions.Attach(examinationQuestion);
+            _context.ExaminationQuestions.Attach(examinationQuestion);
             _context.Entry(examinationQuestion).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return examinationQuestion;
@@ -31,20 +31,20 @@ namespace WebApp.Repositories
         public async Task DeleteAsync(int? id)
         {
             var examinationQuestionToDelete = await GetByIdAsync(id);
-            _context.ExamQuestions.Remove(examinationQuestionToDelete);
+            _context.ExaminationQuestions.Remove(examinationQuestionToDelete);
         }
         //public async Task<Question> GetByIdAsync(int? id) => await _context.Questions.FindAsync(id);
         public async Task<ExaminationQuestion> GetByIdAsync(int? id)
         {
 
-            return await _context.ExamQuestions.FindAsync(id);
+            return await _context.ExaminationQuestions.FindAsync(id);
 
         }
         //public async Task<IEnumerable<Question>> GetAllAsync() =>await _context.Questions.ToListAsync();
 
         public async Task<IEnumerable<ExaminationQuestion>> GetAllAsync()
         {
-            return await _context.ExamQuestions.ToListAsync();
+            return await _context.ExaminationQuestions.ToListAsync();
         }
 
         public Task<IEnumerable<ExaminationQuestion>> AddRangeAsync(IEnumerable<ExaminationQuestion> entities)

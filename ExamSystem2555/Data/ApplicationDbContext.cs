@@ -19,7 +19,7 @@ namespace WebApp.Data
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<MarkerAssignedExam> MarkerAssignedExams { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
-        public virtual DbSet<CandidateAddress> Addresses { get; set; }
+        public virtual DbSet<CandidateAddress> CandidateAddresses { get; set; }
         public virtual DbSet<Certificate> Certificates { get; set; }
         public virtual DbSet<CertificateLevel> Levels { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
@@ -30,9 +30,9 @@ namespace WebApp.Data
         public virtual DbSet<CertificateTopic> CertificateTopics { get; set; }
         public virtual DbSet<CertificateTopicQuestion> CertificateTopicQuestions { get; set; }
         public virtual DbSet<Examination> Examinations { get; set; }
-        public virtual DbSet<CandidateExamination> CandidateExams { get; set; }
-        public virtual DbSet<CandidateExaminationAnswer> ExamCandidateAnswers { get; set; }
-        public virtual DbSet<ExaminationQuestion> ExamQuestions { get; set; }
+        public virtual DbSet<CandidateExamination> CandidateExaminations { get; set; }
+        public virtual DbSet<CandidateExaminationAnswer> CandidateExaminationAnswers { get; set; }
+        public virtual DbSet<ExaminationQuestion> ExaminationQuestions { get; set; }
         public virtual DbSet<CandidateExaminationResult> CandidateExamResults { get; set; }
 
 

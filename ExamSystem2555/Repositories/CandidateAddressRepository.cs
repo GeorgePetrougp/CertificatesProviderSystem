@@ -16,13 +16,13 @@ namespace WebApp.Repositories
 
         public async Task<CandidateAddress> AddAsync(CandidateAddress address)
         {
-            await _context.Addresses.AddAsync(address);
+            await _context.CandidateAddresses.AddAsync(address);
             return address;
         }
 
         public async Task<CandidateAddress> UpdateAsync(CandidateAddress address)
         {
-            _context.Addresses.Attach(address);
+            _context.CandidateAddresses.Attach(address);
             _context.Entry(address).State = EntityState.Modified;
             return address;
         }
@@ -30,10 +30,10 @@ namespace WebApp.Repositories
         public async Task DeleteAsync(int? id)
         {
             var addressToDelete = await GetByIdAsync(id);
-            _context.Addresses.Remove(addressToDelete);
+            _context.CandidateAddresses.Remove(addressToDelete);
         }
-        public async Task<CandidateAddress> GetByIdAsync(int? id) => await _context.Addresses.FindAsync(id);
-        public async Task<IEnumerable<CandidateAddress>> GetAllAsync() => await _context.Addresses.ToListAsync();
+        public async Task<CandidateAddress> GetByIdAsync(int? id) => await _context.CandidateAddresses.FindAsync(id);
+        public async Task<IEnumerable<CandidateAddress>> GetAllAsync() => await _context.CandidateAddresses.ToListAsync();
 
         public Task<IEnumerable<CandidateAddress>> AddRangeAsync(IEnumerable<CandidateAddress> entities)
         {

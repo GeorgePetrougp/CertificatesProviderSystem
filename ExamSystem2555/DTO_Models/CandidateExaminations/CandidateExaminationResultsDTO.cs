@@ -8,6 +8,7 @@ namespace WebApp.DTO_Models.CandidateExaminations
         public DateTime ResultIssueDate { get; set; }
         public string ResultLabel { get; set; }
         public int CandidateTotalScore { get; set; }
+        public string HasBeenRemarked { get; set; }
 
     }
 }

@@ -15,13 +15,13 @@ namespace WebApp.Repositories
 
         public async Task<CandidateExaminationAnswer> AddAsync(CandidateExaminationAnswer examCandidateAnswer)
         {
-            await _context.ExamCandidateAnswers.AddAsync(examCandidateAnswer);
+            await _context.CandidateExaminationAnswers.AddAsync(examCandidateAnswer);
             return examCandidateAnswer;
         }
 
         public async Task<CandidateExaminationAnswer> UpdateAsync(CandidateExaminationAnswer examCandidateAnswer)
         {
-            _context.ExamCandidateAnswers.Attach(examCandidateAnswer);
+            _context.CandidateExaminationAnswers.Attach(examCandidateAnswer);
             _context.Entry(examCandidateAnswer).State = EntityState.Modified;
             return examCandidateAnswer;
         }
@@ -29,10 +29,10 @@ namespace WebApp.Repositories
         public async Task DeleteAsync(int? id)
         {
             var examCandidateAnswerToDelete = await GetByIdAsync(id);
-            _context.ExamCandidateAnswers.Remove(examCandidateAnswerToDelete);
+            _context.CandidateExaminationAnswers.Remove(examCandidateAnswerToDelete);
         }
-        public async Task<CandidateExaminationAnswer> GetByIdAsync(int? id) => await _context.ExamCandidateAnswers.FindAsync(id);
-        public async Task<IEnumerable<CandidateExaminationAnswer>> GetAllAsync() => await _context.ExamCandidateAnswers.ToListAsync();
+        public async Task<CandidateExaminationAnswer> GetByIdAsync(int? id) => await _context.CandidateExaminationAnswers.FindAsync(id);
+        public async Task<IEnumerable<CandidateExaminationAnswer>> GetAllAsync() => await _context.CandidateExaminationAnswers.ToListAsync();
 
         public Task<IEnumerable<CandidateExaminationAnswer>> AddRangeAsync(IEnumerable<CandidateExaminationAnswer> entities)
         {

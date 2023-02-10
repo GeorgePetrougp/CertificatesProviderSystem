@@ -69,6 +69,18 @@ namespace WebApp.Controllers
 
             var newModel = Newtonsoft.Json.JsonConvert.DeserializeObject<ExaminationQuestionView>(myModel);
 
+            var myQuestion = newModel.Questions[newModel.CurrentIndex];
+
+            var correctAnswer = myQuestion.PossibleAnswers.Where(x=>x.IsAnswerCorrect==true).FirstOrDefault();
+
+            var points = 0;
+
+            if(SelectedAnswerId == correctAnswer.QuestionPossibleAnswerId)
+            {
+                points = myQuestion.Points;
+            }
+
+                
             if (action == "Next")
             {
 
@@ -78,12 +90,16 @@ namespace WebApp.Controllers
                     var ctqList = await _service.CertificateTopicQuestionService.GetAllCertificateTopicQuestionsAsync();
                     await _service.CertificateTopicsLoad(ctqList);
                     var myCertTopicQuestion = ctqList.First(x => x.TopicQuestion.Question.QuestionId == newModel.Questions[newModel.CurrentIndex].QuestionId);
+
+
+
                     var answers = new CandidateExaminationAnswer
                     {
                         CandidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(newModel.CandidateExamId),
                         SelectedAnswer = (await _service.QuestionPossibleAnswerService.GetAnswerByIdAsync(SelectedAnswerId)).QuestionPossibleAnswerId,
-                        CorrectAnswer = 1,
-                        CertificateTopicQuestion = myCertTopicQuestion
+                        CorrectAnswer = correctAnswer.QuestionPossibleAnswerId,
+                        CertificateTopicQuestion = myCertTopicQuestion,
+                        PointsAssignedDuringExamination = points
 
                     };
                     await _service.ExamCandidateAnswerService.AddExamCandidateAnswerAsync(answers);
@@ -108,19 +124,16 @@ namespace WebApp.Controllers
             var examCandidateAnswer = x.Where(x => x.CandidateExam.CandidateExaminationId == candidateExamId);
 
             await _service.CandidateAnswerExamLoad(x);
-            var totalQuestions = x.Count();
-            var correctAnswers = 0;
+            var totalScore = 0;
             string result = "";
+
             foreach (var item in x)
             {
-                if (item.SelectedAnswer == item.CorrectAnswer)
-                {
-                    correctAnswers++;
-                }
+                totalScore += item.PointsAssignedDuringExamination;
 
             }
 
-            if (correctAnswers > 2)
+            if (totalScore > 2)
             {
                 result = "PASS";
             }
@@ -134,7 +147,8 @@ namespace WebApp.Controllers
                 CandidateExaminationId = candidateExamId,
                 ResultIssueDate = DateTime.Now,
                 ResultLabel = result,
-                CandidateTotalScore = correctAnswers
+                CandidateTotalScore = totalScore,
+                HasBeenRemarked= "IS NOT REMARKED"
 
             };
 

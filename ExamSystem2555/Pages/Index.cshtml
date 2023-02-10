@@ -12,7 +12,7 @@
         {
             <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
             <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator"> CandidateExams</a>
         }
         else if (signInManager.IsSignedIn(User) && User.IsInRole("Marker"))
         {

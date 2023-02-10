@@ -11,6 +11,8 @@ namespace MyDatabase.Models
         public int CandidateExaminationAnswerId { get; set; }
         public int SelectedAnswer { get; set; }
         public int CorrectAnswer { get; set; }
+        public int PointsAssignedDuringExamination { get; set; }
+        public int PointsAssignedAfterMarking { get; set; }
         public virtual CandidateExamination? CandidateExam { get; set; }
         public virtual CertificateTopicQuestion? CertificateTopicQuestion { get; set; }
     }
