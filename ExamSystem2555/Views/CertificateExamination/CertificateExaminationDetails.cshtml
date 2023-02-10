@@ -5,19 +5,19 @@
 </head>
 <div class="left"><h2>Exam Id: @Model.ExaminationId</h2></div>
 
-<table class="table table-hover width=30% table-light" style="text-align: center">
+<table class="table table-hover table-light">
     <tr>
-        <th>Certficate Title</th>
+        <th>Certificate Title</th>
         <td>@Model.CertificateTitle</td>
     </tr>
     <tr>
         <th>Questions</th>
-        
+            <td>
             @foreach (var question in Model.Questions)
             {
             <td>@Html.Raw(question.QuestionDisplay)</td>
             }
-        
+        <td>
     </tr>
 </table>
 
