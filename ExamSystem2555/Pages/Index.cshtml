@@ -11,12 +11,4 @@
 </div>
 <div class="col-6 d-flex flex-column mt-5 align-items-center mx-auto text-center">
     <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="GeneralHome">See Our Certificates</a>
-
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
-    @if(!User.IsInRole("Marker")){
-
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Our Certifications</a>
-    }
-
 </div>
