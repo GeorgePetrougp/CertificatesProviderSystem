@@ -17,7 +17,6 @@
                 @Html.DisplayNameFor(model => model.CertificateTitle)
             </th>
             <th>Actions</th>
-            <th>Assign Marker</th>
             
         </tr>
     </thead>
@@ -45,9 +44,7 @@
 
                     <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ExaminationId">Delete</a>
                 </td>
-                <td>
-                    <a button type="button" class="btn btn-primary" asp-action="AssignExaminationForMarking" asp-route-id="@item.ExaminationId">Assign For Marking</a>                
-                </td>
+                
             </tr>
         }
     </tbody>
