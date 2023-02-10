@@ -112,8 +112,12 @@ namespace WebApp
 
             app.UseRouting();
 
+            app.UseRouting();
+
+
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.MapDefaultControllerRoute();
             app.MapRazorPages();
