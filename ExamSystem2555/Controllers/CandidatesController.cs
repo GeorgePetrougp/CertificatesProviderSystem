@@ -21,7 +21,7 @@ namespace WebApp.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public CandidatesController(ICandidateManagerService service, IMapper mapper,UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public CandidatesController(ICandidateManagerService service, IMapper mapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _service = service;
             _mapper = mapper;
@@ -43,27 +43,52 @@ namespace WebApp.Controllers
             return View(candidate);
         }
 
+        public async Task<IActionResult> AdministratorCreateCandidate(string userId)
+        {
+
+            var model = new CandidateDTO
+            {
+                UserCandidateId = userId,
+                FirstName = (await _userManager.FindByIdAsync(userId)).FirstName,
+                LastName = (await _userManager.FindByIdAsync(userId)).LastName,
+
+            };
+            return View("CreateCandidate", model);
+        }
+
+
         // GET: CandidatesController/Create
         public async Task<IActionResult> CreateCandidate()
         {
-            var model = new CandidateDTO();
-            return View(model);
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Issuer;
+
+            var model = new CandidateDTO 
+            { 
+                UserCandidateId = userId,
+                FirstName = (await _userManager.FindByIdAsync(userId)).FirstName,
+                LastName = (await _userManager.FindByIdAsync(userId)).LastName
+
+            };
+
+            return View("CreateCandidate", model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveCandidate(CandidateDTO candidate)
         {
-            var x = (ClaimsIdentity)User.Identity;
-            var y = x.FindFirst(ClaimTypes.NameIdentifier);
-            var z = y.Value;
+            //var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //var claimValue = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Issuer;
+
             var newCandidate = _mapper.Map<Candidate>(candidate);
-            newCandidate.UserCandidateId = z;
-            var user = await _userManager.FindByIdAsync(z);
+            //newCandidate.UserCandidateId = claimValue;
+            var user = await _userManager.FindByIdAsync(candidate.UserCandidateId);
             var role = await _roleManager.FindByNameAsync("Candidate");
             if (ModelState.IsValid)
             {
                 await _service.CandidateService.AddCandidateAsync(newCandidate);
-                var result = await _userManager.AddToRoleAsync(user, role.NormalizedName);
+                await _userManager.AddToRoleAsync(user, role.NormalizedName);
                 await _service.SaveChangesAsync();
                 return RedirectToAction("CandidatesIndex");
             }
@@ -101,8 +126,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> CandidateAddressesIndex(int id)
         {
             var candidate = await _service.CandidateService.GetCandidateByIdAsync(id);
-            
-            var addressList = (await _service.AddressService.GetAllAddressesAsync()).Where(a=>a.Candidate==candidate).ToList();  
+
+            var addressList = (await _service.AddressService.GetAllAddressesAsync()).Where(a => a.Candidate == candidate).ToList();
 
             return View(addressList);
         }
@@ -118,7 +143,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> EditCandidateAddresses(AddressDTO address)
         {
             var newAddress = _mapper.Map<CandidateAddress>(address);
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await _service.AddressService.UpdateAddressAsync(newAddress);
                 await _service.SaveChangesAsync();
@@ -151,6 +176,6 @@ namespace WebApp.Controllers
                 return View();
             }
         }
- 
+
     }
 }

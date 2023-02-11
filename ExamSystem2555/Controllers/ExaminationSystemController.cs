@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MyDatabase.Models;
+using WebApp.DTO_Models.CandidateExaminations;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices.Interfaces;
 
@@ -8,14 +10,18 @@ namespace WebApp.Controllers
     public class ExaminationSystemController : Controller
     {
         private readonly IExaminationManagerService _service;
+        private readonly IMapper _mapper;
 
-        public ExaminationSystemController(IExaminationManagerService service)
+        public ExaminationSystemController(IExaminationManagerService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
         public async Task<IActionResult> ExaminationSystemIndex(int? candidateExamId)
         {
-            var model = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
+            var candidateExamination = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
+            await _service.CandidateExaminationLoad(candidateExamination);
+            var model = _mapper.Map<CandidateExaminationsDTO>(candidateExamination);
             return View(model);
         }
 
@@ -121,15 +127,15 @@ namespace WebApp.Controllers
         {
             var x = await _service.ExamCandidateAnswerService.GetAllExamCandidateAnswersAsync();
             await _service.CandidateAnswerExamLoad(x);
-            var examCandidateAnswer = x.Where(x => x.CandidateExam.CandidateExaminationId == candidateExamId);
+            var candidateExamAnswers = x.Where(x => x.CandidateExam.CandidateExaminationId == candidateExamId);
 
             await _service.CandidateAnswerExamLoad(x);
             var totalScore = 0;
             string result = "";
 
-            foreach (var item in x)
+            foreach (var answer in candidateExamAnswers)
             {
-                totalScore += item.PointsAssignedDuringExamination;
+                totalScore += answer.PointsAssignedDuringExamination;
 
             }
 

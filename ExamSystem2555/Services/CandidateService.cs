@@ -38,6 +38,14 @@ namespace WebApp.Services
             await _candidateRepository.DeleteAsync(id);
         }
 
+        public async Task<Candidate> GetCandidateByUserAsync(string userID)
+        {
+            var candidates = await _candidateRepository.GetAllAsync();
+            var candidate = candidates.First(x=>x.UserCandidateId == userID);
+
+            return candidate;
+        }
+
         public string CheckNull(Topic topic)
         {
             if (topic != null)

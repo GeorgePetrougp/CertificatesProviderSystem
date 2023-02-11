@@ -8,23 +8,23 @@
 
 <div class="col-6 d-flex flex-column align-items-center mx-auto text-center">
     <h1 class="display-4 mb-3">Welcome</h1>
-        @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
-        {
-            <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
-            <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+    {
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
 
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Certifications</a>
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Certifications</a>
 
         <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator"> CandidateExams</a>
 
-        }
-        else if (User.IsInRole("Marker"))
-        {
-            <a type="button" class="btn btn-primary w-25 my-2" asp-action="GetExams" asp-controller="Marking">Marking</a>
-        }
+    }
+    else if (User.IsInRole("Marker"))
+    {
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="GetExams" asp-controller="Marking">Marking</a>
+    }
 
 </div>
 <div>
@@ -32,9 +32,10 @@
 
     <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
     <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
-    @if(!User.IsInRole("Marker")){
+    @if (!User.IsInRole("Marker"))
+    {
 
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Our Certifications</a>
+        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Our Certifications</a>
     }
 
 </div>
