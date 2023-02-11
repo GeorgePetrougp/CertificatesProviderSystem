@@ -6,7 +6,7 @@ using WebApp.Services.Interfaces;
 
 namespace WebApp.MainServices
 {
-    public class ExaminationManagerService:IExaminationManagerService
+    public class ExaminationManagerService : IExaminationManagerService
     {
         private readonly ApplicationDbContext _context;
         private readonly ICandidateExaminationService _candidateExamService;
@@ -29,12 +29,12 @@ namespace WebApp.MainServices
             _candidateExamResultsService = candidateExamResultsService;
         }
 
-        public ICandidateExaminationService CandidateExamService { get { return _candidateExamService;} }
-        public IExaminationQuestionService ExaminationQuestionService { get { return _examinationQuestionService;} }
-        public IExaminationService ExaminationService { get { return _examinationService;} }
-        public IQuestionPossibleAnswerService QuestionPossibleAnswerService { get { return _questionPossibleAnswerService;} }
-        public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService;} }
-        public ICandidateExaminationAnswerService ExamCandidateAnswerService { get { return _examCandidateAnswerService;} }
+        public ICandidateExaminationService CandidateExamService { get { return _candidateExamService; } }
+        public IExaminationQuestionService ExaminationQuestionService { get { return _examinationQuestionService; } }
+        public IExaminationService ExaminationService { get { return _examinationService; } }
+        public IQuestionPossibleAnswerService QuestionPossibleAnswerService { get { return _questionPossibleAnswerService; } }
+        public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService; } }
+        public ICandidateExaminationAnswerService ExamCandidateAnswerService { get { return _examCandidateAnswerService; } }
         public ICandidateExaminationResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
 
         public async Task SaveChangesAsync()
@@ -46,8 +46,7 @@ namespace WebApp.MainServices
         {
             foreach (var item in eq)
             {
-                await _context.Entry(item).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(y => y.Question).LoadAsync();
-
+                await _context.Entry(item).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(y => y.Question).ThenInclude(q=>q.QuestionPossibleAnswers).LoadAsync();
 
             }
         }
@@ -63,8 +62,6 @@ namespace WebApp.MainServices
         public async Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer)
         {
             await _context.Entry(examAnswer).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(tq => tq.Question).ThenInclude(q => q.QuestionPossibleAnswers).LoadAsync();
-
-
 
         }
 
@@ -89,7 +86,9 @@ namespace WebApp.MainServices
 
         public async Task CandidateExaminationLoad(CandidateExamination c)
         {
-            await _context.Entry(c).Reference(e => e.Examination).LoadAsync();
+            await _context.Entry(c).Reference(e => e.Examination).Query().Include(x=>x.Certificate).LoadAsync();
+            await _context.Entry(c).Reference(c => c.Candidate).LoadAsync();
+
         }
 
         public async Task CandidateResultsLoad(CandidateExamination c)

@@ -2,7 +2,7 @@
 
 <form method="post" asp-action="SelectCertificate">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CandidateId" />
+            <input type="hidden" asp-for="@Model.CandidateId" />
             <div class="align-items-end col-8 d-flex justify-content-evenly mx-auto">
                 <div class="form-group row">
                     <label class="col-form-label" asp-for="SelectedId"></label>

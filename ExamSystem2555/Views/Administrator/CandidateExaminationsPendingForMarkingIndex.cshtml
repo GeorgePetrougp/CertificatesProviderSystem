@@ -33,7 +33,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CandidateExamResults.HasBeenRemarked)
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
@@ -71,8 +71,7 @@
                 <td>
                     @if (item.CandidateExamResults.HasBeenRemarked == "IS NOT REMARKED")
                     {
-                    <a asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExaminationId">Assign Exam To Marker</a>
-                        
+                        <a asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExaminationId">Assign Exam To Marker</a>
                     }
 
                 </td>
