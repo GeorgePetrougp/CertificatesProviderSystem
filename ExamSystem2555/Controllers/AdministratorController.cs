@@ -66,5 +66,26 @@ namespace WebApp.Controllers
 
             return RedirectToAction("CandidateExaminationsPendingForMarkingIndex");
         }
+
+        public async Task<IActionResult> RegisterUserAsCandidate()
+        {
+            var users = _userManager.Users.ToList();
+
+            var usersWithoutRole = new List<ApplicationUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (!roles.Any())
+                {
+                    usersWithoutRole.Add(user);
+                }
+            }
+
+            return View(usersWithoutRole);
+
+        }
+
     }
 }

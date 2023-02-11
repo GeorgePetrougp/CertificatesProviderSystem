@@ -49,7 +49,7 @@ namespace WebApp.Controllers
             var model = new UserRolesView
             {
                 UserId= id,
-                RolesSelectList = new SelectList(roles.OrderBy(x=>x.Name),"Id","Name")
+                RolesSelectList = new SelectList(roles.OrderBy(r=>r.Name),"Id","Name")
 
             };
             return View(model);
@@ -99,8 +99,9 @@ namespace WebApp.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
-
-
         }
+
+        
+
     }
 }

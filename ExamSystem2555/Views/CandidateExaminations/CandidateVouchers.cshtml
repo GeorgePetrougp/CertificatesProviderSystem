@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO>
+
+<h4>Examination will be available 10 minutes before the scheduled Examination Date</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Examination.Certificate.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Candidate.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Candidate.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Examination.Certificate.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamDate)
+                </td>
+                <td>
+                    @if (DateTime.Now >= item.ExamDate)
+                    {
+
+                        <a asp-action="examinationsystemindex" asp-controller="examinationsystem" asp-route-candidateExamId="@item.CandidateExaminationId">start examination</a>
+                    }
+                    @*<button class="btn btn-primary" id="goToExam-@item.CandidateExaminationId" asp-controller="ExaminationSystem" asp-action="ExaminationSystemIndex" asp-route-candidateExamId="@item.CandidateExaminationId">Start Examination</button>*@
+
+                </td>
+
+
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+
+

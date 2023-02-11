@@ -1,7 +1,8 @@
-﻿@model MyDatabase.Models.CandidateExamination
+﻿@model WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO
 <h1>Start Exam</h1>
 <div>
-
+    <p>Examination Code: @Model.ExamCode</p>
+    <p>Candidate: @Model.Candidate.LastName @Model.Candidate.FirstName</p>
+    <p>Certificate: @Model.Examination.Certificate.Title</p>
     <a asp-action="StartExamination" asp-route-candidateExamId="@Model.CandidateExaminationId">Start Exam</a>
-    <p>Number: @Model.ExamCode</p>
 </div>

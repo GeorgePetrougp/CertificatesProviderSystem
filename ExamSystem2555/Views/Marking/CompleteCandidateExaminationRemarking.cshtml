@@ -1,4 +1,4 @@
-﻿@model WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO
+﻿@model MyDatabase.Models.CandidateExamination
 
 @{
     ViewData["Title"] = "Delete";
@@ -19,8 +19,8 @@
         </dd>
     </dl>
 
-    <form method="post" asp-action="Confirm">
-        <input type="hidden" asp-for="@Model.CandidateExaminationId" />
+    <form method="post" asp-action="CompleteCandidateExaminationRemarking">
+        <input type="hidden" asp-for="CandidateExaminationId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

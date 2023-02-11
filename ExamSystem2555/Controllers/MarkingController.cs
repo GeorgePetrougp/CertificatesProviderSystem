@@ -171,16 +171,23 @@ namespace WebApp.Controllers
             return RedirectToAction("GetExamQuestions", "Marking", new { id = candidateExamId });
         }
 
-        public async Task<IActionResult> CompleteCandidateExaminationRemarking(int? id)
+        public async Task<IActionResult> CompleteCandidateExaminationRemarking(int? candidateExamId)
         {
-            return View();
+            var candidateExamination = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
+
+            return View(candidateExamination);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteCandidateExaminationRemarking(int id)
+        public async Task<IActionResult> CompleteCandidateExaminationRemarking(CandidateExamination cExamination)
         {
-            var candidateExamination = _service.CandidateExamService.GetCandidateExamByIdAsync(id);
-            return View();
+            var candidateExamination = await _service.CandidateExamService.GetCandidateExamByIdAsync(cExamination.CandidateExaminationId);
+            var assingedExam = (await _service.MarkerAssignedExamService.GetAllMarkerAssignedExamsAsync()).Where(ae=>ae.CandidateExam==candidateExamination).Select(x=>x.MarkerAssignedExamId).First();
+
+            await _service.MarkerAssignedExamService.DeleteMarkerAssignedExamAsync(assingedExam);
+            await _service.SaveChangesAsync();
+
+            return RedirectToAction("GetExams");
         }
 
     }

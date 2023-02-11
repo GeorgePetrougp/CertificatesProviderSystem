@@ -21,6 +21,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.ExamDate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateExamResults.ResultIssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateExamResults.CandidateTotalScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateExamResults.ResultLabel)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,6 +53,15 @@
                     @Html.DisplayFor(modelItem => item.ExamDate)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.CandidateExamResults.ResultIssueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateExamResults.CandidateTotalScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateExamResults.ResultLabel)
+                </td>
+                <td>
                     @*<a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>*@
 
                     @*<a asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId">Buy</a>*@
@@ -56,7 +74,7 @@
                         <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a>
                         <a asp-action="DeleteCertificate" asp-route-id="@item.CertificateId">Delete</a>
                     }*@
-                    <a asp-action="CandidateExaminationDetails" asp-route-id="@item.CandidateExaminationId">Delete</a>
+                    <a asp-action="ExaminationSystemIndex" asp-route-candidateExamId="@item.CandidateExaminationId">Delete</a>
                     
 
                 </td>

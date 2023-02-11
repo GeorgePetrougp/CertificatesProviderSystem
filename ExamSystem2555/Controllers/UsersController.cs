@@ -10,6 +10,7 @@ using WebApp.DTO_Models;
 using WebApp.MainServices.Interfaces;
 using WebApp.Models;
 using WebApp.Services;
+using WebApp.Services.Interfaces;
 
 namespace WebApp.Controllers
 {
@@ -19,23 +20,25 @@ namespace WebApp.Controllers
         private readonly IEShopService _service;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ICandidateService _candidateService;
 
 
-        public UsersController(IEShopService service, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+
+        public UsersController(IEShopService service, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ICandidateService candidateService)
         {
-            _service= service;
+            _service = service;
             _signInManager = signInManager;
             _userManager = userManager;
+            _candidateService = candidateService;
         }
 
         public async Task<ActionResult> CandidateRegistration(int? id)
         {
             if (_signInManager.IsSignedIn(User))
             {
-                var x = (ClaimsIdentity)User.Identity;
-                var y = x.FindFirst(ClaimTypes.NameIdentifier);
-                var z = y.Value;
-                var user = await _userManager.FindByIdAsync(z);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByIdAsync(userId);
                 var userRoles = await _userManager.GetRolesAsync(user);
                 if (!userRoles.Contains("Candidate"))
                 {
@@ -47,12 +50,16 @@ namespace WebApp.Controllers
 
         }
 
-        public async Task<IActionResult> SelectCertificate(int candidateId)
+        public async Task<IActionResult> SelectCertificate()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var candidate = await _service.CandidateService.GetCandidateByUserAsync(userId);
             var certificatesList = await _service.CertificateService.GetAllCertificatesAsync();
             var model = new LoginView
             {
-                CandidateId = candidateId,
+                CandidateId = candidate.CandidateId,
                 CertificatesList = new SelectList(certificatesList, "CertificateId", "Title")
             };
             //model.CertificatesList = new SelectList(certificates, "CertificateId", "Title");
@@ -63,7 +70,7 @@ namespace WebApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SelectCertificate([FromForm] LoginView model, int? candidateId)
+        public async Task<IActionResult> SelectCertificate([FromForm] LoginView model)
         {
             var exams = (await _service.ExaminationService.GetAllExaminationsAsync()).ToList();
             var certificate = await _service.CertificateService.GetCertificateByIdAsync(model.SelectedId);
@@ -73,7 +80,7 @@ namespace WebApp.Controllers
             int randomIndex = random.Next(myExamInts[0], myExamInts.Count - 1);
             var myExam = await _service.ExaminationService.GetExaminationByIdAsync(randomIndex);
 
-            var candidate = await _service.CandidateService.GetCandidateByIdAsync(1);
+            var candidate = await _service.CandidateService.GetCandidateByIdAsync(model.CandidateId);
 
             //duplicate check
             Random random2 = new Random();
@@ -106,11 +113,8 @@ namespace WebApp.Controllers
             await _service.CandidateExamService.AddCandidateExamAsync(newCandidateExam);
             await _service.SaveChangesAsync();
 
-            return RedirectToAction("ExaminationSystemIndex", "ExaminationSystem", new { candidateExamId = newCandidateExam.CandidateExaminationId });
+            return RedirectToAction("CandidateExaminationVouchers", "CandidateExaminations", new { candidateId = model.CandidateId });
         }
 
-
-        // GET: UsersController
-            
     }
 }
