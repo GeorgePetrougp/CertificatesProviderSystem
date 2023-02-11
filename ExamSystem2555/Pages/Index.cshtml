@@ -6,9 +6,14 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="col-6 d-flex flex-column mt-5 align-items-center mx-auto text-center">
-    <h4 class="display-4 mb-1">The key to unlocking your future is here!</h4>        
+<head>
+    <link rel="stylesheet" href="~/css/IntroHome.css" asp-append-version="true" />
+</head>
+
+<div class="title">
+    <h1>Welcome to Team 2555<br /> Certifications EShop</h1>  
+    <p>The key to unlocking your future is here!</p>
+<div >
+        <a type="button" class="btnA" asp-action="Index" asp-controller="GeneralHome"><span></span>Explore Our Certificates</a>
 </div>
-<div class="col-6 d-flex flex-column mt-5 align-items-center mx-auto text-center">
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="GeneralHome">See Our Certificates</a>
 </div>
