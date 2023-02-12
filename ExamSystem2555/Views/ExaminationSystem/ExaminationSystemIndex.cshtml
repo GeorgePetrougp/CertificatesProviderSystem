@@ -1,8 +1,8 @@
 ﻿@model WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO
-<h1>Start Exam</h1>
-<div>
-    <p>Examination Code: @Model.ExamCode</p>
-    <p>Candidate: @Model.Candidate.LastName @Model.Candidate.FirstName</p>
-    <p>Certificate: @Model.Examination.Certificate.Title</p>
-    <a asp-action="StartExamination" asp-route-candidateExamId="@Model.CandidateExaminationId" asp-route-examId="@Model.Examination.ExaminationId">Start Exam</a>
+<div class="center mt-5">
+    <h1>Start Exam</h1>
+    <h5>Examination Code: @Model.ExamCode</h5>
+    <h5>Candidate: @Model.Candidate.LastName @Model.Candidate.FirstName</h5>
+    <h5>Certificate: @Model.Examination.Certificate.Title</h5>
+    <a class="btn btn-success mt-2" asp-action="StartExamination" asp-route-candidateExamId="@Model.CandidateExaminationId" asp-route-examId="@Model.Examination.ExaminationId">Start Exam</a>
 </div>

@@ -64,19 +64,7 @@
                     @Html.DisplayFor(modelItem => item.CandidateExamResults.ResultLabel)
                 </td>
                 <td>
-                    @*<a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>*@
-
-                    @*<a asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId">Buy</a>*@
-
-
-                   @* @if (User.IsInRole("Administrator"))
-                    {
-
-
-                        <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a>
-                        <a asp-action="DeleteCertificate" asp-route-id="@item.CertificateId">Delete</a>
-                    }*@
-                    <a class="btn btn-outline-danger" asp-action="ExaminationSystemIndex" asp-route-candidateExamId="@item.CandidateExaminationId">Delete</a>
+                    
                     
 
                 </td>

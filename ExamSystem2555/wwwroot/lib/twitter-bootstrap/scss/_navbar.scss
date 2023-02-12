@@ -196,7 +196,7 @@
     &#{$infix} {
       @include media-breakpoint-up($next) {
         flex-wrap: nowrap;
-        justify-content: flex-start;
+        justify-content: center;
 
         .navbar-nav {
           flex-direction: row;

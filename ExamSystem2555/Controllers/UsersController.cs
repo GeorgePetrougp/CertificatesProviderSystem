@@ -44,23 +44,26 @@ namespace WebApp.Controllers
                 {
                     return View();
                 }
-                return RedirectToAction("SelectCertificate");
+                return RedirectToAction("SelectCertificate",new {id=id});
             }
             return Redirect("/Identity/Account/Login");
 
         }
 
-        public async Task<IActionResult> SelectCertificate()
+        public async Task<IActionResult> SelectCertificate(int? id)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var candidate = await _service.CandidateService.GetCandidateByUserAsync(userId);
             var certificatesList = await _service.CertificateService.GetAllCertificatesAsync();
+            var certificate = await _service.CertificateService.GetCertificateByIdAsync(id);
             var model = new LoginView
             {
                 CandidateId = candidate.CandidateId,
-                CertificatesList = new SelectList(certificatesList, "CertificateId", "Title")
+                CertificatesList = new SelectList(certificatesList, "CertificateId", "Title"),
+                Certificate=certificate,
+                CertificateId=id
             };
             //model.CertificatesList = new SelectList(certificates, "CertificateId", "Title");
             return View(model);
@@ -70,10 +73,10 @@ namespace WebApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SelectCertificate([FromForm] LoginView model)
+        public async Task<IActionResult> SelectCertificate([FromForm] LoginView model,int CertificateId)
         {
             var exams = (await _service.ExaminationService.GetAllExaminationsAsync()).ToList();
-            var certificate = await _service.CertificateService.GetCertificateByIdAsync(model.SelectedId);
+            var certificate = await _service.CertificateService.GetCertificateByIdAsync(CertificateId);
             var myExamInts = exams.Where(c => c.Certificate == certificate).Select(e => e.ExaminationId).ToList();
 
             Random random = new Random();
