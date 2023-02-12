@@ -15,18 +15,32 @@
             <td colspan="2">@Html.Raw(Model.QuestionDisplay)</td>
 
         </tr>
+        @{
+            var i = 1;
+        }
         @foreach (var answer in Model.Answers)
         {
+
             <tr>
-                <th>Answer</th>
-                <td>
-                    @Html.Raw(answer.PossibleAnswer)
+                <th>Answer @i</th>
+                    @{i++;}
+                
+                    
                     @if (answer.IsCorrect)
                     {
+                    <td style="background-color:greenyellow">
+                        @Html.Raw(answer.PossibleAnswer)
                         <h6>(Correct Answer)</h6>
+                    </td>
+                    }
+                    else
+                    {
+                    <td>
+                        @Html.Raw(answer.PossibleAnswer)
+                    </td>
                     }
 
-                </td>
+                
             </tr>
         }
         <tr>

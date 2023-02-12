@@ -6,36 +6,16 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="col-6 d-flex flex-column align-items-center mx-auto text-center">
-    <h1 class="display-4 mb-3">Welcome</h1>
-    @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
-    {
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
 
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Certifications</a>
+<head>
+    <link rel="stylesheet" href="~/css/IntroHome.css" asp-append-version="true" />
+</head>
 
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator"> CandidateExams</a>
-
-    }
-    else if (User.IsInRole("Marker"))
-    {
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="GetExams" asp-controller="Marking">Marking</a>
-    }
-
+<div class="title">
+    <h1>Welcome to Team 2555<br /> Certifications EShop</h1>  
+    <p>The key to unlocking your future is here!</p>
+<div >
+        <a type="button" class="btnA" asp-action="Index" asp-controller="GeneralHome"><span></span>Explore Our Certificates</a>
 </div>
-<div>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="GeneralHome">See Our Certificates</a>
 
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-    <a type="button" class="btn btn-primary w-25 my-2" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
-    @if (!User.IsInRole("Marker"))
-    {
 
-        <a type="button" class="btn btn-primary w-25 my-2" asp-action="CertificatesIndex" asp-controller="Certificates">Our Certifications</a>
-    }
-
-</div>
