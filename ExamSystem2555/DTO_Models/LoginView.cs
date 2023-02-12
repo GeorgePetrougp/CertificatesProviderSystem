@@ -9,6 +9,8 @@ namespace WebApp.DTO_Models
         public int CandidateId { get; set; }
         public string LastName { get; set; }
         public SelectList CertificatesList { get; set; }
+        public Certificate? Certificate { get; set; }
+        public int? CertificateId { get; set; }
         public int SelectedId { get; set; }
         public DateTime ExamDate { get; set; }
     }
