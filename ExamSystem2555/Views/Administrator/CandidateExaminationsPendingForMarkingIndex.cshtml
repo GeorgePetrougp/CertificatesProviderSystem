@@ -69,7 +69,7 @@
                     @Html.DisplayFor(modelItem => item.CandidateExamResults.HasBeenRemarked)
                 </td>
                 <td>
-                    @if (item.CandidateExamResults.HasBeenRemarked == "IS NOT REMARKED")
+                    @if (item.CandidateExamResults.HasBeenRemarked == "IS NOT REMARKED" && (User.IsInRole("Administrator")))
                     {
                         <a asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExaminationId">Assign Exam To Marker</a>
                     }
