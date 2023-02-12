@@ -3,7 +3,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "CreateCandidate")
+    @Html.ActionLink("New Candidate", "RegisterUserAsCandidate","Administrator")
 </p>
 <table>
     <tr>
@@ -47,14 +47,12 @@
                 @Html.ActionLink("Details", "CandidateDetails", new { id = item.CandidateId }) |
                 @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) |
                 @Html.ActionLink("View Addresses", "CandidateAddressesIndex", new { id = item.CandidateId }) |
-                @Html.ActionLink("Delete", "DeleteCandidate", new { id = item.CandidateId })
+                
             </td>
         </tr>
     }
 
 </table>
 <div>
-    <div>
-        @Html.ActionLink("Administrator Menu", "Index", "Administrator")
-    </div>
+    
 </div>
