@@ -1,14 +1,18 @@
 ﻿@model WebApp.DTO_Models.Final.ExaminationDTO
 
-<p>Select questions for the Examination</p>
+<head>
+    <link rel="stylesheet" href="~/css/divBorder.css" asp-append-version="true" />
+</head>
+
+<h1>Select questions for the Examination</h1>
 <form asp-action="SaveNewCertificateExamination">
     <input type="hidden" asp-for="CertificateId" />
     @foreach (var item in Model.Questions)
     {
-        <div>
+        <div class="border mb-1 col-sm-8 p-1">
             <p>@Html.Raw(item.QuestionDisplay)</p>
             <input type="checkbox" name="selectedQuestions" value="@item.QuestionId" checked="@item.IsSelected" />
         </div>
     }
-    <button type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
 </form>

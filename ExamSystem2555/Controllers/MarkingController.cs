@@ -129,9 +129,18 @@ namespace WebApp.Controllers
         {
 
             var candidateExam = await _service.CandidateExamService.GetCandidateExamByIdAsync(candidateExamId);
+            await _service.CandidateExaminationLoad(candidateExam);
+
+            //var candidateExaminationAnswers = await _service.CandidateAnswerService.GetAllExamCandidateAnswersAsync();
+            //await _service.CandidateAnswerExamLoad(candidateExaminationAnswers);
+            //var candidateExamAnswers = candidateExaminationAnswers.Where(x => x.CandidateExam.CandidateExaminationId == candidateExamId);
+
+
             var candidateAnswer = await _service.CandidateAnswerService.GetExamCandidateAnswerByIdAsync(id);
             candidateAnswer.SelectedAnswer = selectedAnswer;
             candidateAnswer.PointsAssignedAfterMarking = pointAwardedAfterMarking;
+
+
 
             await _service.CandidateAnswerService.UpdateExamCandidateAnswerAsync(candidateAnswer);
             await _service.SaveChangesAsync();
@@ -142,6 +151,9 @@ namespace WebApp.Controllers
             await _service.CandidateAnswerExamLoad(candidateExaminationAnswers);
 
             var totalScore = 0;
+            var totatAnswers = candidateExaminationAnswers.Count();
+            var certificatePassMark = candidateExam.Examination.Certificate.PassMark;
+            double examPassMark = totatAnswers * (certificatePassMark / 100.0);
             string result = "";
 
             foreach (var item in candidateExaminationAnswers)
@@ -149,7 +161,7 @@ namespace WebApp.Controllers
                 totalScore += item.PointsAssignedAfterMarking;
             }
 
-            if (totalScore > 2)
+            if (totalScore > examPassMark)
             {
                 result = "PASS";
             }

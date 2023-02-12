@@ -7,7 +7,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Certificate</h4>
+    <h4>@Model.FullTitle</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -35,11 +35,10 @@
             @Html.DisplayFor(model => model.PassMark)
         </dd>
     </dl>
-    <p>Level: @Model.Level.Title</p>
 </div>
 <div>
 
-    <a asp-action="EditCertificate" asp-route-id="@Model.CertificateId">Edit</a> |
+    <a class="btn btn-outline-info" asp-action="EditCertificate" asp-route-id="@Model.CertificateId">Edit</a> |
     <a asp-action="CertificatesIndex">Back to List</a>
 
 </div>
