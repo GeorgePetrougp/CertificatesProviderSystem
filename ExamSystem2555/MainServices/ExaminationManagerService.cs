@@ -84,6 +84,8 @@ namespace WebApp.MainServices
             {
 
                 await _context.Entry(item).Reference(c => c.CandidateExam).LoadAsync();
+                await _context.Entry(item).Reference(c => c.CertificateTopicQuestion).LoadAsync();
+
             }
         }
 

@@ -22,7 +22,7 @@ namespace WebApp.MainServices
 
 
 
-        public CandidateExaminationManagerService(ApplicationDbContext context, ICandidateExaminationResultsService candidateExamResultsService, ICandidateExaminationService candidateExamService , ICertificateTopicQuestionService certificateTopicQuestionService , IQuestionService questionService, IQuestionPossibleAnswerService answerService, ICandidateExaminationAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService, IMarkerAssignedExamService markerAssignedExamService)
+        public CandidateExaminationManagerService(ApplicationDbContext context, ICandidateExaminationResultsService candidateExamResultsService, ICandidateExaminationService candidateExamService, ICertificateTopicQuestionService certificateTopicQuestionService, IQuestionService questionService, IQuestionPossibleAnswerService answerService, ICandidateExaminationAnswerService candidateAnswerService, IExaminationQuestionService examQuestionService, IExaminationService examService, ITopicQuestionService topicQuestionService, IMarkerAssignedExamService markerAssignedExamService)
         {
             _context = context;
             _questionService = questionService;
@@ -32,9 +32,9 @@ namespace WebApp.MainServices
             _examService = examService;
             _topicQuestionService = topicQuestionService;
             _certificateTopicQuestionService = certificateTopicQuestionService;
-            _candidateExamService= candidateExamService;
-            _candidateExamResultsService= candidateExamResultsService;
-            _markerAssignedExamService= markerAssignedExamService;
+            _candidateExamService = candidateExamService;
+            _candidateExamResultsService = candidateExamResultsService;
+            _markerAssignedExamService = markerAssignedExamService;
         }
 
         public IQuestionService QuestionService { get { return _questionService; } }
@@ -44,7 +44,7 @@ namespace WebApp.MainServices
         public IExaminationQuestionService ExamQuestionService { get { return _examQuestionService; } }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get { return _certificateTopicQuestionService; } }
         public ITopicQuestionService TopicQuestionService { get { return _topicQuestionService; } }
-        public ICandidateExaminationService CandidateExamService { get { return _candidateExamService;} }
+        public ICandidateExaminationService CandidateExamService { get { return _candidateExamService; } }
         public ICandidateExaminationResultsService CandidateExamResultsService { get { return _candidateExamResultsService; } }
         public IMarkerAssignedExamService MarkerAssignedExamService { get { return _markerAssignedExamService; } }
 
@@ -54,11 +54,11 @@ namespace WebApp.MainServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task ExaminationQuestionLoad(IEnumerable<ExaminationQuestion>  eq)
+        public async Task ExaminationQuestionLoad(IEnumerable<ExaminationQuestion> eq)
         {
             foreach (var item in eq)
             {
-            await _context.Entry(item).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(y=>y.Question).LoadAsync();
+                await _context.Entry(item).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(y => y.Question).LoadAsync();
 
 
             }
@@ -74,7 +74,7 @@ namespace WebApp.MainServices
 
         public async Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer)
         {
-            await _context.Entry(examAnswer).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(tq => tq.Question).ThenInclude(q=>q.QuestionPossibleAnswers).LoadAsync();
+            await _context.Entry(examAnswer).Reference(c => c.CertificateTopicQuestion).Query().Include(cert => cert.TopicQuestion).ThenInclude(tq => tq.Question).ThenInclude(q => q.QuestionPossibleAnswers).LoadAsync();
 
 
 
@@ -85,8 +85,9 @@ namespace WebApp.MainServices
             foreach (var item in ctqList)
             {
 
-            await _context.Entry(item).Reference(c => c.CertificateTopic).Query().Include(cert => cert.Certificate).LoadAsync();
-            await _context.Entry(item).Reference(c => c.TopicQuestion).Query().Include(cert => cert.Question).LoadAsync();
+                await _context.Entry(item).Reference(c => c.CertificateTopic).Query().Include(cert => cert.Certificate).LoadAsync();
+                await _context.Entry(item).Reference(c => c.TopicQuestion).Query().Include(cert => cert.Question).LoadAsync();
+                await _context.Entry(item).Collection(c => c.ExamCandidateAnswers).LoadAsync();
             }
         }
 
@@ -117,13 +118,14 @@ namespace WebApp.MainServices
             {
 
                 await _context.Entry(item).Reference(c => c.Candidate).LoadAsync();
-                await _context.Entry(item).Reference(c => c.Examination).Query().Include(c=>c.Certificate).LoadAsync();
+                await _context.Entry(item).Reference(c => c.Examination).Query().Include(c => c.Certificate).LoadAsync();
             }
         }
 
         public async Task CandidateExaminationLoad(CandidateExamination candidateExam)
         {
             await _context.Entry(candidateExam).Reference(c => c.Candidate).LoadAsync();
+            await _context.Entry(candidateExam).Collection(c => c.ExamCandidateAnswers).LoadAsync();
             await _context.Entry(candidateExam).Reference(c => c.CandidateExamResults).LoadAsync();
             await _context.Entry(candidateExam).Reference(c => c.Examination).Query().Include(c => c.Certificate).LoadAsync();
         }

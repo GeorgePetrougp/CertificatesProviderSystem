@@ -8,6 +8,7 @@ namespace WebApp.DTO_Models._Questions
         public string Display { get; set; }
         public int Points { get; set; }
         public string? Status { get; set; }
+        public int SelectedPossibleAnswerId;
         public IList<NewQuestionPossibleAnswerDTO>? QuestionPossibleAnswers { get; set; }
     }
 }
