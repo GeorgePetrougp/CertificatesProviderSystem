@@ -81,28 +81,13 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                //try
-                //{
                 await _service.UpdateCertificate(editedCertificate);
-                //}
 
-                //catch (DbUpdateConcurrencyException)
-                //{
-                //    if (!await CertificateExistsAsync(certificate.CertificateDTO.CertificateId))
-                //    {
-                //        return NotFound();
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}
                 return RedirectToAction("CertificatesIndex");
             }
             return RedirectToAction("EditCertificate", certificate.CertificateDTO.CertificateId);
         }
 
-        // GET: Certificates/Delete/5
         public async Task<IActionResult> DisableCertificate(int? id)
         {
             if (id == null || await _service.CertificateService.GetAllCertificatesAsync() == null)
@@ -116,8 +101,9 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            var certificateDTO = await _service.CreateCertificateDTO(id);
 
-            return View(certificate);
+            return View(certificateDTO);
         }
 
         // POST: Certificates/Delete/5

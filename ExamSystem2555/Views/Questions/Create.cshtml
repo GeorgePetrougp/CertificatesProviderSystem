@@ -1,4 +1,4 @@
-﻿@model WebApp.DTO_Models.CreateQuestionView
+﻿@model WebApp.DTO_Models.Questions.NewCreateQuestionView
 
 @{
     ViewData["Title"] = "Create";
@@ -18,40 +18,41 @@
         <form asp-action="Create">
 
             <div class="form-group">
-                <label asp-for="QDisplay" class="control-label fw-bold">Question Display</label>
-                <textarea asp-for="QDisplay" class="form-control" id="editor"></textarea>
-                <span asp-validation-for="QDisplay" class="text-danger"></span>
+                <label asp-for="@Model.Question.Display" class="control-label fw-bold">Question Display</label>
+                <textarea asp-for="@Model.Question.Display" class="form-control" id="editor"></textarea>
+                <span asp-validation-for="@Model.Question.Display" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Difficulty.SelectedId" class="control-label fw-bold">Difficulty</label>
-                <select asp-for="Difficulty.SelectedId" class="form-select" asp-items="@Model.Difficulty.Difficulties"><option disabled selected class="text-muted">Choose difficulty level</option></select>
-                <span asp-validation-for="Difficulty.SelectedId" class="text-danger"></span>
+                <label asp-for="SelectedDifficultyId" class="control-label fw-bold">Difficulty</label>
+                <select asp-for="SelectedDifficultyId" class="form-select" asp-items="@Model.DifficultiesList"><option disabled selected class="text-muted">Choose difficulty level</option></select>
+                <span asp-validation-for="SelectedDifficultyId" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
-                @for (int i = 0; i < 4; i++)
+                
+                @for (int i = 0; i < Model.Question.PossibleAnswers.Count; i++)
                 {
-                    <div class="form-group">
-                        <label asp-for="AnswerViews[i].IsCorrect" class="control-label fw-bold">Correct</label>
-                        <input asp-for="AnswerViews[i].IsCorrect" name="Correct" class="form-check-input" type="checkbox" onclick="handleCheckboxClick(this)" />
-                        <label asp-for="AnswerViews[i].Answer" class="control-label fw-bold">Answer @(i + 1)</label>
-                        <textarea asp-for="AnswerViews[i].Answer" class="form-control" id="ans@(i+1)"></textarea>
-                        <span asp-validation-for="AnswerViews[i].Answer" class="text-danger"></span><br />
-                    </div>
+                    <label asp-for="@Model.Question.PossibleAnswers[i].IsCorrect" class="control-label fw-bold">Correct</label>
+                    <input asp-for="@Model.Question.PossibleAnswers[i].IsCorrect" class="form-check-input" type="checkbox" onclick="handleCheckboxSelection(event)" />
+                    <label asp-for="@Model.Question.PossibleAnswers[i].PossibleAnswer" class="control-label fw-bold">Answer @(i+1) </label>
+                    <textarea asp-for="@Model.Question.PossibleAnswers[i].PossibleAnswer" class="form-control" id="ans@(i+1)"></textarea>
+                    <span asp-validation-for="@Model.Question.PossibleAnswers[i].PossibleAnswer" class="text-danger"></span>
+
+                    <br />
                 }
             </div>
 
             <div class="form-group">
                 <div class="form-group form-label mb-3 fw-bold" id="topicSelect">
-                    <label class="form-label mt-4" asp-for="TopicView.SelectedTopicIds">Please Select a Topic:</label>
-                    <select class="form-select w-25" asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
-                    <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
+                    <label class="form-label mt-4" asp-for="SelectedTopicIds">Please Select a Topic:</label>
+                    <select class="form-select w-25" asp-for="SelectedTopicIds" asp-items="Model.TopicsList"></select>
+                    <span asp-validation-for="SelectedTopicIds" class="text-danger"></span>
                 </div>
 
                 <div class="form-group form-label mt-4 fw-bold" id="certificatesForm" style="display: none;">
-                    <label asp-for="CertificatesView.SelectedCertificateIds">Please Select a Certificate:</label>
-                    <select asp-for="CertificatesView.SelectedCertificateIds" asp-items="Model.CertificatesView.CertificateList"></select>
-                    <span asp-validation-for="CertificatesView.SelectedCertificateIds" class="text-danger"></span>
+                    <label asp-for="SelectedCertificateIds">Please Select a Certificate:</label>
+                    <select asp-for="SelectedCertificateIds" asp-items="Model.CertificatesList"></select>
+                    <span asp-validation-for="SelectedCertificateIds" class="text-danger"></span>
                 </div>
                 <div class="form-check form-switch">
                     <label asp-for="HasTopic" class="form-check-label">No Topic</label>
@@ -59,12 +60,6 @@
                 </div>
             </div><br />
 
-            @*----Old dropdown for topics----
-            <div class="form-group">
-            <label asp-for="TopicView.SelectedTopicIds"></label>
-            <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
-            <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </div>
@@ -155,7 +150,7 @@
 }
 
 
-<script>
+@*<script>
     function handleCheckboxClick(clickedCheckbox) {
         var checkboxes = document.getElementsByName("Correct");
         for (var i = 0; i < checkboxes.length; i++) {
@@ -163,6 +158,16 @@
                 checkboxes[i].checked = false;
             }
         }
+    }
+</script>*@
+
+<script>
+    function handleCheckboxSelection(event) {
+        var checkboxes = document.getElementsByClassName("form-check-input");
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+        }
+        event.target.checked = true;
     }
 </script>
 
