@@ -7,5 +7,6 @@ namespace WebApp.DTO_Models._Questions
         public int QuestionPossibleAnswerId { get; set; }
         public string PossibleAnswer { get; set; }
         public bool IsCorrect { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

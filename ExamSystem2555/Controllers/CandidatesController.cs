@@ -61,7 +61,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> CreateCandidate()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Issuer;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var model = new CandidateDTO 
             { 

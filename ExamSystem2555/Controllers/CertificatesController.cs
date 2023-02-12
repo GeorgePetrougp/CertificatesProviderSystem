@@ -103,7 +103,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Certificates/Delete/5
-        public async Task<IActionResult> DeleteCertificate(int? id)
+        public async Task<IActionResult> DisableCertificate(int? id)
         {
             if (id == null || await _service.CertificateService.GetAllCertificatesAsync() == null)
             {
@@ -121,9 +121,9 @@ namespace WebApp.Controllers
         }
 
         // POST: Certificates/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DisableCertificate(int id)
         {
             if (await _service.CertificateService.GetAllCertificatesAsync() == null)
             {
@@ -133,11 +133,12 @@ namespace WebApp.Controllers
 
             if (certificate != null)
             {
-                await _service.CertificateService.DeleteCertificateAsync(id);
+                certificate.Status = "Unavailable";
+                await _service.CertificateService.UpdateCertificateAsync(certificate);
             }
 
             await _service.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("CertificatesIndex");
         }
 
         private async Task<bool> CertificateExistsAsync()

@@ -12,8 +12,8 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230210155059_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230212042305_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -303,6 +303,9 @@ namespace WebApp.Migrations
                     b.Property<int>("CorrectAnswer")
                         .HasColumnType("int");
 
+                    b.Property<int>("PointsAssignedAfterMarking")
+                        .HasColumnType("int");
+
                     b.Property<int>("PointsAssignedDuringExamination")
                         .HasColumnType("int");
 
@@ -331,6 +334,9 @@ namespace WebApp.Migrations
 
                     b.Property<int>("CandidateTotalScore")
                         .HasColumnType("int");
+
+                    b.Property<string>("HasBeenRemarked")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ResultIssueDate")
                         .HasColumnType("datetime2");
@@ -364,6 +370,9 @@ namespace WebApp.Migrations
 
                     b.Property<int>("PassMark")
                         .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -454,6 +463,9 @@ namespace WebApp.Migrations
                     b.Property<int>("CertificateId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ExaminationId");
 
                     b.HasIndex("CertificateId");
@@ -501,6 +513,9 @@ namespace WebApp.Migrations
 
                     b.Property<int?>("QuestionDifficultyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("QuestionId");
 

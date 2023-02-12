@@ -6,6 +6,9 @@ using WebApp.DTO_Models;
 using WebApp.DTO_Models.Certificates;
 using WebApp.MainServices.Interfaces;
 using WebApp.Services.Interfaces;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace WebApp.MainServices
 {
@@ -31,6 +34,7 @@ namespace WebApp.MainServices
 
         public async Task LoadLevel(Certificate certificate)
         {
+         
             await _context.Entry(certificate).Reference(c => c.Level).LoadAsync();
         }
 
@@ -46,8 +50,10 @@ namespace WebApp.MainServices
 
         public async Task<IEnumerable<CertificateDTO>> CreateCertificateDTOs()
         {
+
             var certificatesList = (await _certificateService.GetAllCertificatesAsync()).ToList();
 
+            //await Task.WhenAll(certificatesList.Select(c => LoadLevel(c)));
             //certificatesList.ForEach(async c => await LoadLevel(c));
             foreach (var cert in certificatesList)
             {
@@ -56,6 +62,7 @@ namespace WebApp.MainServices
             var certificateDTOsList = _mapper.Map<List<CertificateDTO>>(certificatesList);
 
             return certificateDTOsList;
+
         }
 
         public async Task<CertificateDTO> CreateCertificateDTO(int? id)
@@ -97,7 +104,7 @@ namespace WebApp.MainServices
 
         public async Task<Certificate> TBD(CreateCertificateView model)
         {
-            var newCertificate = await Task.Run(() =>_mapper.Map<Certificate>(model.CertificateDTO));
+            var newCertificate = await Task.Run(() => _mapper.Map<Certificate>(model.CertificateDTO));
             newCertificate.Level = await _levelService.GetLevelByIdAsync(model.SelectedLevelId);
 
             return newCertificate;

@@ -8,6 +8,7 @@ namespace WebApp.MainServices.Interfaces
         public ICandidateExaminationService CandidateExamService { get; }
         public IExaminationQuestionService ExaminationQuestionService { get; }
         public IExaminationService ExaminationService { get; }
+        public IQuestionService QuestionService { get; }
         public IQuestionPossibleAnswerService QuestionPossibleAnswerService { get; }
         public ICertificateTopicQuestionService CertificateTopicQuestionService { get; }
         public ICandidateExaminationAnswerService ExamCandidateAnswerService { get; }
@@ -19,6 +20,8 @@ namespace WebApp.MainServices.Interfaces
         Task CertificateTopicsLoad(IEnumerable<CertificateTopicQuestion> ctqList);
         Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer);
         Task CandidateResultsLoad(CandidateExamination c);
+        Task QuestionPossibleAnswersLoad(Question question);
+
         public Task SaveChangesAsync();
 
         //public IAnswers CandidateExamService { get; }

@@ -14,6 +14,8 @@ namespace WebApp.DTO_Models.Certificates
         [ValidateNever]
         public string FullTitle { get => $"{Title} - {Level.Title}";}
         public string Description { get; set; }
+        public double Price { get; set; }
+
         public string Status { get; set; }
         public int PassMark { get => 65; }
         [BindNever]

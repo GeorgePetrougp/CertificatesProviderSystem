@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyDatabase.Models;
 using Newtonsoft.Json;
+using WebApp.DTO_Models.CertificateExaminations;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices.Interfaces;
 using WebApp.Models;
@@ -13,12 +15,14 @@ namespace WebApp.Controllers
     public class CertificateExaminationController : Controller
     {
         private readonly ICertificateExaminationService _service;
+        private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CertificateExaminationController(ICertificateExaminationService service, UserManager<ApplicationUser> userManager)
+        public CertificateExaminationController(IMapper mapper,ICertificateExaminationService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
             _userManager = userManager;
+            _mapper = mapper;
         }
         public async Task<IActionResult> CertificateExaminationsIndex()
         {
@@ -246,11 +250,8 @@ namespace WebApp.Controllers
                 }
             }
 
-            var z = examination.ExamQuestions.Count;
 
             examination.ExamQuestions = examQuestions;
-
-            
 
             await _service.ExaminationService.UpdateExaminationAsync(examination);
             await _service.SaveChanges();
@@ -260,7 +261,45 @@ namespace WebApp.Controllers
 
         }
 
-        
+        public async Task<IActionResult> ConfirmDisableCertificateExamination(int? id)
+        {
+            if (id == null || await _service.ExaminationService.GetAllExaminationsAsync() == null)
+            {
+                return NotFound();
+            }
+
+            var certificateExamination = await _service.ExaminationService.GetExaminationByIdAsync(id);
+            await _service.LoadCertificates(certificateExamination);
+
+            if (certificateExamination == null)
+            {
+                return NotFound();
+            }
+
+            return View(_mapper.Map<CertificateExaminationDTO>(certificateExamination));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DisableCertificateExamination(int examinationId)
+        {
+            if (await _service.ExaminationService.GetAllExaminationsAsync() == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Certificates'  is null.");
+            }
+            var certificateExamination = await _service.ExaminationService.GetExaminationByIdAsync(examinationId);
+
+            if (certificateExamination != null)
+            {
+                certificateExamination.Status = "Unavailable";
+                await _service.ExaminationService.UpdateExaminationAsync(certificateExamination);
+            }
+
+            await _service.SaveChanges();
+            return RedirectToAction("CertificateExaminationsIndex");
+        }
+
+
 
 
     }

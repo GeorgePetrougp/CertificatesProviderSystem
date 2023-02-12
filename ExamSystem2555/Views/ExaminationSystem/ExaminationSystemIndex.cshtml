@@ -4,5 +4,5 @@
     <p>Examination Code: @Model.ExamCode</p>
     <p>Candidate: @Model.Candidate.LastName @Model.Candidate.FirstName</p>
     <p>Certificate: @Model.Examination.Certificate.Title</p>
-    <a asp-action="StartExamination" asp-route-candidateExamId="@Model.CandidateExaminationId">Start Exam</a>
+    <a asp-action="StartExamination" asp-route-candidateExamId="@Model.CandidateExaminationId" asp-route-examId="@Model.Examination.ExaminationId">Start Exam</a>
 </div>
