@@ -43,10 +43,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
+            @{
+                var x = " | ";
+            }
             <td>
                 @Html.ActionLink("Details", "CandidateDetails", new { id = item.CandidateId }) |
-                @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) |
-                @Html.ActionLink("View Addresses", "CandidateAddressesIndex", new { id = item.CandidateId }) |
+                @if(User.IsInRole("Administrator")){
+
+                @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) @x
+                @Html.ActionLink("View Addresses", "CandidateAddressesIndex", new { id = item.CandidateId }) 
+                }
                 
             </td>
         </tr>
