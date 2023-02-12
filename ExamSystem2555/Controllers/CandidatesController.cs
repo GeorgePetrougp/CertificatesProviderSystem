@@ -90,7 +90,20 @@ namespace WebApp.Controllers
                 await _service.CandidateService.AddCandidateAsync(newCandidate);
                 await _userManager.AddToRoleAsync(user, role.NormalizedName);
                 await _service.SaveChangesAsync();
-                return RedirectToAction("CandidatesIndex");
+
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userr = await _userManager.FindByIdAsync(userId);
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Contains("Administrator"))
+                {
+                    return RedirectToAction("CandidatesIndex");
+
+                }
+                else
+                {
+                    return RedirectToAction("Index", "GeneralHome");
+                }
             }
 
             return View(ModelState);
