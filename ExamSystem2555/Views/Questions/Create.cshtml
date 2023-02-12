@@ -48,9 +48,9 @@
                     <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
                 </div>
 
-                <div class="form-group form-label mt-4 fw-bold" id="certificatesForm" style="display: none;">
-                    <label asp-for="CertificatesView.SelectedCertificateIds">Please Select a Certificate:</label>
-                    <select asp-for="CertificatesView.SelectedCertificateIds" asp-items="Model.CertificatesView.CertificateList"></select>
+                <div class="form-group form-label mb-3 fw-bold" id="certificatesForm" style="display: none;">
+                    <label class="form-label mt-4" asp-for="CertificatesView.SelectedCertificateIds">Please Select a Certificate:</label>
+                    <select class="form-select w-25" asp-for="CertificatesView.SelectedCertificateIds" asp-items="Model.CertificatesView.CertificateList"></select>
                     <span asp-validation-for="CertificatesView.SelectedCertificateIds" class="text-danger"></span>
                 </div>
                 <div class="form-check form-switch">
@@ -59,12 +59,6 @@
                 </div>
             </div><br />
 
-            @*----Old dropdown for topics----
-            <div class="form-group">
-            <label asp-for="TopicView.SelectedTopicIds"></label>
-            <select asp-for="TopicView.SelectedTopicIds" asp-items="Model.TopicView.TopicsList"></select>
-            <span asp-validation-for="TopicView.SelectedTopicIds" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </div>

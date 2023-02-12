@@ -10,15 +10,16 @@
         <th>Certificate Title</th>
         <td>@Model.CertificateTitle</td>
     </tr>
-    <tr>
-        <th>Questions</th>
-            
+    
             @foreach (var question in Model.Questions)
             {
-            <td>@Html.Raw(question.QuestionDisplay)</td>
+            <tr>
+                <th>Question @question.QuestionId</th>
+                <td>@Html.Raw(question.QuestionDisplay)</td>
+            </tr>
             }
-        
-    </tr>
+            
+    
 </table>
 
     <div>

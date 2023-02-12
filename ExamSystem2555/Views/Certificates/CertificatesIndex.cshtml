@@ -8,9 +8,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-<head>
-    <link rel="stylesheet" href="~/css/QuestionDetails.css" asp-append-version="true" />
-</head>
+
 
 <h1>Certificate's List</h1>
 
@@ -58,7 +56,7 @@
             </td>
 
             <td>
-                <a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
+                    <a class="btn btn-outline-info" asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
                     @if (!User.IsInRole("Administrator"))
                     {
                         
@@ -70,8 +68,8 @@
                     @if(User.IsInRole("Administrator")){
 
                 
-                <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a> 
-                <a asp-action="DisableCertificate" asp-route-id="@item.CertificateId">Disable</a>
+                        <a class="btn btn-outline-success" asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a>
+                        <a class="btn btn-outline-danger" asp-action="DisableCertificate" asp-route-id="@item.CertificateId">Disable</a>
                     }
 
             </td>
