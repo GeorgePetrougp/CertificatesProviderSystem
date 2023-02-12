@@ -8,7 +8,6 @@
 
 <h3>Are you sure you want to disable this Examination ?</h3>
 <div>
-    <h4>Certificate</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -33,7 +32,7 @@
 
     <form method="post" asp-action="DisableCertificateExamination">
         <input type="hidden" asp-for="ExaminationId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Disable" class="btn btn-danger" /> |
+        <a asp-action="CertificateExaminationsIndex">Back to List</a>
     </form>
 </div>

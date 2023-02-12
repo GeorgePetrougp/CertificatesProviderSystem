@@ -37,19 +37,19 @@
                                 <a class="nav-link text-dark" asp-area="" asp-action="CertificatesIndex" asp-controller="Certificates">Certifications</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="Questions">Questions C.R.U.D</a>
+                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="Questions">Questions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examination</a>
+                                <a class="nav-link text-dark" asp-area="" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examinations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> Candidate Exams</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage User Roles</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> CandidateExams</a>
+                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage Users</a>
                             </li>
                         }
                         else if (User.IsInRole("Marker"))

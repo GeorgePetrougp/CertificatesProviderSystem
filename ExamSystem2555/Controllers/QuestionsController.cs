@@ -25,7 +25,7 @@ namespace WebApp.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = "QualityController,Administrator")]
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> Index()
         {
             var questions = (await _service.QuestionService.GetAllQuestionsAsync()).Where(q => q.Status != "Unavailable");
@@ -33,7 +33,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Questions/Details
-        [Authorize(Roles = "QualityController,Administrator")]
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _service.QuestionService == null)
@@ -120,7 +120,6 @@ namespace WebApp.Controllers
                 //newQuestion.QuestionDifficulty = _mapper.Map<QuestionDifficulty>(question.Difficulty);
                 newQuestion.QuestionDifficulty = qd;
                 newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
-
                 var topicIds = question.TopicView.SelectedTopicIds;
                 var certificatesId = question.CertificatesView.SelectedCertificateIds;
 
