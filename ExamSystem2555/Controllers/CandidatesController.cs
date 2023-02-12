@@ -94,7 +94,7 @@ namespace WebApp.Controllers
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var userr = await _userManager.FindByIdAsync(userId);
-                var userRoles = await _userManager.GetRolesAsync(user);
+                var userRoles = await _userManager.GetRolesAsync(userr);
                 if (userRoles.Contains("Administrator"))
                 {
                     return RedirectToAction("CandidatesIndex");
