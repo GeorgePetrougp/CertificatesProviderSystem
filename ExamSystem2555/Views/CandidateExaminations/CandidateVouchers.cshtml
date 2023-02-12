@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO>
 
 <h4>Examination will be available 10 minutes before the scheduled Examination Date</h4>
-<table class="table">
-    <thead>
+<table class="table table-hover table-light">
+    <thead class="table-primary">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ExamCode)
@@ -45,7 +45,7 @@
                     @if (DateTime.Now >= item.ExamDate)
                     {
 
-                        <a asp-action="examinationsystemindex" asp-controller="examinationsystem" asp-route-candidateExamId="@item.CandidateExaminationId">start examination</a>
+                        <a class="btn btn-success"  asp-action="examinationsystemindex" asp-controller="examinationsystem" asp-route-candidateExamId="@item.CandidateExaminationId">start examination</a>
                     }
                     @*<button class="btn btn-primary" id="goToExam-@item.CandidateExaminationId" asp-controller="ExaminationSystem" asp-action="ExaminationSystemIndex" asp-route-candidateExamId="@item.CandidateExaminationId">Start Examination</button>*@
 
