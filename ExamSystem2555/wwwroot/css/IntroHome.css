@@ -1,0 +1,52 @@
+﻿.title {
+    width: 100%;
+    text-align:center;
+}
+
+    .title h1 {
+        font-size: 70px;
+        margin-top: 80px;
+    }
+
+    .title p {
+        margin: 20px auto;
+        font-weight: 500;
+        line-height: 25px;
+    }
+
+.btnA {
+    width: 200px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 1px solid ;
+    background: transparent;
+    cursor: pointer;
+    position:relative;
+    overflow:hidden;
+    text-decoration:none;
+
+}
+
+span{
+    background: #00baff;
+    height:100%;
+    width:0;
+    border-radius:25px;
+    position:absolute;
+    left:0;
+    bottom:0;
+    z-index:-1;
+    transition:0.5s;
+
+}
+
+.btnA:hover span{
+    width:100%;
+
+}
+.btnA:hover{
+    border: none;
+}
