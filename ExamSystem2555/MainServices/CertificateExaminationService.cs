@@ -16,7 +16,6 @@ namespace WebApp.MainServices
         private readonly ITopicQuestionService _topicQuestionService;
         private readonly ICertificateTopicService _certificateTopicService;
         private readonly IMarkerAssignedExamService _markerAssignedExamService;
-
         private readonly IQuestionService _questionService;
 
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class maybe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -282,6 +282,7 @@ namespace WebApp.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PassMark = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
                     LevelCertificateLevelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -303,6 +304,7 @@ namespace WebApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Display = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Points = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuestionDifficultyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -346,6 +348,7 @@ namespace WebApp.Migrations
                 {
                     ExaminationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CertificateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -464,6 +467,7 @@ namespace WebApp.Migrations
                     ResultIssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ResultLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CandidateTotalScore = table.Column<int>(type: "int", nullable: false),
+                    HasBeenRemarked = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CandidateExaminationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -512,6 +516,7 @@ namespace WebApp.Migrations
                     SelectedAnswer = table.Column<int>(type: "int", nullable: false),
                     CorrectAnswer = table.Column<int>(type: "int", nullable: false),
                     PointsAssignedDuringExamination = table.Column<int>(type: "int", nullable: false),
+                    PointsAssignedAfterMarking = table.Column<int>(type: "int", nullable: false),
                     CandidateExaminationId = table.Column<int>(type: "int", nullable: true),
                     CertificateTopicQuestionId = table.Column<int>(type: "int", nullable: true)
                 },

@@ -8,6 +8,7 @@ using MyDatabase.Models;
 using NuGet.Packaging;
 using System.Runtime.InteropServices;
 using WebApp.DTO_Models;
+using WebApp.DTO_Models.Questions;
 using WebApp.MainServices.Interfaces;
 
 namespace WebApp.Controllers
@@ -27,7 +28,8 @@ namespace WebApp.Controllers
         [Authorize(Roles = "QualityController,Administrator")]
         public async Task<IActionResult> Index()
         {
-            return View(await _service.QuestionService.GetAllQuestionsAsync());
+            var questions = (await _service.QuestionService.GetAllQuestionsAsync()).Where(q => q.Status != "Unavailable");
+            return View(questions);
         }
 
         // GET: Questions/Details
@@ -289,20 +291,39 @@ namespace WebApp.Controllers
 
         }
 
+        public async Task<IActionResult> ConfirmChangeQuestionStatus(int? id)
+        {
+            if (id == null || await _service.QuestionService.GetAllQuestionsAsync() == null)
+            {
+                return NotFound();
+            }
+
+            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+
+            if (question == null)
+            {
+                return NotFound();
+            }
+
+            return View(_mapper.Map<QuestionDTO>(question));
+        }
+
         // POST: Questions/Delete
         [Authorize(Roles = "Administrator")]
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> ChangeQuestionStatus(int QuestionId)
         {
+            
             if (_service.QuestionService == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Questions'  is null.");
             }
-            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+            var question = await _service.QuestionService.GetQuestionByIdAsync(QuestionId);
             if (question != null)
             {
-                await _service.QuestionService.DeleteQuestionAsync(id);
+                question.Status = "Unavailable";
+                await _service.QuestionService.UpdateQuestionAsync(question);
             }
 
             await _service.SaveChanges();
@@ -572,22 +593,22 @@ namespace WebApp.Controllers
         }
 
         // GET: Questions/Delete/5
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _service.QuestionService == null)
-            {
-                return NotFound();
-            }
+        //[Authorize(Roles = "Administrator")]
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null || _service.QuestionService == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
-            if (question == null)
-            {
-                return NotFound();
-            }
+        //    var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+        //    if (question == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(question);
-        }
+        //    return View(question);
+        //}
 
 
 

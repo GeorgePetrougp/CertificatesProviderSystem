@@ -56,13 +56,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PassMark)
             </td>
-            <td>                   
-               @if(User.IsInRole("Administrator"))
-               {               
-                <a class="btn btn-outline-info" asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
-                <a class="btn btn-outline-warning" asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a>
-                <a class="btn btn-outline-danger" asp-action="DeleteCertificate" asp-route-id="@item.CertificateId">Delete</a>
-               }
+
+            <td>
+                <a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
+                    @if (!User.IsInRole("Administrator"))
+                    {
+                        
+                        <a asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId">Buy</a>
+                    }
+                    
+                        
+                    
+                    @if(User.IsInRole("Administrator")){
+
+                
+                <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a> 
+                <a asp-action="DisableCertificate" asp-route-id="@item.CertificateId">Disable</a>
+                    }
+
             </td>
         </tr>
 }
