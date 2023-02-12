@@ -45,7 +45,8 @@ namespace WebApp.Controllers
         public IActionResult Roles(string id) 
         {
 
-            var roles =  _roleManager.Roles;
+            var roles =  _roleManager.Roles.Where(r=>r.NormalizedName!="Candidate");
+            
             var model = new UserRolesView
             {
                 UserId= id,

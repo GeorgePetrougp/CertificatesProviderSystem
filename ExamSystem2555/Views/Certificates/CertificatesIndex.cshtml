@@ -59,7 +59,7 @@
 
             <td>
                 <a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
-                    @if (!User.IsInRole("Administrator"))
+                    @if (!User.IsInRole("Administrator") && !User.IsInRole("Quality Controller"))
                     {
                         
                         <a asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId">Buy</a>

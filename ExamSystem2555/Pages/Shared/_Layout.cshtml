@@ -31,7 +31,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage Users</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Quality Controller"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-action="CertificatesIndex" asp-controller="Certificates">Certifications</a>
@@ -43,13 +54,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examinations</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsIndex" asp-controller="CandidateExaminations"> Candidate Exams</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage Users</a>
+                                <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator"> Candidate Exams</a>
                             </li>
                         }
                         else if (User.IsInRole("Marker"))
