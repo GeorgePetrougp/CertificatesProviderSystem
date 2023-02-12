@@ -9,7 +9,7 @@ namespace MyDatabase.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
-        public int PassMark { get { return 65; } private set { } }
+        public int PassMark { get; set; }
         public double Price { get; set; }
         public virtual CertificateLevel Level { get; set; }
         public virtual ICollection<CertificateTopic> CertificateTopics { get; set;}
