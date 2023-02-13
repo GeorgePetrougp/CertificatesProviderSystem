@@ -3,9 +3,9 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "CreateCandidate")
+    @Html.ActionLink("New Candidate", "RegisterUserAsCandidate","Administrator")
 </p>
-<table class="table">
+<table>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -43,18 +43,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
+            @{
+                var x = " | ";
+            }
             <td>
                 @Html.ActionLink("Details", "CandidateDetails", new { id = item.CandidateId }) |
-                @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) |
-                @Html.ActionLink("View Addresses", "CandidateAddressesIndex", new { id = item.CandidateId }) |
-                @Html.ActionLink("Delete", "DeleteCandidate", new { id = item.CandidateId })
+                @if(User.IsInRole("Administrator")){
+
+                @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) @x
+                @Html.ActionLink("View Addresses", "CandidateAddressesIndex", new { id = item.CandidateId }) 
+                }
+                
             </td>
         </tr>
     }
 
 </table>
 <div>
-    <div>
-        @Html.ActionLink("Administrator Menu", "Index", "Administrator")
-    </div>
+    
 </div>

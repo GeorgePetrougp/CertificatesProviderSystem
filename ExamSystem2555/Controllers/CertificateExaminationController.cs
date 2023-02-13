@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyDatabase.Models;
 using Newtonsoft.Json;
+using System.Data;
 using WebApp.DTO_Models.CertificateExaminations;
 using WebApp.DTO_Models.Final;
 using WebApp.MainServices.Interfaces;
@@ -24,6 +26,7 @@ namespace WebApp.Controllers
             _userManager = userManager;
             _mapper = mapper;
         }
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> CertificateExaminationsIndex()
         {
             var exams = (await _service.ExaminationService.GetAllExaminationsAsync()).ToList();
@@ -44,6 +47,7 @@ namespace WebApp.Controllers
             return View(examsDTOList);
         }
 
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> CertificateExaminationDetails(int id)
         {
             var examination = await _service.ExaminationService.GetExaminationByIdAsync(id);

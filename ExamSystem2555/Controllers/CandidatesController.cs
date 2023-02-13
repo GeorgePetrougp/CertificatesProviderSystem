@@ -1,10 +1,13 @@
-﻿        using AutoMapper;
+
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyDatabase.Models;
+using System.Data;
 using System.Security.Claims;
 using System.Text;
 using WebApp.DTO_Models;
@@ -29,6 +32,7 @@ namespace WebApp.Controllers
             _roleManager = roleManager;
         }
         // GET: CandidatesController
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> CandidatesIndex()
         {
             var candidates = await _service.CandidateService.GetAllCandidatesAsync();
@@ -36,6 +40,7 @@ namespace WebApp.Controllers
         }
 
         // GET: CandidatesController/Details/5
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> CandidateDetails(int id)
         {
             var candidate = await _service.CandidateService.GetCandidateByIdAsync(id);
@@ -90,7 +95,20 @@ namespace WebApp.Controllers
                 await _service.CandidateService.AddCandidateAsync(newCandidate);
                 await _userManager.AddToRoleAsync(user, role.NormalizedName);
                 await _service.SaveChangesAsync();
-                return RedirectToAction("CandidatesIndex");
+
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userr = await _userManager.FindByIdAsync(userId);
+                var userRoles = await _userManager.GetRolesAsync(userr);
+                if (userRoles.Contains("Administrator"))
+                {
+                    return RedirectToAction("CandidatesIndex");
+
+                }
+                else
+                {
+                    return RedirectToAction("Index", "GeneralHome");
+                }
             }
 
             return View(ModelState);

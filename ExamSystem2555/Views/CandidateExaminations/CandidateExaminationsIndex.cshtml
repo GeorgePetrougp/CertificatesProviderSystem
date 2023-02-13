@@ -3,8 +3,10 @@
 
 @model IEnumerable<WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO>
 
-<table class="table">
-    <thead>
+    <h1> Completed Examinations</h1>
+
+<table class="table table-hover table-light">
+    <thead class="table-primary">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ExamCode)
@@ -62,19 +64,7 @@
                     @Html.DisplayFor(modelItem => item.CandidateExamResults.ResultLabel)
                 </td>
                 <td>
-                    @*<a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>*@
-
-                    @*<a asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId">Buy</a>*@
-
-
-                   @* @if (User.IsInRole("Administrator"))
-                    {
-
-
-                        <a asp-action="EditCertificate" asp-route-id="@item.CertificateId">Edit</a>
-                        <a asp-action="DeleteCertificate" asp-route-id="@item.CertificateId">Delete</a>
-                    }*@
-                    <a asp-action="ExaminationSystemIndex" asp-route-candidateExamId="@item.CandidateExaminationId">Delete</a>
+                    
                     
 
                 </td>

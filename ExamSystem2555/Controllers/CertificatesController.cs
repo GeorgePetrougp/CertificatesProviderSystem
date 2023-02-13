@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using WebApp.DTO_Models.Certificates;
 using WebApp.MainServices.Interfaces;
 
@@ -15,13 +17,14 @@ namespace WebApp.Controllers
             _service = service;
             _mapper = mapper;
         }
-
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> CertificatesIndex()
         {
             var certificates = await _service.CreateCertificateDTOs();
             return View(certificates);
         }
 
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<IActionResult> CertificateDetails(int? id)
         {
 
@@ -35,6 +38,7 @@ namespace WebApp.Controllers
             return View(certificate);
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateCertificate()
         {
             var createCertificateView = await _service.CreateCertificateView();
@@ -57,6 +61,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Certificates/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditCertificate(int? id)
         {
             if (await _service.NullValidation(id))
@@ -88,6 +93,9 @@ namespace WebApp.Controllers
             return RedirectToAction("EditCertificate", certificate.CertificateDTO.CertificateId);
         }
 
+
+        // GET: Certificates/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DisableCertificate(int? id)
         {
             if (id == null || await _service.CertificateService.GetAllCertificatesAsync() == null)

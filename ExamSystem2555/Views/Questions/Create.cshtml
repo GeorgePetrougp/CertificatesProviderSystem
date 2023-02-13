@@ -48,11 +48,11 @@
                     <select class="form-select w-25" asp-for="SelectedTopicIds" asp-items="Model.TopicsList"></select>
                     <span asp-validation-for="SelectedTopicIds" class="text-danger"></span>
                 </div>
-
                 <div class="form-group form-label mt-4 fw-bold" id="certificatesForm" style="display: none;">
                     <label asp-for="SelectedCertificateIds">Please Select a Certificate:</label>
                     <select asp-for="SelectedCertificateIds" asp-items="Model.CertificatesList"></select>
                     <span asp-validation-for="SelectedCertificateIds" class="text-danger"></span>
+
                 </div>
                 <div class="form-check form-switch">
                     <label asp-for="HasTopic" class="form-check-label">No Topic</label>
@@ -148,18 +148,6 @@
             });
     </script>
 }
-
-
-@*<script>
-    function handleCheckboxClick(clickedCheckbox) {
-        var checkboxes = document.getElementsByName("Correct");
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i] !== clickedCheckbox) {
-                checkboxes[i].checked = false;
-            }
-        }
-    }
-</script>*@
 
 <script>
     function handleCheckboxSelection(event) {

@@ -3,22 +3,23 @@
 <head>
     <link rel="stylesheet" href="~/css/QuestionDetails.css" asp-append-version="true" />
 </head>
-<div class="left"><h2>Exam Id: @Model.ExaminationId</h2></div>
+<div class="left"><h2>Examination Id: @Model.ExaminationId</h2></div>
 
 <table class="table table-hover table-light">
     <tr>
         <th>Certificate Title</th>
         <td>@Model.CertificateTitle</td>
     </tr>
-    <tr>
-        <th>Questions</th>
-            <td>
+    
             @foreach (var question in Model.Questions)
             {
-            <td>@Html.Raw(question.QuestionDisplay)</td>
+            <tr>
+                <th>Question @question.QuestionId</th>
+                <td>@Html.Raw(question.QuestionDisplay)</td>
+            </tr>
             }
-        <td>
-    </tr>
+            
+    
 </table>
 
     <div>

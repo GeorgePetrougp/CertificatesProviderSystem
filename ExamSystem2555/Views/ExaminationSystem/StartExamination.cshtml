@@ -1,6 +1,6 @@
 ﻿@model WebApp.DTO_Models.Final.ExaminationQuestionView
 
-<body>
+<body style="margin: 0; padding: 0;">
 
     <h1 style="margin:0 auto;width:50%">ExamSystem</h1>
 
@@ -11,7 +11,7 @@
 
         <input type="hidden" name="myModel" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
 
-        <div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start;" style="margin: 0; padding: 0;">
             @for (int i = 0; i < Model.Questions.Count; i++)
             {
                 <button type="submit" value="@i" name="questionIndex">Question@(i + 1)</button>
