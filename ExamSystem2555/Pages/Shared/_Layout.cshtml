@@ -39,6 +39,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
 
+                        <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage Users</a>
+                            </li>
+
                         @if (User.IsInRole("Administrator"))
                         {
                             

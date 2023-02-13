@@ -134,7 +134,7 @@ namespace WebApp.Controllers
 
             return View("StartExamination", newModel);
 
-        }
+        }   
         public async Task<ActionResult> GetResults(int candidateExamId)
         {
             var candidateExaminationAnswers = await _service.ExamCandidateAnswerService.GetAllExamCandidateAnswersAsync();

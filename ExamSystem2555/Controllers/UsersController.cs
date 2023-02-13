@@ -78,10 +78,10 @@ namespace WebApp.Controllers
             var exams = (await _service.ExaminationService.GetAllExaminationsAsync()).ToList();
             var certificate = await _service.CertificateService.GetCertificateByIdAsync(CertificateId);
             var myExamInts = exams.Where(c => c.Certificate == certificate).Select(e => e.ExaminationId).ToList();
-
-            Random random = new Random();
-            int randomIndex = random.Next(myExamInts[0], myExamInts.Count - 1);
-            var myExam = await _service.ExaminationService.GetExaminationByIdAsync(randomIndex);
+            var exam=myExamInts.FirstOrDefault();
+            //Random random = new Random();
+            //int randomIndex = random.Next(myExamInts[0], myExamInts.Count - 1);
+            var myExam = await _service.ExaminationService.GetExaminationByIdAsync(exam);
 
             var candidate = await _service.CandidateService.GetCandidateByIdAsync(model.CandidateId);
 
