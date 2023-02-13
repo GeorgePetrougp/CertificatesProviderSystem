@@ -1,29 +1,33 @@
 ﻿@model IEnumerable<MyDatabase.Models.Candidate>
 
-<h2>Index</h2>
+<h1>Index</h1>
 
-<p>
+<div class="button-link">
     @Html.ActionLink("New Candidate", "RegisterUserAsCandidate","Administrator")
-</p>
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CountryOfResidence)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th></th>
+</div>
+<table class="table table-hover table-light">
+    <thead class="table-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryOfResidence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Actions
+            </th>
     </tr>
+    </thead>
 
     @foreach (var item in Model)
     {
@@ -48,6 +52,7 @@
             }
             <td>
                 @Html.ActionLink("Details", "CandidateDetails", new { id = item.CandidateId }) |
+
                 @if(User.IsInRole("Administrator")){
 
                 @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) @x

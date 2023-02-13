@@ -4,12 +4,9 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
-
-<h3>Are you done remarking this Examination?</h3>
+<h3 class="mt-4">Are you done remarking this Examination?</h3>
 <div>
-    <h4>Examination</h4>
-    <hr />
+    <hr/>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ExamCode)
@@ -21,7 +18,7 @@
 
     <form method="post" asp-action="CompleteCandidateExaminationRemarking">
         <input type="hidden" asp-for="CandidateExaminationId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Complete Marking" class="btn btn-success" /> |
+        <a asp-action="GetExamQuestions" asp-controller="Marking" asp-route-id="@Model.CandidateExaminationId">Back to List</a>
     </form>
 </div>

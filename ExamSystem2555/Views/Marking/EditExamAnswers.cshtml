@@ -9,12 +9,11 @@
 
 <form method="post" asp-action="EditExamAnswers">
 
-    <input type="hidden" name="id" asp-for="@Model.CandidateAnswerId" />
-    <input type="hidden" name="candidateExamId" asp-for="@Model.CandidateExaminationId" />
+    <input type="hidden" name="id" asp-for="@Model.CandidateAnswerId"/>
+    <input type="hidden" name="candidateExamId" asp-for="@Model.CandidateExaminationId"/>
 
-
-    <input type="text" asp-for="@Model.pointsAssigned" readonly />
-    <input name="pointAwardedAfterMarking" asp-for="@Model.pointsAssignedbyMarker" value="@Model.pointsAssigned" />
+    <label class="form-label mt-4">Points Awarded</label>
+    <input type="text" asp-for="@Model.pointsAssigned" readonly/><br/>
 
     <div class="form-group">
         <label asp-for="SelectedAnswer" class="control-label">Candidate Selected Answer</label>
@@ -33,8 +32,10 @@
         }
         <span asp-validation-for="@Model.SelectedAnswer" class="text-danger"></span>
     </div>
+    <label name="pointAwardedAfterMarking" class="form-label mt-4">Marker Re-Score</label>
+    <input class="form-select w-25" name="pointAwardedAfterMarking" asp-for="@Model.pointsAssignedbyMarker" value="@Model.pointsAssigned" />
 
-    <button type="submit" name="action" value="Next">Next</button>
+    <button type="submit" class="btn btn-success mt-3" name="action" value="Next">Save</button>
 </form>
 
 
