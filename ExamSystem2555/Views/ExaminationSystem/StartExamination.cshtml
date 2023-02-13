@@ -1,34 +1,65 @@
 ﻿@model WebApp.DTO_Models.Final.ExaminationQuestionView
 
-<body style="margin: 0; padding: 0;">
+<body>
 
-    <h1 style="margin:0 auto;width:50%">ExamSystem</h1>
+@*	<h1 style="margin:0 auto;width:50%">ExamSystem</h1>
+*@
 
+	<h2 class="center mt-4">@Html.Raw(Model.Questions[Model.CurrentIndex].Display)</h2>
 
-    <h2>@Html.Raw(Model.Questions[Model.CurrentIndex].Display)</h2>
+	<form method="post" asp-action="Examination">
 
-    <form method="post" asp-action="Examination">
+		<input type="hidden" name="myModel" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
 
-        <input type="hidden" name="myModel" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model)" />
+		<div class="row">
+				<div class="col-2">
+					@for (int i = 0; i < Model.Questions.Count; i++)
+					{
+						<div class="mb-3">
+						<button class="btn btn-dark" value="@i" name="questionIndex">Question@(i + 1)</button>
+						</div>
+					}
+				</div>
+			<div class="col-10">
+				<div class="row">
+					<div class="col-6">
+						<div class="form-group mt-5">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" required name="SelectedAnswerId" value="@Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[0].QuestionPossibleAnswerId" @(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[0].IsSelected ? "checked" : "" ) />
+								<label class="form-check-label">@Html.Raw(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[0].PossibleAnswer)</label>
+							</div>
+						</div>
+						<div class="form-group mt-5">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" required name="SelectedAnswerId" value="@Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[1].QuestionPossibleAnswerId" @(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[1].IsSelected ? "checked" : "" ) />
+								<label class="form-check-label">@Html.Raw(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[1].PossibleAnswer)</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="form-group mt-5">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" required name="SelectedAnswerId" value="@Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[2].QuestionPossibleAnswerId" @(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[2].IsSelected ? "checked" : "" ) />
+								<label class="form-check-label">@Html.Raw(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[2].PossibleAnswer)</label>
+							</div>
+						</div>
+						<div class="form-group mt-5">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" required name="SelectedAnswerId" value="@Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[3].QuestionPossibleAnswerId" @(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[3].IsSelected ? "checked" : "" ) />
+								<label class="form-check-label">@Html.Raw(Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers[3].PossibleAnswer)</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-        <div style="display: flex; flex-direction: column; align-items: flex-start;" style="margin: 0; padding: 0;">
-            @for (int i = 0; i < Model.Questions.Count; i++)
-            {
-                <button type="submit" value="@i" name="questionIndex">Question@(i + 1)</button>
-            }
-        </div>
+		</div>
+		<div class="center mt-5">
+			<button class="btn-lg btn-success mt-4" style="center" name="action" value="SubmitExamination">Submit Examination</button>
+		</div>
 
-        <div class="form-group">
-            @foreach (var answer in Model.Questions[Model.CurrentIndex].QuestionPossibleAnswers)
-            {
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" required name="SelectedAnswerId" value="@answer.QuestionPossibleAnswerId" @(answer.IsSelected ? "checked" : "" ) />
-                    <label class="form-check-label">@Html.Raw(answer.PossibleAnswer)</label>
-                </div>
-            }
-        </div>
-        <button type="submit" name="action" value="SubmitExamination">Submit Examination</button>
-    </form>
+	</form>
+
 </body>
 
 
