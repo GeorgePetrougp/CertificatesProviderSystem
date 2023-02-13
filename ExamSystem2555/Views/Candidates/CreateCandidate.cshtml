@@ -1,9 +1,14 @@
 ﻿@model WebApp.DTO_Models.Candidates.CandidateDTO
 
-<form asp-action="SaveCandidate">
+<form asp-action="SaveCandidate" class="col-md-4">
     <input type="hidden" asp-for="UserCandidateId" />
     <div class="form-group">
-        <label asp-for="FirstName" class="control-label fw-bold"></label>
+        <label asp-for="FirstName" class="control-label fw-bold">
+            @if (ViewData.ModelState.TryGetValue("FirstName", out var state) && state.Errors.Any(e => e.ErrorMessage == "The FirstName field is required."))
+            {
+                <span class="text-danger">*</span>
+            }
+        </label>
         <input asp-for="FirstName" class="form-control" id="editor">
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
