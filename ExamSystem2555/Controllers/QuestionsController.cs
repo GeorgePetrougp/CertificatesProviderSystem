@@ -594,6 +594,14 @@ namespace WebApp.Controllers
                 {
                     myNewTopicQuestion = topicQuestion;
                 }
+                else
+                {
+                    myNewTopicQuestion = new TopicQuestion
+                    {
+                        Topic = null,
+                        Question = topicQuestion.Question,
+                    };
+                }
             }
 
             if(myNewTopicQuestion.Topic != null) 

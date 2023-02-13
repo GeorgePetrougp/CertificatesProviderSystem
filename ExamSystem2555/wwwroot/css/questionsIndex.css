@@ -1,0 +1,18 @@
+﻿
+table {
+    border-collapse: collapse;
+}
+
+img {
+    max-width: 150px;
+}
+
+
+table.questions-index tbody p {
+    display: flex;
+    flex-direction: column-reverse;
+}
+td {
+    text-align: center;
+    vertical-align: middle;
+}

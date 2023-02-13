@@ -20,10 +20,8 @@
             <p>@Html.DisplayFor(modelItem => item.Status)</p>
             <p>@Html.DisplayFor(modelItem => item.PassMark)</p>
 
-            <a asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId" style="padding-left:19px;background-color:white;  text-decoration:none;border-radius:25px; border:solid 2px; color:black;">
-                Buy
-                <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
-            </a>
+            <a type="button" class="btn btn-outline-dark" asp-action="CandidateRegistration" asp-controller="Users" asp-route-id="@item.CertificateId" style=" ">Buy</a>
         </div>
     }
 </div>
+

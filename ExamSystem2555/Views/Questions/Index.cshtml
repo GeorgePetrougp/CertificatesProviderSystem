@@ -4,9 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/questionsIndex.css" asp-append-version="true" />
+</head>
 
-
-<h1>Question's List</h1>
+<h1>Questions List</h1>
 @if (User.IsInRole("Administrator"))
 {
 <p>

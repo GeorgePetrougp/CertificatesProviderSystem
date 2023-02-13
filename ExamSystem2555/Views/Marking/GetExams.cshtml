@@ -4,13 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Examinations Pending Marking</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+
+<table class="table table-hover table-light">
+    <thead class="table-primary">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ExamCode)
@@ -18,7 +16,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ExamDate)
             </th>
-            <th></th>
+            <th>
+                Action
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +31,7 @@
                 @Html.DisplayFor(modelItem => item.ExamDate)
             </td>
             <td>
-                <a asp-action="GetExamQuestions" asp-route-id="@item.CandidateExaminationId">Marking</a> 
+                <a type="button" class="btn btn-outline-success" asp-action="GetExamQuestions" asp-route-id="@item.CandidateExaminationId">Mark Exam</a> 
             </td>
         </tr>
 }

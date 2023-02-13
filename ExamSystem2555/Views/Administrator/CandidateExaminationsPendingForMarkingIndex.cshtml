@@ -2,9 +2,13 @@
 @inject SignInManager<ApplicationUser> signInManager;
 @model IEnumerable<WebApp.DTO_Models.CandidateExaminations.CandidateExaminationsDTO>
 
+    
+<h1 class="mt-2">
+    Unassigned Examinations
+</h1>
 
-<table class="table">
-    <thead>
+<table class="table table-hover table-light mt-5">
+    <thead class="table-primary">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ExamCode)
@@ -34,7 +38,9 @@
                 @Html.DisplayNameFor(model => model.CandidateExamResults.HasBeenRemarked)
             </th>
 
-            <th></th>
+            <th>
+                Assign
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -71,7 +77,7 @@
                 <td>
                     @if (item.CandidateExamResults.HasBeenRemarked == "IS NOT REMARKED" && (User.IsInRole("Administrator")))
                     {
-                        <a asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExaminationId">Assign Exam To Marker</a>
+                        <a type="button" class="btn btn-outline-success" asp-action="AssignExaminationForMarking" asp-route-id="@item.CandidateExaminationId">Assign Marker</a>
                     }
 
                 </td>

@@ -8,11 +8,11 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="QuestionId" />
     <div class="form-group form-label mt-4" id="topicSelect">
-        <label asp-for="SelectedCertificateIds"></label>
-        <select asp-for="SelectedCertificateIds" asp-items="Model.CertificatesList"></select>
+        <label class="form-label mt-4" asp-for="SelectedCertificateIds"></label>
+        <select class="form-select w-25" asp-for="SelectedCertificateIds" asp-items="Model.CertificatesList"></select>
         <span asp-validation-for="SelectedCertificateIds" class="text-danger"></span>
 
-        <div class="form-group">
+        <div class="form-group mt-3">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </div>

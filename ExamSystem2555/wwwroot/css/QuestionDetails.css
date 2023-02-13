@@ -23,3 +23,7 @@ table.questions-index tbody p {
     display: flex;
     flex-direction: column-reverse;
 }
+th {
+    text-align: center;
+    vertical-align: middle;
+}

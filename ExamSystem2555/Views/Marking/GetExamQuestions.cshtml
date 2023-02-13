@@ -4,6 +4,10 @@
     ViewData["candidateExamId"] = Model.FirstOrDefault().CandidateExam.CandidateExaminationId;
 }
 
+<h1>
+    Mark Examination
+</h1>
+
 <table class="table table-hover width=80% table-light" style="text-align: center">
     <thead class="table-primary">
         <tr>
@@ -23,7 +27,7 @@
                 </td>
                
                 <td>
-                    <a class="btn btn-link" asp-action="EditExamAnswers" asp-route-id="@item.CandidateExaminationAnswerId" asp-route-candidateExamId="@ViewData["candidateExamId"]">Edit Answers</a>
+                    <a class="btn btn-warning" asp-action="EditExamAnswers" asp-route-id="@item.CandidateExaminationAnswerId" asp-route-candidateExamId="@ViewData["candidateExamId"]">Mark Answers</a>
 
                 </td>
                
@@ -32,7 +36,7 @@
     </tbody>
 </table>
 
-<a class="btn btn-link" asp-action="CompleteCandidateExaminationRemarking" asp-route-candidateExamId="@ViewData["candidateExamId"]">Edit Answers</a>
+<a class="btn btn-lg btn-success" style="align-content:center" asp-action="CompleteCandidateExaminationRemarking" asp-route-candidateExamId="@ViewData["candidateExamId"]">Save</a>
 
 
 @section Scripts {

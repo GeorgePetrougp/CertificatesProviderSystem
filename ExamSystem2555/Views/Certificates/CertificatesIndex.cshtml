@@ -10,7 +10,7 @@
 }
 
 
-<h1>Certificate's List</h1>
+<h1>Certificates List</h1>
 
 @if (User.IsInRole("Administrator"))
 {
@@ -56,7 +56,7 @@
             </td>
 
             <td>
-                <a asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
+                    <a class="btn btn-outline-info" asp-action="CertificateDetails" asp-route-id="@item.CertificateId">Details</a>
                     @if (!User.IsInRole("Administrator") && !User.IsInRole("Quality Controller"))
 
                     {
