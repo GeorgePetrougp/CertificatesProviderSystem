@@ -8,6 +8,7 @@ using MyDatabase.Models;
 using NuGet.Packaging;
 using System.Runtime.InteropServices;
 using WebApp.DTO_Models;
+using WebApp.DTO_Models.Certificates;
 using WebApp.DTO_Models.Questions;
 using WebApp.MainServices.Interfaces;
 
@@ -96,12 +97,19 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Create()
         {
             var topicsList = await _service.TopicService.GetAllTopicsAsync();
+
             var certificateList = await _service.CertificateService.GetAllCertificatesAsync();
+            await _service.CertificateLevelLoad(certificateList);
+
+            var certificateListDTO = _mapper.Map<List<CertificateDTO>>(certificateList);
+
             var difficultiesList = await _service.QuestionDifficultyService.GetAllDifficultiesAsync();
-            var newQuestion = new CreateQuestionView();
-            newQuestion.Difficulty.Difficulties = new SelectList(difficultiesList, "QuestionDifficultyId", "Difficulty");
-            newQuestion.CertificatesView.CertificateList = new MultiSelectList(certificateList, "CertificateId", "Title");
-            newQuestion.TopicView.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
+            var difficultiesListDTO = _mapper.Map<List<QuestionDifficultyDTO>>(difficultiesList);
+
+            var newQuestion = new NewCreateQuestionView();
+            newQuestion.DifficultiesList = new SelectList(difficultiesListDTO, "QuestionDifficultyId", "Difficulty");
+            newQuestion.CertificatesList = new MultiSelectList(certificateListDTO, "CertificateId", "FullTitle");
+            newQuestion.TopicsList = new MultiSelectList(topicsList, "TopicId", "Title");
 
             return View(newQuestion);
         }
@@ -110,19 +118,18 @@ namespace WebApp.Controllers
         // POST: Questions/Create
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] CreateQuestionView question)
+        [ValidateAntiForgeryToken] 
+        public async Task<IActionResult> Create([FromForm] NewCreateQuestionView createdQuestion)
         {
             if (ModelState.IsValid)
             {
-                var qd = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(question.Difficulty.SelectedId);
-                var newQuestion = _mapper.Map<Question>(question);
-                //newQuestion.QuestionDifficulty = _mapper.Map<QuestionDifficulty>(question.Difficulty);
-                newQuestion.QuestionDifficulty = qd;
-                newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(question.AnswerViews);
-                var topicIds = question.TopicView.SelectedTopicIds;
-                var certificatesId = question.CertificatesView.SelectedCertificateIds;
+                var questionDiffculty = await _service.QuestionDifficultyService.GetDifficultyByIdAsync(createdQuestion.SelectedDifficultyId);
+                var topicIds = createdQuestion.SelectedTopicIds;
+                var certificatesId = createdQuestion.SelectedCertificateIds;
 
+                var newQuestion = _mapper.Map<Question>(createdQuestion.Question);
+                newQuestion.QuestionPossibleAnswers = _mapper.Map<List<QuestionPossibleAnswer>>(createdQuestion.Question.PossibleAnswers);
+                newQuestion.QuestionDifficulty = questionDiffculty;
 
                 if (topicIds == null)
                 {
@@ -133,7 +140,7 @@ namespace WebApp.Controllers
 
 
 
-                    
+
                     selectedCertificates.ForEach(sc => _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sc, Topic = null }, newTopicQuestion));
                 }
                 else
@@ -157,7 +164,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-            return View(question);
+            return View("Error", ModelState);
         }
 
 
@@ -282,11 +289,15 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            await _service.AnswerService.UpdateAnswerAsync(questionPossibleAnswer);
+            var qAnswer = await _service.AnswerService.GetAnswerByIdAsync(id);
+            qAnswer.IsCorrect = questionPossibleAnswer.IsCorrect;
+            qAnswer.PossibleAnswer = questionPossibleAnswer.PossibleAnswer;
+            await _service.QuestionAnswerLoad(qAnswer);
+
+            await _service.AnswerService.UpdateAnswerAsync(qAnswer);
             await _service.SaveChanges();
 
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("EditAnswersIndex", new { id = qAnswer.Question.QuestionId });
 
         }
 
@@ -313,7 +324,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeQuestionStatus(int QuestionId)
         {
-            
+
             if (_service.QuestionService == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Questions'  is null.");
@@ -328,8 +339,7 @@ namespace WebApp.Controllers
             await _service.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
-        
-        [Authorize(Roles = "Administrator")]
+
         private bool QuestionExists(int id)
         {
             return _service.QuestionService.GetQuestionByIdAsync(id) != null;
@@ -396,7 +406,7 @@ namespace WebApp.Controllers
             model.QuestionId = id;
             return View(model);
         }
-        
+
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -465,18 +475,18 @@ namespace WebApp.Controllers
                     if (certTopicQuest.TopicQuestion == topicQuestion)
                     {
                         await _service.CertificateTopicsLoad(certTopicQuest);
+                        await _service.CertificateLevelLoad(certTopicQuest.CertificateTopic.Certificate);
                         certificates.Add(certTopicQuest.CertificateTopic.Certificate);
                     }
                 }
             }
 
-
-            model.Certificates = certificates.Distinct().ToList();
+            model.Certificates = _mapper.Map<List<CertificateDTO>>(certificates);
             model.QuestionId = id;
 
             return View(model);
         }
-        
+
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> AddQuestionCertificate(int? id, EditQuestionCertificateView model)
         {
@@ -515,11 +525,11 @@ namespace WebApp.Controllers
 
             model.CertificatesList = new MultiSelectList(sortedCertificates, "CertificateId", "Title");
             model.QuestionId = id;
-            
+
             return View(model);
         }
-        
-        
+
+
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]

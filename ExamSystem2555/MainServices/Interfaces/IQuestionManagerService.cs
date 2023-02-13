@@ -20,6 +20,8 @@ namespace WebApp.MainServices.Interfaces
 
 
         public IMapper Mapper { get; }
+        public Task CertificateLevelLoad(Certificate certificate);
+        public Task CertificateLevelLoad(IEnumerable<Certificate> certificateList);
         public Task<Question> CreateNewQuestion(CreateQuestionView question);
         public Task QuestionLoad(Question question);
         public Task TopicQuestionLoad(TopicQuestion topicQuestion);

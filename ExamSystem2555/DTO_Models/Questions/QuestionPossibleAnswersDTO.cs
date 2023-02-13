@@ -3,8 +3,12 @@
     public class QuestionPossibleAnswersDTO
     {
         public int QuestionPossibleAnswerId { get; set; }
-        public string QuestionPossibleAnswer { get; set;}
-        public bool IsAnswerCorrect { get; set;}
+        public string PossibleAnswer { get; set;}
+        public bool IsCorrect { get; set;}
+        public QuestionPossibleAnswersDTO()
+        {
+            //PossibleAnswer= string.Empty;
+        }
  
     }
 }

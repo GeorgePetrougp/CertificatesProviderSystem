@@ -169,6 +169,21 @@ namespace WebApp.MainServices
 
         }
 
+        public async Task CertificateLevelLoad(Certificate certificate)
+        {
+            await _context.Entry(certificate).Reference(t => t.Level).LoadAsync();
+
+        }
+
+        public async Task CertificateLevelLoad(IEnumerable<Certificate> certificateList)
+        {
+            foreach (var item in certificateList)
+            {
+                await CertificateLevelLoad(item);
+            }
+        }
+
+
 
 
         public Task CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion)
