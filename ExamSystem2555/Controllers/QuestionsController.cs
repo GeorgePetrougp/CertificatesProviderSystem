@@ -566,9 +566,17 @@ namespace WebApp.Controllers
 
             foreach (var topicQuestion in allTopicQuestions)
             {
-                if (topicQuestion.Topic == null)
+                if (topicQuestion.Topic == null && topicQuestion.Question == question)
                 {
                     myNewTopicQuestion = topicQuestion;
+                }
+                else
+                {
+                    myNewTopicQuestion = new TopicQuestion
+                    {
+                        Topic = null,
+                        Question = topicQuestion.Question,
+                    };
                 }
             }
 

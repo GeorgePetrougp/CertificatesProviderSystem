@@ -2,9 +2,13 @@
 
 <h1>Index</h1>
 
+@if (User.IsInRole("Administrator"))
+{
+    
 <div class="button-link">
     @Html.ActionLink("New Candidate", "RegisterUserAsCandidate","Administrator")
 </div>
+}
 <table class="table table-hover table-light">
     <thead class="table-primary">
         <tr>
@@ -51,11 +55,11 @@
                 var x = " | ";
             }
             <td>
-                @Html.ActionLink("Details", "CandidateDetails", new { id = item.CandidateId }) |
+                @Html.ActionLink("Details", "CandidateDetails", new { id = item.CandidateId }) 
 
                 @if(User.IsInRole("Administrator")){
 
-                @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) @x
+                @x @Html.ActionLink("Edit", "EditCandidate", new { id = item.CandidateId }) @x
                 @Html.ActionLink("View Addresses", "CandidateAddressesIndex", new { id = item.CandidateId }) 
                 }
                 

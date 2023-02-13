@@ -21,6 +21,7 @@
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100" style="">
+
     <header>
         <nav class="navbar navbar-expand-lg navbar-light" style="background-image: linear-gradient(90deg, rgba(174,178,216,10%), rgba(174,178,216,100%));  align-content:center">
             <div class="container-fluid" style="margin-left:20px; margin-right:20px;">
@@ -48,6 +49,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage Users</a>
                             </li>
+                            <li class="nav-item">
+                               <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator">Assign Exams For Marking</a>
+                            </li>
                         }
                         @if (User.IsInRole("Administrator") || User.IsInRole("Quality Controller"))
                         {
@@ -63,14 +67,11 @@
 
                             </li>
                             <li class="nav-item">
-                               <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator">Assign Exams For Marking</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-action="CertificateExaminationsIndex" asp-controller="CertificateExamination">Examinations</a>
                             </li>
-                            <li class="nav-item">
+@*                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator"> Candidate Exams</a>
-                            </li>
+                            </li>*@
                         }
                         else if (User.IsInRole("Marker"))
                         {
@@ -95,12 +96,12 @@
 
     </header>
     <section>
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
 
     
 
