@@ -148,6 +148,14 @@ namespace WebApp.MainServices
             await _context.Entry(question).Reference(q => q.QuestionDifficulty).LoadAsync();
         }
 
+        public async Task CertificateTopicLoad(CertificateTopic certificateTopic)
+        {
+            await _context.Entry(certificateTopic).Reference(q => q.Certificate).LoadAsync();
+            await _context.Entry(certificateTopic).Reference(q => q.Topic).LoadAsync();
+
+        }
+
+
         public async Task QuestionAnswerLoad(QuestionPossibleAnswer answer)
         {
 
@@ -182,6 +190,11 @@ namespace WebApp.MainServices
                 await CertificateLevelLoad(item);
             }
         }
+
+        //public async Task TopicQuestionLoad(TopicQuestion topicQuestion)
+        //{
+        //    await _context.Entry(topicQuestion).Reference(c=>c.Topic).LoadAsync();
+        //}
 
 
 

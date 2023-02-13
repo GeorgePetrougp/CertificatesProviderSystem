@@ -536,7 +536,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AddQuestionCertificatePost(int? id, [FromForm] EditQuestionCertificateView model)
         {
 
-            var question = await _service.QuestionService.GetQuestionByIdAsync(id);
+            var question = await _service.QuestionService.GetQuestionByIdAsync(model.QuestionId);
             var selectedCertificates = model.SelectedCertificateIds.ToList();
             List<Certificate> sortedCertificates = new List<Certificate>();
 
@@ -546,6 +546,12 @@ namespace WebApp.Controllers
 
 
             var allCertificateTopics = await _service.CertificateTopicService.GetAllCertificateTopicsAsync();
+
+            foreach(var ct in allCertificateTopics) 
+            {
+                await _service.CertificateTopicLoad(ct);
+            }
+
             List<CertificateTopic> certificateTopicsList = new List<CertificateTopic>();
             foreach (var certificate in sortedCertificates)
             {
@@ -553,43 +559,71 @@ namespace WebApp.Controllers
                 foreach (var certTopic in allCertificateTopics)
                 {
 
-                    if (certTopic.Certificate == certificate)
+                    if (certTopic.Certificate == certificate && certTopic.Topic == null)
                     {
                         certificateTopicsList.Add(certTopic);
                     }
                 }
+
+                if(certificateTopicsList.Count == 0 || certificateTopicsList.Any(x => x.Certificate != certificate))
+                {
+                    certificateTopicsList.Add(new CertificateTopic { Certificate = certificate, Topic = null });
+                }
+
+                //foreach (var item in certificateTopicsList)
+                //{
+                //    if(item.Certificate!=certificate)
+                //    {
+                //        certificateTopicsList.Add(new CertificateTopic { Certificate = certificate, Topic = null });
+                //    }
+                //}
             }
 
             var allTopicQuestions = await _service.TopicQuestionService.GetAllTopicQuestionsAsync();
+            foreach (var topicQuestion in allTopicQuestions)
+            {
+                await _service.TopicQuestionLoad(topicQuestion);
+            }
+
             TopicQuestion myNewTopicQuestion = new TopicQuestion();
 
 
             foreach (var topicQuestion in allTopicQuestions)
             {
-                if (topicQuestion.Topic == null)
+                if (topicQuestion.Topic == null && topicQuestion.Question == question)
                 {
                     myNewTopicQuestion = topicQuestion;
                 }
             }
 
-            foreach (var sortedCertificate in sortedCertificates)
+            if(myNewTopicQuestion.Topic != null) 
             {
-
-                if (certificateTopicsList.Count == 0)
-                {
-
-                    await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sortedCertificate, Topic = null }, myNewTopicQuestion);
-
-                }
-                else
-                {
-                    foreach (var certificateTopic in certificateTopicsList)
-                    {
-                        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(certificateTopic, myNewTopicQuestion);
-
-                    }
-                }
+                myNewTopicQuestion = new TopicQuestion { Topic = null, Question = question };
             }
+
+            foreach (var ctl in certificateTopicsList)
+            {
+                await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(ctl, myNewTopicQuestion);
+            }
+
+            //foreach (var sortedCertificate in sortedCertificates)
+            //{
+
+            //    if (certificateTopicsList.Count == 0)
+            //    {
+
+            //        await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(new CertificateTopic { Certificate = sortedCertificate, Topic = null }, myNewTopicQuestion);
+
+            //    }
+            //    else
+            //    {
+            //        foreach (var certificateTopic in certificateTopicsList)
+            //        {
+            //            await _service.CertificateTopicQuestionService.AddCertificateTopicQuestionAsync(certificateTopic, myNewTopicQuestion);
+
+            //        }
+            //    }
+            //}
 
 
 

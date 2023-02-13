@@ -28,6 +28,8 @@ namespace WebApp.MainServices.Interfaces
         public Task CertificateQuestionLoad(CertificateTopicQuestion certificateTopicQuestion);
         public Task QuestionAnswerLoad(QuestionPossibleAnswer answer);
         public Task CertificateTopicsLoad(CertificateTopicQuestion ctq);
+        public Task CertificateTopicLoad(CertificateTopic certificateTopic);
+
         public Task SaveChanges();
     }
 }
