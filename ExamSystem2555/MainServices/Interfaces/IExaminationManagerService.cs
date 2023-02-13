@@ -21,11 +21,7 @@ namespace WebApp.MainServices.Interfaces
         Task CertificateTopicsQuestionLoad(CandidateExaminationAnswer examAnswer);
         Task CandidateResultsLoad(CandidateExamination c);
         Task QuestionPossibleAnswersLoad(Question question);
-
         public Task SaveChangesAsync();
-
-        //public IAnswers CandidateExamService { get; }
-
 
     }
 }

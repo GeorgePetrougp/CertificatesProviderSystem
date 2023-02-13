@@ -42,10 +42,14 @@
                 </td>*@
                 <td>
                     <a class="btn btn-outline-info" asp-action="CertificateExaminationDetails" asp-route-id="@item.ExaminationId">Details</a>&nbsp;
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a class="btn btn-outline-success" asp-action="UpdateCertificateExamination" asp-route-id="@item.ExaminationId">Edit</a>
 
-                    <a class="btn btn-outline-success" asp-action="UpdateCertificateExamination" asp-route-id="@item.ExaminationId">Edit</a>&nbsp;
 
-                    <a class="btn btn-outline-danger" asp-action="ConfirmDisableCertificateExamination" asp-route-id="@item.ExaminationId">Delete</a>
+                        <a class="btn btn-outline-danger" asp-action="ConfirmDisableCertificateExamination" asp-route-id="@item.ExaminationId">Disable</a>
+                        
+                    }
                 </td>
                 
             </tr>

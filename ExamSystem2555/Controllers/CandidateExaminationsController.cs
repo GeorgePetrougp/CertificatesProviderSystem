@@ -27,6 +27,7 @@ namespace WebApp.Controllers
             _candidateService = candidateService;
         }
 
+        [Authorize(Roles = "Quality Controller,Administrator")]
         public async Task<ActionResult> CandidateExaminationsIndex()
         {
             var candidateExaminations = await _service.CandidateExamService.GetAllCandidateExamAsync();
