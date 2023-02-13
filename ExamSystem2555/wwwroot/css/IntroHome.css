@@ -50,3 +50,8 @@ span{
 .btnA:hover{
     border: none;
 }
+
+h1 {
+    text-shadow: 3px 3px #808080 ;
+}
+
