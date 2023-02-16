@@ -31,33 +31,25 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                            <span class="visually-hidden">(current)</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
+                        
 
-                        <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage Users</a>
-                            </li>
 
                         @if (User.IsInRole("Administrator"))
                         {
                             
-
-                            <li class="nav-item">
+                        <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="AppRoles">Manage Roles</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="UserRoles">Manage Users</a>
                             </li>
+
+                            
                             <li class="nav-item">
                                <a class="nav-link text-dark" asp-area="" asp-action="CandidateExaminationsPendingForMarkingIndex" asp-controller="Administrator">Assign Exams For Marking</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-action="RegisterUserAsCandidate" asp-controller="Administrator">Register Candidate</a>
                             </li>
                         }
                         @if (User.IsInRole("Administrator") || User.IsInRole("Quality Controller"))
